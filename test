@@ -1,9 +1,40 @@
 #!/bin/bash
 
-wget https://yar0slavvv.github.io/CPI-Nodes/imba.py
+sleep 2 && curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash && sleep 2
+
+echo "Ноди на вибір:"
+echo "1. SubSpace"
+echo "2. MUON"
+echo "3. Starknet"
+echo "4. Shardeum"
+echo "5. Nibiru"
+
+read choice
+
+case $choice in
+ 1)
+    bash <(curl -s https://raw.githubusercontent.com/cpiteam/Subspace/main/nodes)
+    ;;
+ 2)
+    bash <(curl -s https://raw.githubusercontent.com/cpiteam/MUON/main/nodes)
+    ;;
+ 3)
+    bash <(curl -s https://raw.githubusercontent.com/cpiteam/Starknet/main/main)
+    ;;
+ 4)
+    bash <(curl -s https://raw.githubusercontent.com/cpiteam/Shardeum/main/update%20Sphinx%201.1%20%26%20Validator%201.1.5)
+    ;;
+ 5)
+    bash <(curl -s https://raw.githubusercontent.com/cpiteam/Nabiru/main/nodes)
+    
+    ;;
+  *)
+    echo "Невірний вибір"
+    ;;
+esac
+
 
 clear
  
 sleep 2 && curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash && sleep 2
 
-python3 imba.py
