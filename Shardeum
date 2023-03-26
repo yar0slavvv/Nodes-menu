@@ -1,0 +1,9 @@
+#!/bin/bash
+
+curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo
+
+function aboba {
+  bash <(curl -s https://raw.githubusercontent.com/cpiteam/Shardeum/main/amigoupdate)
+}
+
+ 
