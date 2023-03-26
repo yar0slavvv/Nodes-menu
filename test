@@ -2,7 +2,7 @@
 
 clear
 
-sleep 1 && curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash && sleep 
+sleep 1 && curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash && sleep 1 
 
 echo "Ноди на вибір:"
 echo "1. SubSpace"
