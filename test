@@ -24,7 +24,7 @@ case $choice in
     bash <(curl -s https://raw.githubusercontent.com/cpiteam/Starknet/main/main)
     ;;
  4)
-    bash <(curl -s bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/test))
+    bash <(curl -s bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/Shardeum))
     ;;
  5)
     bash <(curl -s https://raw.githubusercontent.com/cpiteam/Nabiru/main/nodes)
