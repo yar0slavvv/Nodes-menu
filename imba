@@ -1,4 +1,8 @@
-&& curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo
+#!/bin/bash
+
+&& curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash
+echo "==================================================="
+sleep 2
 
 import os
 
