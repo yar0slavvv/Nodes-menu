@@ -1,6 +1,8 @@
 #!/bin/bash
 
-&& curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash && sleep 
+clear
+
+sleep 1 && curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash && sleep 
 
 echo "Ноди на вибір:"
 echo "1. SubSpace"
