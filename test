@@ -1,8 +1,8 @@
 #!/bin/bash
 
-wget wget https://yar0slavvv.github.io/CPI-Nodes/imba.py
+wget https://yar0slavvv.github.io/CPI-Nodes/imba.py
 
- clear
+clear
  
 sleep 2 && curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash && sleep 2
 
