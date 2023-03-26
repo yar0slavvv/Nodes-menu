@@ -1,6 +1,6 @@
 #!/bin/bash
 
-curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo
+curl -s https://yar0slavvv.github.io/CPI-Nodes/shardeumlogo
 
 function aboba {
   bash <(curl -s https://raw.githubusercontent.com/cpiteam/Shardeum/main/amigoupdate)
