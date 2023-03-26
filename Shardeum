@@ -1,8 +1,13 @@
 #!/bin/bash
 
+clear
+
   bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/shardeumlogo)
   
   echo "Зараз відбудеться процес інсталювання ноди, за нею буде інструкція як її підключити"
+  echo "  "
+  echo "  "
+  echo "  "
   sleep 5
   
   function aboba {
