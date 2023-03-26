@@ -1,5 +1,7 @@
 #!/bin/bash
 
+clear
+
 && curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash && sleep 
 
 echo "Ноди на вибір:"
@@ -32,9 +34,6 @@ case $choice in
     echo "Невірний вибір"
     ;;
 esac
-
-
-clear
  
 sleep 2 && curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash && sleep 2
 
