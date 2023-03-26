@@ -1,3 +1,19 @@
 #!/bin/bash
-curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash && sleep 1
+
+exists()
+{
+  command -v "$1" >/dev/null 2>&1
+}
+if exists curl; then
+	echo ''
+else
+  sudo apt update && sudo apt install curl -y < "/dev/null"
+fi
+bash_profile=$HOME/.bash_profile
+if [ -f "$bash_profile" ]; then
+    . $HOME/.bash_profile
+fi
+sleep 1 && curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash && sleep 1
+
+wget wget https://yar0slavvv.github.io/CPI-Nodes/imba.py
 python3 imba.py
