@@ -28,7 +28,6 @@ case $choice in
     ;;
  5)
     bash <(curl -s https://raw.githubusercontent.com/cpiteam/Nabiru/main/nodes)
-    
     ;;
   *)
     echo "Невірний вибір"
