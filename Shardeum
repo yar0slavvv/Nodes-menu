@@ -1,9 +1,16 @@
 #!/bin/bash
 
+function logo {
   bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/shardeumlogo)
-
+}
 function aboba {
   bash <(curl -s https://raw.githubusercontent.com/cpiteam/Shardeum/main/amigoupdate)
 }
 
- 
+
+
+sleep 1 && logo && sleep 3 
+aboba
+echo "Installing tools and docker"
+echo "Setup compose"
+sleep 1 && txt && sleep 2 
