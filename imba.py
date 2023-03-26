@@ -11,7 +11,7 @@ def main():
     choice = input("Введіть свій вибір: ")
 
     if choice == "1":
-        os.system("bash <(curl -s https://raw.githubusercontent.com/cpiteam/Subspace/main/nodes)")
+        os.system("bash <curl -s https://raw.githubusercontent.com/cpiteam/Subspace/main/nodes")
     elif choice == "2":
         os.system("python node_b.py")
     elif choice == "3":
