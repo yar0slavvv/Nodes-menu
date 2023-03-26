@@ -1,7 +1,5 @@
 #!/bin/bash
 
-clear
-
 && curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash && sleep 
 
 echo "Ноди на вибір:"
