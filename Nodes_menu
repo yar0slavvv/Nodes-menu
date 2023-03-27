@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Виклик whiptail з опцією --menu, щоб створити меню з 5 варіантами
+# Перший параметр - заголовок меню, другий - кількість рядків, третій - кількість стовпців, четвертий - висота елементів меню, п'ятий - список варіантів
+CHOICE=$(whiptail --title "GUI Menu" --menu "Choose an option" 15 60 5 \
+"Option 1" "Subspace" \
+"Option 2" "MUON" \
+"Option 3" "Starknet" \
+"Option 4" "Shaedeum" \
+"Option 5" "Nibiru" \
+3>&1 1>&2 2>&3)
+
+# Перевірте, який варіант був вибраний і виведіть повідомлення про вибір
+case $CHOICE in
+    "Option 1")
+        whiptail --title "Option 1" --msgbox "You chose option 1" 10 60
+        ;;
+    "Option 2")
+        whiptail --title "Option 2" --msgbox "You chose option 2" 10 60
+        ;;
+    "Option 3")
+        whiptail --title "Option 3" --msgbox "You chose option 3" 10 60
+        ;;
+    "Option 4")
+        whiptail --title "Option 4" --msgbox "Ви вибрали Шардеум ідіть нахуй" 10 60
+        ;;
+    "Option 5")
+        whiptail --title "Option 5" --msgbox "You chose option 5" 10 60
+        ;;
+    *)
+        whiptail --title "Error" --msgbox "Invalid option" 10 60
+        ;;
+esac
