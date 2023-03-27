@@ -5,7 +5,7 @@ clear
 sleep 1 && curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash && sleep 1 
 
 # Змінив список варіантів меню та виправив помилки у параметрах виклику команди whiptail
-CHOICE=$(whiptail --title "Виберіть ноду" 15 60 5 \
+CHOICE=$(whiptail --title "CPI.TM" --menu "Оберіть ноду:" 15 60 5 \
 "Subspace" "" \
 "MUON" "" \
 "Starknet" "" \
