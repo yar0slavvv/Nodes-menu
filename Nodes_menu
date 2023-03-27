@@ -16,19 +16,19 @@ CHOICE=$(whiptail --title "CPI.TM" --menu "Оберіть ноду:" 15 60 5 \
 # Перевірте, який варіант був вибраний і виведіть повідомлення про вибір
 case $CHOICE in
     "Subspace")
-        whiptail --title "Subspace" --msgbox "Ви вибрали Subspace" 10 60
+        whiptail --title "Subspace" --msgbox "норм хуйня" 10 60
         ;;
     "MUON")
-        whiptail --title "MUON" --msgbox "Ви вибрали MUON" 10 60
+        whiptail --title "MUON" --msgbox "єбать тєму обрали +2к" 10 60
         ;;
     "Starknet")
-        whiptail --title "Starknet" --msgbox "Ви вибрали Starknet" 10 60
+        whiptail --title "Starknet" --msgbox "стакрнет хуйня" 10 60
         ;;
     "Shardeum")
-        whiptail --title "Shardeum" --msgbox "Ви вибрали Shardeum, не було потрібно ображати користувачів" 10 60
+        whiptail --title "Shardeum" --msgbox "не правильний вибір хуйня лагуча" 10 60
         ;;
     "Nibiru")
-        whiptail --title "Nibiru" --msgbox "Ви вибрали Nibiru" 10 60
+        whiptail --title "Nibiru" --msgbox "блять це просто пізда, як же довго ти будеш її встановлювати" 10 60
         ;;
     *)
         whiptail --title "Error" --msgbox "Невірний вибір" 10 60
