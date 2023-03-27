@@ -2,7 +2,7 @@
 
 # Виклик whiptail з опцією --menu, щоб створити меню з 5 варіантами
 # Перший параметр - заголовок меню, другий - кількість рядків, третій - кількість стовпців, четвертий - висота елементів меню, п'ятий - список варіантів
-CHOICE=$(whiptail --title "GUI Menu" --menu "Choose an option" 15 60 5 \
+CHOICE=$(whiptail --title "Виберіть ноду" --menu "Choose an option" 15 60 5 \
 "Option 1" "Subspace" \
 "Option 2" "MUON" \
 "Option 3" "Starknet" \
