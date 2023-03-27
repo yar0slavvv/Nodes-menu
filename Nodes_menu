@@ -25,8 +25,8 @@ case $CHOICE in
         whiptail --title "Starknet" --msgbox "стакрнет хуйня" 10 60
         ;;
     "Shardeum")
-        whiptail --title "Shardeum" --msgbox "не правильний вибір хуйня лагуча" 10 60
-        ;;
+        bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/Shardeum)
+    ;;
     "Nibiru")
         whiptail --title "Nibiru" --msgbox "блять це просто пізда, як же довго ти будеш її встановлювати" 10 60
         ;;
