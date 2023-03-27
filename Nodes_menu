@@ -1,16 +1,17 @@
 #!/bin/bash
 
-# Виклик whiptail з опцією --menu, щоб створити меню з 5 варіантами
-# Перший параметр - заголовок меню, другий - кількість рядків, третій - кількість стовпців, четвертий - висота елементів меню, п'ятий - список варіантів
-CHOICE=$(whiptail --title "Виберіть ноду" --menu "Choose an option" 15 60 5 \
-"Option 1" "Subspace" \
-"Option 2" "MUON" \
-"Option 3" "Starknet" \
-"Option 4" "Shaedeum" \
-"Option 5" "Nibiru" \
+clear
+
+sleep 1 && curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash && sleep 1 
+
+CHOICE=$(whiptail --title "Виберіть ноду" --menu - 15 60 5 \
+-" "Subspace" \
+-"MUON" \
+-"Starknet" \
+-"Shardeum" \
+-"Nibiru" \
 3>&1 1>&2 2>&3)
 
-# Перевірте, який варіант був вибраний і виведіть повідомлення про вибір
 case $CHOICE in
     "Option 1")
         whiptail --title "Option 1" --msgbox "You chose option 1" 10 60
