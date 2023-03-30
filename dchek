@@ -90,4 +90,3 @@ else
     echo "Docker daemon is running"
 fi
 
-cat << EOF
