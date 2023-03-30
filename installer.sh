@@ -13,6 +13,7 @@ else
 fi
 
 
+{
 # Check all things that will be needed for this script to succeed like access to docker and docker-compose
 # If any check fails exit with a message on what the user needs to do to fix the problem
 command -v git >/dev/null 2>&1 || { echo >&2 "'git' is required but not installed."; exit 1; }
@@ -112,6 +113,7 @@ cat << EOF
 #########################
 
 EOF
+}| whiptail --gauge "Progress" 6 50 0
 
 RUNDASHBOARD=$(whiptail --title "CPI.TM" --yesno "Бажаєте запустити веб-інтерфейс?" 10 50 3>&1 1>&2 2>&3)
 
