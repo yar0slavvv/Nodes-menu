@@ -122,7 +122,8 @@ if [ $exitstatus != 0 ]; then
 fi
 
 unset CHARCOUNT
-PASSWORD=$(whiptail --title "CPI.TM" --passwordbox "Створіть ваш пароль до веб-інтерфейсу:" 10 50 3>&1 1>&2 2>&3)
+while true ; do
+  PASSWORD=$(whiptail --title "CPI.TM" --passwordbox "Створіть ваш пароль до веб-інтерфейсу:" 10 50 3>&1 1>&2 2>&3)
   CHARCOUNT=${#PASSWORD}
 
   if [ $CHARCOUNT -eq 0 ] ; then
@@ -130,8 +131,8 @@ PASSWORD=$(whiptail --title "CPI.TM" --passwordbox "Створіть ваш па
     continue
   else
     break
-    fi
   fi
+
   # Backspace
   if [[ $CHAR == $'\177' ]] ; then
     if [ $CHARCOUNT -gt 0 ] ; then
@@ -147,6 +148,7 @@ PASSWORD=$(whiptail --title "CPI.TM" --passwordbox "Створіть ваш па
     DASHPASS+="$CHAR"
   fi
 done
+
 
 echo # New line after inputs.
 # echo "Password saved as:" $DASHPASS #DEBUG: TEST PASSWORD WAS RECORDED AFTER ENTERED.
