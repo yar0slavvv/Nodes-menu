@@ -12,7 +12,7 @@ fi
 echo "XXX"
 echo "50"
 echo "Doing something, please wait..."
-curl -s https://yar0slavvv.github.io/CPI-Nodes/dchek > /dev/null
+curl -s https://yar0slavvv.github.io/CPI-Nodes/dchek
 echo "XXX"
 echo "100"
 echo "Done."
