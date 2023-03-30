@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
-
 read -p "During this early stage of Betanet the Shardeum team will be collecting some performance and debugging info from your node to help improve future versions of the software.
 This is only temporary and will be discontinued as we get closer to mainnet.
-Thanks for running a node and helping to make Shardeum better.
+Thanks for running a node and helping to make Shardeum better." prompt
 
-if whiptail --title "CPI.TM" --yesno "З запуском цього інсталятора, ви дозволите команді Шардеум збирати вашу інформацію" 10 50; then
+if whiptail --title "CPI.TM" --yesno "З запуском цього інсталятора, ви дозволите команді Шардеум збирати вашу інформацію?" 10 50; then
   echo "Diagnostic data collection agreement accepted. Continuing with installer."
 else
   echo "Diagnostic data collection agreement not accepted. Exiting installer."
