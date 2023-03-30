@@ -109,13 +109,10 @@ NODEHOME=$(whiptail --title "CPI.TM" --inputbox "Введіть директор
 APPSEEDLIST="archiver-sphinx.shardeum.org"
 APPMONITOR="monitor-sphinx.shardeum.org"
 
-cat <<EOF
 
 ###########################
 # 1. Pull Compose Project #
 ###########################
-
-EOF
 
 if [ -d "$NODEHOME" ]; then
   if [ "$NODEHOME" != "$(pwd)" ]; then
@@ -154,7 +151,6 @@ SHMEXT=${SHMEXT}
 SHMINT=${SHMINT}
 EOL
 
-cat <<EOF
 
 ##########################
 # 3. Clearing Old Images #
@@ -163,8 +159,6 @@ cat <<EOF
 EOF
 
 ./cleanup.sh
-
-cat <<EOF
 
 ##########################
 # 4. Building base image #
@@ -175,13 +169,11 @@ EOF
 cd ${NODEHOME} &&
 docker-safe build --no-cache -t local-dashboard -f Dockerfile --build-arg RUNDASHBOARD=${RUNDASHBOARD} .
 
-cat <<EOF
 
 ############################
 # 5. Start Compose Project #
 ############################
 
-EOF
 
 cd ${NODEHOME}
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -210,14 +202,11 @@ cat <<EOF
 
   If this validator is on the cloud and you need to reach the dashboard over the internet,
   please set a strong password and use the external IP instead of localhost.
-EOF
+
 fi
 
-cat <<EOF
 
 To use the Command Line Interface:
 	1. Navigate to the Shardeum home directory ($NODEHOME).
 	2. Enter the validator container with ./shell.sh.
 	3. Run "operator-cli --help" for commands
-
-EOF
