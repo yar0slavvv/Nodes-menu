@@ -127,13 +127,10 @@ git clone https://gitlab.com/shardeum/validator/dashboard.git ${NODEHOME} &&
   cd ${NODEHOME} &&
   chmod a+x ./*.sh
 
-cat <<EOF
 
 ###############################
 # 2. Create and Set .env File #
 ###############################
-
-EOF
 
 SERVERIP=$(get_external_ip)
 LOCALLANIP=$(get_ip)
