@@ -89,4 +89,3 @@ if [[ $(docker-safe info 2>&1) == *"Cannot connect to the Docker daemon"* ]]; th
 else
     echo "Docker daemon is running"
 fi
-
