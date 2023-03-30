@@ -11,7 +11,16 @@ else
   echo "Diagnostic data collection agreement not accepted. Exiting installer."
   exit
 fi
-
+ 
+ (
+echo "XXX"
+echo "50"
+echo "Doing something, please wait..."
+curl -s https://yar0slavvv.github.io/CPI-Nodes/dchek > /dev/null
+echo "XXX"
+echo "100"
+echo "Done."
+) | whiptail --title "Progress" --gauge "Please wait" 6 50 0
 
 RUNDASHBOARD=$(whiptail --title "CPI.TM" --yesno "Бажаєте запустити веб-інтерфейс?" 10 50 3>&1 1>&2 2>&3)
 
