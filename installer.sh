@@ -3,6 +3,7 @@ set -e
 
 if whiptail --title "CPI.TM" --yesno "З запуском цього інсталятора, ви дозволите команді Шардеум збирати вашу інформацію" 10 50; then
   echo "Diagnostic data collection agreement accepted. Continuing with installer."
+  WARNING_AGREE="y"
 else
   echo "Diagnostic data collection agreement not accepted. Exiting installer."
   exit
@@ -13,6 +14,7 @@ then
   echo "Diagnostic data collection agreement not accepted. Exiting installer."
   exit
 fi
+
 
 
 # Check all things that will be needed for this script to succeed like access to docker and docker-compose
