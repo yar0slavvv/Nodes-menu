@@ -16,6 +16,47 @@ then
   exit
 fi
 
+command -v git >/dev/null 2>&1 || { echo >&2 "'git' is required but not installed."; exit 1; }
+command -v docker >/dev/null 2>&1 || { echo >&2 "'docker' is required but not installed. See https://gitlab.com/shardeum/validator/dashboard/-/tree/dashboard-gui-nextjs#how-to for details."; exit 1; }
+if command -v docker-compose &>/dev/null; then
+  echo "docker-compose is installed on this machine"
+elif docker --help | grep -q "compose"; then
+  echo "docker compose subcommand is installed on this machine"
+else
+  echo "docker-compose or docker compose is not installed on this machine"
+  exit 1
+fi
+
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
+docker-safe() {
+  if ! command -v docker &>/dev/null; then
+    echo "docker is not installed on this machine"
+    exit 1
+  fi
+
+  if ! docker $@; then
+    echo "Trying again with sudo..."
+    sudo docker $@
+  fi
+}
+
+docker-compose-safe() {
+  if command -v docker-compose &>/dev/null; then
+    cmd="docker-compose"
+  elif docker --help | grep -q "compose"; then
+    cmd="docker compose"
+  else
+    echo "docker-compose or docker compose is not installed on this machine"
+    exit 1
+  fi
+
+  if ! $cmd $@; then
+    echo "Trying again with sudo..."
+    sudo $cmd $@
+  fi
+}
+
 get_ip() {
   local ip
   if command -v ip >/dev/null; then
