@@ -99,9 +99,12 @@ get_external_ip() {
   echo $external_ip
 }
 
-cat << EOF
-
-EOF
+if [[ $(docker-safe info 2>&1) == *"Cannot connect to the Docker daemon"* ]]; then
+    echo "Docker daemon is not running"
+    exit 1
+else
+    echo "Docker daemon is running"
+fi
 
 RUNDASHBOARD=$(whiptail --title "CPI.TM" --yesno "Бажаєте запустити веб-інтерфейс?" 10 50 3>&1 1>&2 2>&3)
 
