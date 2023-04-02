@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -e
 
 if whiptail --title "CPI.TM" --yesno "З запуском цього інсталятора, ви дозволите команді Шардеум збирати вашу інформацію" 10 50; then
