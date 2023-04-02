@@ -152,18 +152,19 @@ done
 PASSWORD=$DASHPASS
 unset CHARCOUNT
 
-echo # New line after inputs.
-# echo "Password saved as:" $DASHPASS #DEBUG: TEST PASSWORD WAS RECORDED AFTER ENTERED.
-
 while :; do
-  read -p "Enter the port (1025-65536) to access the web based Dashboard (default 8080): " DASHPORT
+  DASHPORT=$(whiptail --title "CPI.TM" --inputbox "Введіть номер порту (1025-65536) для веб-інтерфейсу (за замовчуванням 8080):" 10 70 8080 3>&1 1>&2 2>&3)
+
   DASHPORT=${DASHPORT:-8080}
-  [[ $DASHPORT =~ ^[0-9]+$ ]] || { echo "Enter a valid port"; continue; }
-  if ((DASHPORT >= 1025 && DASHPORT <= 65536)); then
-    DASHPORT=${DASHPORT:-8080}
-    break
+  if [[ $DASHPORT =~ ^[0-9]+$ ]]; then
+    if ((DASHPORT >= 1025 && DASHPORT <= 65536)); then
+      DASHPORT=${DASHPORT:-8080}
+      break
+    else
+      whiptail --title --msgbox "Введіть коректний порт (1025-65536)" 10 50
+    fi
   else
-    echo "Port out of range, try again"
+    whiptail --title --msgbox "Введіть коректний порт (1025-65536)" 10 50
   fi
 done
 
