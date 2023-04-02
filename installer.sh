@@ -108,6 +108,8 @@ fi
 
 cat << EOF
 
+clear
+
 ###################################
 # Для продовження натисніть Enter #
 ###################################
@@ -196,6 +198,8 @@ APPMONITOR="monitor-sphinx.shardeum.org"
 
 cat <<EOF
 
+clear
+
 ###########################
 # Обробка ваших данних #
 ###########################
@@ -216,6 +220,8 @@ git clone https://gitlab.com/shardeum/validator/dashboard.git ${NODEHOME} &&
   chmod a+x ./*.sh
 
 cat <<EOF
+
+clear
 
 ########################################
 # Створення і встановлення ./env файлу #
@@ -241,6 +247,8 @@ EOL
 
 cat <<EOF
 
+clear
+
 #########################
 # Видалення старої ноди #
 #########################
@@ -250,6 +258,8 @@ EOF
 ./cleanup.sh
 
 cat <<EOF
+
+clear
 
 ####################
 # Створення образу #
@@ -261,6 +271,8 @@ cd ${NODEHOME} &&
 docker-safe build --no-cache -t local-dashboard -f Dockerfile --build-arg RUNDASHBOARD=${RUNDASHBOARD} .
 
 cat <<EOF
+
+clear
 
 ##################
 # Запуск проекту #
