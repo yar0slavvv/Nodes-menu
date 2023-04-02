@@ -265,9 +265,9 @@ EOF
 
 ./cleanup.sh
 
-cat <<EOF
-
 clear
+
+cat <<EOF
 
 ####################
 # Створення образу #
