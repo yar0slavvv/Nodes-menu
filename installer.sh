@@ -190,8 +190,6 @@ done
 NODEHOME=$(whiptail --title "CPI.TM" --inputbox "Введіть директорію (за замовчуванням ~/.shardeum):" 10 70 ~/.shardeum 3>&1 1>&2 2>&3)
   
   NODEHOME=${NODEHOME:-~/.shardeum}
-  
-  break
 
 APPSEEDLIST="archiver-sphinx.shardeum.org"
 APPMONITOR="monitor-sphinx.shardeum.org"
