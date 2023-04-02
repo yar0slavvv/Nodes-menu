@@ -282,7 +282,7 @@ else
 fi
 ./docker-up.sh
 
-echo "Starting image. This could take a while..."
+echo "Запуск ноди, це може зайняти пару хвилин..."
 (docker-safe logs -f shardeum-dashboard &) | grep -q 'done'
 
 #Do not indent
