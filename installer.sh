@@ -78,19 +78,15 @@ if [ $exitstatus != 0 ]; then
 fi
 
 unset CHARCOUNT
-echo -n "Set the password to access the Dashboard: "
-CHARCOUNT=0
-while IFS= read -p "$PROMPT" -r -s -n 1 CHAR
-do
-  # Enter - accept password
-  if [[ $CHAR == $'\0' ]] ; then
-    if [ $CHARCOUNT -gt 0 ] ; then # Make sure password character length is greater than 0.
-      break
-    else
-      echo
-      echo -n "Invalid password input. Enter a password with character length greater than 0:"
-      continue
-    fi
+PASSWORD=$(whiptail --title "CPI.TM" --passwordbox "Створіть ваш пароль до веб-інтерфейсу:" 10 50 3>&1 1>&2 2>&3)
+  CHARCOUNT=${#PASSWORD}
+
+  if [ $CHARCOUNT -eq 0 ] ; then
+    whiptail --title "Помилка" --msgbox "Пароль не може бути порожнім. Спробуйте ще раз." 8 50
+    continue
+  else
+    break
+  fi
   fi
   # Backspace
   if [[ $CHAR == $'\177' ]] ; then
