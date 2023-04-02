@@ -106,6 +106,9 @@ else
     echo "Docker daemon is running"
 fi
 
+cat << EOF
+
+while :; do
 RUNDASHBOARD=$(whiptail --title "CPI.TM" --yesno "Бажаєте запустити веб-інтерфейс?" 10 50 3>&1 1>&2 2>&3)
 
 exitstatus=$?
