@@ -81,12 +81,16 @@ unset CHARCOUNT
 PASSWORD=$(whiptail --title "CPI.TM" --passwordbox "Створіть ваш пароль до веб-інтерфейсу:" 10 50 3>&1 1>&2 2>&3)
   CHARCOUNT=${#PASSWORD}
 
-  if [ $CHARCOUNT -eq 0 ] ; then
-    whiptail --title "Помилка" --msgbox "Пароль не може бути порожнім. Спробуйте ще раз." 8 50
-    continue
-  else
-    break
-  fi
+while IFS= read -r -s -n 1 CHAR
+do
+  # Enter - accept password
+  if [[ $CHAR == $'\0' ]] ; then
+    if [ $CHARCOUNT -eq 0 ] ; then
+      whiptail --title "Помилка" --msgbox "Пароль не може бути порожнім. Спробуйте ще раз." 8 50
+      continue
+    else
+      break
+    fi
   fi
   # Backspace
   if [[ $CHAR == $'\177' ]] ; then
@@ -103,6 +107,9 @@ PASSWORD=$(whiptail --title "CPI.TM" --passwordbox "Створіть ваш па
     DASHPASS+="$CHAR"
   fi
 done
+
+PASSWORD=$DASHPASS
+unset CHARCOUNT
 
 echo # New line after inputs.
 # echo "Password saved as:" $DASHPASS #DEBUG: TEST PASSWORD WAS RECORDED AFTER ENTERED.
