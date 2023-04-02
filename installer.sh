@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+clear
+
 set -e
 
 bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/shardeumlogo) 
@@ -112,9 +114,9 @@ else
     echo "Docker daemon is running"
 fi
 
-cat << EOF
-
 clear
+
+cat << EOF
 
 ###################################
 # Для продовження натисніть Enter #
@@ -202,9 +204,9 @@ NODEHOME=$(whiptail --title "CPI.TM" --inputbox "Введіть директор
 APPSEEDLIST="archiver-sphinx.shardeum.org"
 APPMONITOR="monitor-sphinx.shardeum.org"
 
-cat <<EOF
-
 clear
+
+cat <<EOF
 
 ###########################
 # Обробка ваших данних #
@@ -225,9 +227,9 @@ git clone https://gitlab.com/shardeum/validator/dashboard.git ${NODEHOME} &&
   cd ${NODEHOME} &&
   chmod a+x ./*.sh
 
-cat <<EOF
-
 clear
+
+cat <<EOF
 
 ########################################
 # Створення і встановлення ./env файлу #
@@ -251,9 +253,9 @@ SHMEXT=${SHMEXT}
 SHMINT=${SHMINT}
 EOL
 
-cat <<EOF
-
 clear
+
+cat <<EOF
 
 #########################
 # Видалення старої ноди #
@@ -276,9 +278,9 @@ EOF
 cd ${NODEHOME} &&
 docker-safe build --no-cache -t local-dashboard -f Dockerfile --build-arg RUNDASHBOARD=${RUNDASHBOARD} .
 
-cat <<EOF
-
 clear
+
+cat <<EOF
 
 ##################
 # Запуск проекту #
@@ -305,22 +307,23 @@ echo "Starting image. This could take a while..."
 if [ $RUNDASHBOARD = "y" ]
 then
 cat <<EOF
-  To use the Web Dashboard:
-    1. Note the IP address that you used to connect to the node. This could be an external IP, LAN IP or localhost.
-    2. Open a web browser and navigate to the web dashboard at https://<Node IP address>:$DASHPORT
-    3. Go to the Settings tab and connect a wallet.
-    4. Go to the Maintenance tab and click the Start Node button.
+Для використання веб-панелі керування:
 
-  If this validator is on the cloud and you need to reach the dashboard over the internet,
-  please set a strong password and use the external IP instead of localhost.
+Запам'ятайте IP-адресу, яку ви використовували для підключення до вузла. Це може бути зовнішній IP, місцевий IP або localhost.
+Відкрийте веб-браузер і перейдіть до веб-панелі керування за адресою https://<IP-адреса вузла>:$DASHPORT
+Перейдіть на вкладку "Налаштування" та підключіть гаманець.
+Перейдіть на вкладку "Обслуговування" та натисніть кнопку "Запустити вузол".
+Якщо цей валідатор знаходиться у хмарі, і вам потрібно отримати доступ до панелі керування через Інтернет,
+будь ласка, встановіть міцний пароль та використовуйте зовнішній IP замість localhost.
 EOF
 fi
 
 cat <<EOF
 
-To use the Command Line Interface:
-	1. Navigate to the Shardeum home directory ($NODEHOME).
-	2. Enter the validator container with ./shell.sh.
-	3. Run "operator-cli --help" for commands
+Для використання інтерфейсу командного рядка:
+
+Перейдіть до домашньої директорії Shardeum ($NODEHOME).
+Увійдіть до контейнера валідатора за допомогою ./shell.sh.
+Виконайте "operator-cli --help" для отримання списку команд.
 
 EOF
