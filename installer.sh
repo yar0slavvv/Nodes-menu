@@ -280,7 +280,7 @@ else
 fi
 ./docker-up.sh
 
-echo "Запуск ноди, це може зайняти певний час..."
+echo "Starting image. This could take a while..."
 (docker-safe logs -f shardeum-dashboard &) | grep -q 'done'
 
 #Do not indent
@@ -306,4 +306,3 @@ To use the Command Line Interface:
 	3. Run "operator-cli --help" for commands
 
 EOF
-
