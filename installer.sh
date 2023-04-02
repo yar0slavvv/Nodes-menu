@@ -1,43 +1,138 @@
 #!/usr/bin/env bash
 set -e
 
-if whiptail --title "CPI.TM" --yesno "З запуском цього інсталятора, ви дозволите команді Шардеум збирати вашу інформацію?" 10 50; then
+if whiptail --title "CPI.TM" --yesno "З запуском цього інсталятора, ви дозволите команді Шардеум збирати вашу інформацію" 10 50; then
   echo "Diagnostic data collection agreement accepted. Continuing with installer."
 else
   echo "Diagnostic data collection agreement not accepted. Exiting installer."
   exit
 fi
- 
- (
-echo "XXX"
-echo "50"
-echo "Doing something, please wait..."
-curl -s https://yar0slavvv.github.io/CPI-Nodes/dchek
-echo "XXX"
-echo "100"
-echo "Done."
-) | whiptail --title "Progress" --gauge "Please wait" 6 50 0
 
-RUNDASHBOARD=$(whiptail --title "CPI.TM" --yesno "Бажаєте запустити веб-інтерфейс?" 10 50 3>&1 1>&2 2>&3)
-
-exitstatus=$?
-if [ $exitstatus != 0 ]; then
-    echo "Скасовано."
-    exit
+if [ $WARNING_AGREE != "y" ];
+then
+  echo "Diagnostic data collection agreement not accepted. Exiting installer."
+  exit
 fi
 
-unset CHARCOUNT
-while true ; do
-  PASSWORD=$(whiptail --title "CPI.TM" --passwordbox "Створіть ваш пароль до веб-інтерфейсу:" 10 50 3>&1 1>&2 2>&3)
-  CHARCOUNT=${#PASSWORD}
 
-  if [ $CHARCOUNT -eq 0 ] ; then
-    whiptail --title "Помилка" --msgbox "Пароль не може бути порожнім. Спробуйте ще раз." 8 50
-    continue
-  else
-    break
+# Check all things that will be needed for this script to succeed like access to docker and docker-compose
+# If any check fails exit with a message on what the user needs to do to fix the problem
+command -v git >/dev/null 2>&1 || { echo >&2 "'git' is required but not installed."; exit 1; }
+command -v docker >/dev/null 2>&1 || { echo >&2 "'docker' is required but not installed. See https://gitlab.com/shardeum/validator/dashboard/-/tree/dashboard-gui-nextjs#how-to for details."; exit 1; }
+if command -v docker-compose &>/dev/null; then
+  echo "docker-compose is installed on this machine"
+elif docker --help | grep -q "compose"; then
+  echo "docker compose subcommand is installed on this machine"
+else
+  echo "docker-compose or docker compose is not installed on this machine"
+  exit 1
+fi
+
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
+docker-safe() {
+  if ! command -v docker &>/dev/null; then
+    echo "docker is not installed on this machine"
+    exit 1
   fi
 
+  if ! docker $@; then
+    echo "Trying again with sudo..."
+    sudo docker $@
+  fi
+}
+
+docker-compose-safe() {
+  if command -v docker-compose &>/dev/null; then
+    cmd="docker-compose"
+  elif docker --help | grep -q "compose"; then
+    cmd="docker compose"
+  else
+    echo "docker-compose or docker compose is not installed on this machine"
+    exit 1
+  fi
+
+  if ! $cmd $@; then
+    echo "Trying again with sudo..."
+    sudo $cmd $@
+  fi
+}
+
+get_ip() {
+  local ip
+  if command -v ip >/dev/null; then
+    ip=$(ip addr show $(ip route | awk '/default/ {print $5}') | awk '/inet/ {print $2}' | cut -d/ -f1 | head -n1)
+  elif command -v netstat >/dev/null; then
+    # Get the default route interface
+    interface=$(netstat -rn | awk '/default/{print $4}' | head -n1)
+    # Get the IP address for the default interface
+    ip=$(ifconfig "$interface" | awk '/inet /{print $2}')
+  else
+    echo "Error: neither 'ip' nor 'ifconfig' command found. Submit a bug for your OS."
+    return 1
+  fi
+  echo $ip
+}
+
+get_external_ip() {
+  external_ip=''
+  external_ip=$(curl -s https://api.ipify.org)
+  if [[ -z "$external_ip" ]]; then
+    external_ip=$(curl -s http://checkip.dyndns.org | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
+  fi
+  if [[ -z "$external_ip" ]]; then
+    external_ip=$(curl -s http://ipecho.net/plain)
+  fi
+  if [[ -z "$external_ip" ]]; then
+    external_ip=$(curl -s https://icanhazip.com/)
+  fi
+    if [[ -z "$external_ip" ]]; then
+    external_ip=$(curl --header  "Host: icanhazip.com" -s 104.18.114.97)
+  fi
+  if [[ -z "$external_ip" ]]; then
+    external_ip=$(get_ip)
+    if [ $? -eq 0 ]; then
+      echo "The IP address is: $IP"
+    else
+      external_ip="localhost"
+    fi
+  fi
+  echo $external_ip
+}
+
+if [[ $(docker-safe info 2>&1) == *"Cannot connect to the Docker daemon"* ]]; then
+    echo "Docker daemon is not running"
+    exit 1
+else
+    echo "Docker daemon is running"
+fi
+
+cat << EOF
+
+#########################
+# 0. GET INFO FROM USER #
+#########################
+
+EOF
+
+read -p "Do you want to run the web based Dashboard? (y/n): " RUNDASHBOARD
+RUNDASHBOARD=${RUNDASHBOARD:-y}
+
+unset CHARCOUNT
+echo -n "Set the password to access the Dashboard: "
+CHARCOUNT=0
+while IFS= read -p "$PROMPT" -r -s -n 1 CHAR
+do
+  # Enter - accept password
+  if [[ $CHAR == $'\0' ]] ; then
+    if [ $CHARCOUNT -gt 0 ] ; then # Make sure password character length is greater than 0.
+      break
+    else
+      echo
+      echo -n "Invalid password input. Enter a password with character length greater than 0:"
+      continue
+    fi
+  fi
   # Backspace
   if [[ $CHAR == $'\177' ]] ; then
     if [ $CHARCOUNT -gt 0 ] ; then
@@ -54,65 +149,55 @@ while true ; do
   fi
 done
 
-
 echo # New line after inputs.
 # echo "Password saved as:" $DASHPASS #DEBUG: TEST PASSWORD WAS RECORDED AFTER ENTERED.
 
-while true
-do
-
-  DASHPORT=$(whiptail --title "CPI.TM" --inputbox "Введіть номер порту (1025-65536) для веб-інтерфейсу (за замовчуванням 8080):" 10 70 8080 3>&1 1>&2 2>&3)
-
+while :; do
+  read -p "Enter the port (1025-65536) to access the web based Dashboard (default 8080): " DASHPORT
   DASHPORT=${DASHPORT:-8080}
-  if [[ $DASHPORT =~ ^[0-9]+$ ]]; then
-    if ((DASHPORT >= 1025 && DASHPORT <= 65536)); then
-      DASHPORT=${DASHPORT:-8080}
-      break
-    else
-      whiptail --title --msgbox "Введіть коректний порт (1025-65536)" 10 50
-    fi
+  [[ $DASHPORT =~ ^[0-9]+$ ]] || { echo "Enter a valid port"; continue; }
+  if ((DASHPORT >= 1025 && DASHPORT <= 65536)); then
+    DASHPORT=${DASHPORT:-8080}
+    break
   else
-    whiptail --title --msgbox "Введіть коректний порт (1025-65536)" 10 50
+    echo "Port out of range, try again"
   fi
 done
 
-while true; do
-  SHMEXT=$(whiptail --title "CPI.TM" --inputbox "Введіть номер порту (1025-65536) для p2p-комунікації (за замовчуванням 9001):" 10 70 9001 3>&1 1>&2 2>&3)
-  
+while :; do
+  echo "To run a validator on the Sphinx network, you will need to open two ports in your firewall."
+  read -p "This allows p2p communication between nodes. Enter the first port (1025-65536) for p2p communication (default 9001): " SHMEXT
   SHMEXT=${SHMEXT:-9001}
-  if [[ $SHMEXT =~ ^[0-9]+$ ]]; then
-    if ((SHMEXT >= 1025 && SHMEXT <= 65536)); then
-      break
-    else
-      whiptail --title --msgbox "Введіть коректний номер порту (1025-65536)" 10 50
-    fi
+  [[ $SHMEXT =~ ^[0-9]+$ ]] || { echo "Enter a valid port"; continue; }
+  if ((SHMEXT >= 1025 && SHMEXT <= 65536)); then
+    SHMEXT=${SHMEXT:-9001}
   else
-    whiptail --title --msgbox "Введіть коректний номер порту (1025-65536)" 10 50
+    echo "Port out of range, try again"
   fi
-SHMEXT=$(whiptail --title "CPI.TM" --inputbox "Введіть другий номер порту (1025-65536) для p2p-комунікації (за замовчуванням 10001):" 10 70 10001 3>&1 1>&2 2>&3)
-  
-  SHMINT=${SHMINT:-9001}
-  if [[ $SHMINT =~ ^[0-9]+$ ]]; then
-    if ((SHMINT >= 1025 && SHMINT <= 65536)); then
-      break
-    else
-      whiptail --title --msgbox "Введіть коректний номер порту (1025-65536)" 10 50
-    fi
+  read -p "Enter the second port (1025-65536) for p2p communication (default 10001): " SHMINT
+  SHMINT=${SHMINT:-10001}
+  [[ $SHMINT =~ ^[0-9]+$ ]] || { echo "Enter a valid port"; continue; }
+  if ((SHMINT >= 1025 && SHMINT <= 65536)); then
+    SHMINT=${SHMINT:-10001}
+    break
   else
-    whiptail --title --msgbox "Введіть коректний номер порту (1025-65536)" 10 50
+    echo "Port out of range, try again"
   fi
 done
 
-NODEHOME=$(whiptail --title "CPI.TM" --inputbox "Введіть директорію (за замовчуванням ~/.shardeum):" 10 70 ~/.shardeum 3>&1 1>&2 2>&3)
-  
-  NODEHOME=${NODEHOME:-~/.shardeum}
+read -p "What base directory should the node use (defaults to ~/.shardeum): " NODEHOME
+NODEHOME=${NODEHOME:-~/.shardeum}
+
 APPSEEDLIST="archiver-sphinx.shardeum.org"
 APPMONITOR="monitor-sphinx.shardeum.org"
 
+cat <<EOF
 
 ###########################
 # 1. Pull Compose Project #
 ###########################
+
+EOF
 
 if [ -d "$NODEHOME" ]; then
   if [ "$NODEHOME" != "$(pwd)" ]; then
@@ -127,14 +212,19 @@ git clone https://gitlab.com/shardeum/validator/dashboard.git ${NODEHOME} &&
   cd ${NODEHOME} &&
   chmod a+x ./*.sh
 
+cat <<EOF
 
 ###############################
 # 2. Create and Set .env File #
 ###############################
 
-SERVERIP=$(curl ifconfig.me)
-LOCALLANIP=$(curl ifconfig.me)
+EOF
+
+SERVERIP=$(get_external_ip)
+LOCALLANIP=$(get_ip)
 cd ${NODEHOME} &&
+touch ./.env
+cat >./.env <<EOL
 APP_IP=auto
 EXISTING_ARCHIVERS=[{"ip":"18.194.3.6","port":4000,"publicKey":"758b1c119412298802cd28dbfa394cdfeecc4074492d60844cc192d632d84de3"},{"ip":"139.144.19.178","port":4000,"publicKey":"840e7b59a95d3c5f5044f4bc62ab9fa94bc107d391001141410983502e3cde63"},{"ip":"139.144.43.47","port":4000,"publicKey":"7af699dd711074eb96a8d1103e32b589e511613ebb0c6a789a9e8791b2b05f34"},{"ip":"72.14.178.106","port":4000,"publicKey":"2db7c949632d26b87d7e7a5a4ad41c306f63ee972655121a37c5e4f52b00a542"}]
 APP_MONITOR=${APPMONITOR}
@@ -144,27 +234,36 @@ SERVERIP=${SERVERIP}
 LOCALLANIP=${LOCALLANIP}
 SHMEXT=${SHMEXT}
 SHMINT=${SHMINT}
+EOL
 
+cat <<EOF
 
 ##########################
 # 3. Clearing Old Images #
 ##########################
 
+EOF
+
 ./cleanup.sh
+
+cat <<EOF
 
 ##########################
 # 4. Building base image #
 ##########################
 
+EOF
 
 cd ${NODEHOME} &&
 docker-safe build --no-cache -t local-dashboard -f Dockerfile --build-arg RUNDASHBOARD=${RUNDASHBOARD} .
 
+cat <<EOF
 
 ############################
 # 5. Start Compose Project #
 ############################
 
+EOF
 
 cd ${NODEHOME}
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -193,11 +292,15 @@ cat <<EOF
 
   If this validator is on the cloud and you need to reach the dashboard over the internet,
   please set a strong password and use the external IP instead of localhost.
-
+EOF
 fi
 
+cat <<EOF
 
 To use the Command Line Interface:
 	1. Navigate to the Shardeum home directory ($NODEHOME).
 	2. Enter the validator container with ./shell.sh.
 	3. Run "operator-cli --help" for commands
+
+EOF
+
