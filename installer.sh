@@ -280,7 +280,7 @@ else
 fi
 ./docker-up.sh
 
-echo "Запуск ноди, це може зайняти час..."
+echo "Запуск ноди, це може зайняти певний час..."
 (docker-safe logs -f shardeum-dashboard &) | grep -q 'done'
 
 #Do not indent
