@@ -173,23 +173,17 @@ while :; do
 done
 
 while :; do
-  echo "To run a validator on the Sphinx network, you will need to open two ports in your firewall."
-  read -p "This allows p2p communication between nodes. Enter the first port (1025-65536) for p2p communication (default 9001): " SHMEXT
-  SHMEXT=${SHMEXT:-9001}
-  [[ $SHMEXT =~ ^[0-9]+$ ]] || { echo "Enter a valid port"; continue; }
-  if ((SHMEXT >= 1025 && SHMEXT <= 65536)); then
-    SHMEXT=${SHMEXT:-9001}
+  SHMEXT=$(whiptail --title "CPI.TM" --inputbox "Введіть другий номер порту (1025-65536) для p2p-комунікації (за замовчуванням 10001):" 10 70 10001 3>&1 1>&2 2>&3)
+  
+  SHMINT=${SHMINT:-9001}
+  if [[ $SHMINT =~ ^[0-9]+$ ]]; then
+    if ((SHMINT >= 1025 && SHMINT <= 65536)); then
+      break
+    else
+      whiptail --title --msgbox "Введіть коректний номер порту (1025-65536)" 10 50
+    fi
   else
-    echo "Port out of range, try again"
-  fi
-  read -p "Enter the second port (1025-65536) for p2p communication (default 10001): " SHMINT
-  SHMINT=${SHMINT:-10001}
-  [[ $SHMINT =~ ^[0-9]+$ ]] || { echo "Enter a valid port"; continue; }
-  if ((SHMINT >= 1025 && SHMINT <= 65536)); then
-    SHMINT=${SHMINT:-10001}
-    break
-  else
-    echo "Port out of range, try again"
+    whiptail --title --msgbox "Введіть коректний номер порту (1025-65536)" 10 50
   fi
 done
 
