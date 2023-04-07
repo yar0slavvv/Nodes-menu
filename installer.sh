@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
 
-clear
-
-set -e
-
-bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/shardeumlogo) 
-
-sleep 2
-
-clear
-
 if whiptail --title "CPI.TM" --yesno "З запуском цього інсталятора, ви дозволите команді Шардеум збирати вашу інформацію" 10 50; then
   echo "Diagnostic data collection agreement accepted. Continuing with installer."
   WARNING_AGREE="y"
