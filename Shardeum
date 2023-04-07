@@ -18,10 +18,13 @@ sudo apt install containerd
 
 sudo apt install docker.io
 
+sudo systemctl status docker
+
 sudo systemctl start docker
 
 sudo systemctl enable docker
 
+sudo docker run hello-world
 
 clear
 
