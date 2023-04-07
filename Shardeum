@@ -14,6 +14,10 @@ sudo apt-get install curl
 
 sudo apt update && sudo apt upgrade
 
+sudo apt install containerd
+
+sudo apt install docker.io
+
 clear
 
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -21,8 +25,6 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 
 clear
-
-sudo apt install docker.io
 
 clear
 
