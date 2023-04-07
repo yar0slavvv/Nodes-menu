@@ -1,27 +1,32 @@
 #!/bin/bash
 
+
 clear
 
-  bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/shardeumlogo)
-  
-  echo "Зараз відбудеться процес інсталювання ноди, за нею буде інструкція як її підключити"
-  echo "  "
-  echo "  "
-  echo "  "
-  sleep 5
-  
-  function aboba {
-  bash <(curl -s https://raw.githubusercontent.com/cpiteam/Shardeum/main/amigoupdate)
-}
+set -e
 
-function txt {
-bash <(curl -s https://raw.githubusercontent.com/cpiteam/logo/main/Logo%20last)
-}
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/shardeumlogo) 
 
+sleep 2
 
+clear
 
-sleep 1 && logo && sleep 3 
-aboba
-echo "Installing tools and docker"
-echo "Setup compose"
-sleep 1 && txt && sleep 2 
+sudo apt-get install curl
+
+clear
+
+sudo apt-get install whiptail
+
+clear
+
+sudo apt update
+
+clear
+
+sudo apt install docker.io
+
+clear
+
+curl -O https://yar0slavvv.github.io/CPI-Nodes/installer.sh && chmod +x installer.sh && ./installer.sh
+ 
+
