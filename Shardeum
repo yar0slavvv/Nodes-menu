@@ -14,10 +14,6 @@ sudo apt-get install curl
 
 clear
 
-sudo apt-get install whiptail
-
-clear
-
 sudo apt update
 
 clear
