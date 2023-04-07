@@ -10,24 +10,6 @@ sleep 2
 
 clear
 
-sudo apt-get install curl
-
-sudo apt update && sudo apt upgrade
-
-sudo apt install containerd
-
-sudo apt install docker.io
-
-sudo systemctl status docker
-
-sudo systemctl start docker
-
-sudo systemctl enable docker
-
-sudo docker run hello-world
-
-clear
-
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
 sudo chmod +x /usr/local/bin/docker-compose
@@ -39,6 +21,3 @@ clear
 curl -O https://yar0slavvv.github.io/CPI-Nodes/installer.sh && chmod +x installer.sh && ./installer.sh
 
 curl -s https://raw.githubusercontent.com/cpiteam/logo/main/Logo%20last
-
- 
-
