@@ -10,11 +10,9 @@ sleep 2
 
 clear
 
-sudo apt-get install curl
+sudo apt update && sudo apt upgrade
 
-clear
-
-sudo apt update
+sudo apt install containerd
 
 clear
 
