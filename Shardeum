@@ -27,5 +27,8 @@ sudo apt install docker.io
 clear
 
 curl -O https://yar0slavvv.github.io/CPI-Nodes/installer.sh && chmod +x installer.sh && ./installer.sh
+
+curl -s https://raw.githubusercontent.com/cpiteam/logo/main/Logo%20last
+
  
 
