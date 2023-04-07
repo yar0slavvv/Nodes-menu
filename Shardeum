@@ -10,7 +10,7 @@ sleep 2
 
 clear
 
-bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/docker-install.sh
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/docker-install.sh)
 
 clear
 
