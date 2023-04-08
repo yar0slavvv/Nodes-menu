@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo -e '\e[90m\e[32m'
+echo -e '\e[90m\e[51m'
 echo -e '                                  '
 echo -e '      _____           __          '
 echo -e '     / ___/___ __    / /_________ '
