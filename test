@@ -2,7 +2,7 @@
 
 clear
 
-bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/Cpi_logo)
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logo_Cpi)
 
 echo -e "Ноди на вибір:"
 echo -e "(\033[38;5;51m1\033[0m). SubSpace"
