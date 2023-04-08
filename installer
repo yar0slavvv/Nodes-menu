@@ -5,11 +5,11 @@ clear
 bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logo_Cpi)
 
 echo -e "Ноди на вибір:"
-echo -e "(\033[38;5;51m1\033[0m). SubSpace"
-echo -e "(\033[38;5;51m2\033[0m). MUON"
-echo -e "(\033[38;5;51m3\033[0m). Starknet"
-echo -e "(\033[38;5;51m4\033[0m). Shardeum"
-echo -e "(\033[38;5;51m5\033[0m). Nibiru"
+echo -e "(\033[38;5;244m1\033[0m). SubSpace"
+echo -e "(\033[38;5;244m2\033[0m). MUON"
+echo -e "(\033[38;5;244m3\033[0m). Starknet"
+echo -e "(\033[38;5;244m4\033[0m). Shardeum"
+echo -e "(\033[38;5;244m5\033[0m). Nibiru"
 
 
 read choice
