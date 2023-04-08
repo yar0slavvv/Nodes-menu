@@ -4,12 +4,13 @@ clear
 
 curl -s https://yar0slavvv.github.io/CPI-Nodes/Cpi_logo
 
-echo "Ноди на вибір:"
-echo "1. SubSpace"
-echo "2. MUON"
-echo "3. Starknet"
-echo "4. Shardeum"
-echo "5. Nibiru"
+echo -e "Ноди на вибір:"
+echo -e "(\033[38;5;51m1\033[0m). SubSpace"
+echo -e "(\033[38;5;51m2\033[0m). MUON"
+echo -e "(\033[38;5;51m3\033[0m). Starknet"
+echo -e "(\033[38;5;51m4\033[0m). Shardeum"
+echo -e "(\033[38;5;51m5\033[0m). Nibiru"
+
 
 read choice
 
