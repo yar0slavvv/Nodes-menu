@@ -4,7 +4,7 @@ clear
 
 bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)
 
-echo "__________Ноди на вибір:__________"
+echo "——————————Ноди на вибір:——————————"
 echo "     "
 echo -e "(\033[38;5;244m1\033[0m) SubSpace          (\033[38;5;244m2\033[0m) MUON"
 echo -e "(\033[38;5;244m3\033[0m) Starknet          (\033[38;5;244m4\033[0m) Shardeum"
