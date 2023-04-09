@@ -37,5 +37,3 @@ case $choice in
     echo "Невірний вибір"
     ;;
 esac
- 
-sleep 2 && curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo | bash && sleep 2
