@@ -1,1 +1,5 @@
+#!/bin/bash
 
+clear
+
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/nibiru)
