@@ -1,0 +1,26 @@
+#!/bin/bash
+
+clear
+
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logo_Cpi)
+
+echo "______Оберіть що вам треба:______"
+echo "     "
+echo -e "(\033[38;5;244m1\033[0m) Встановити ноду          (\033[38;5;244m2\033[0m) Оновити ноду"
+echo "     "
+echo "__________________________________"
+
+
+read choice
+
+case $choice in
+ 1)
+    bash <(curl -s https://raw.githubusercontent.com/cpiteam/Subspace/main/installer)
+    ;;
+ 2)
+    bash <(curl -s https://raw.githubusercontent.com/cpiteam/MUON/main/updater)
+    ;;
+  *)
+    echo "Невірний вибір"
+    ;;
+esac
