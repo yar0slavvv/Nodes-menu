@@ -4,7 +4,7 @@ clear
 
 bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)
 
-echo "_________|Оберіть потрібне|_________"
+echo "——————————Оберіть потрібне——————————"
 echo "     "
 echo -e "(\033[38;5;244m1\033[0m) Встановити ноду (\033[38;5;244m2\033[0m) Оновити ноду"
 echo "     "
