@@ -33,6 +33,9 @@ case $choice in
  5)
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/updates/nibiru)
     ;;
+ 5)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/choise)
+    ;;
   *)
     echo "Невірний вибір"
     ;;
