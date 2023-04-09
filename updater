@@ -13,7 +13,7 @@ echo -e "(\033[38;5;244m7\033[0m) Moonbeam          (\033[38;5;244m8\033[0m) Hyd
 echo -e "(\033[38;5;244m9\033[0m) Centrifuge        (\033[38;5;244m10\033[0m) ChainX"
 echo "     "
 echo "__________________________________"
-
+echo "     "
 
 read choice
 
