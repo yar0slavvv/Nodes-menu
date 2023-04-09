@@ -2,7 +2,7 @@
 
 clear
 
-bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logo_Cpi)
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)
 
 echo "__________Оберіть потрібне__________"
 echo "     "
