@@ -15,10 +15,10 @@ read choice
 
 case $choice in
  1)
-    bash <(curl -s https://raw.githubusercontent.com/cpiteam/Subspace/main/installer)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/installer)
     ;;
  2)
-    bash <(curl -s https://raw.githubusercontent.com/cpiteam/MUON/main/updater)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/updater)
     ;;
   *)
     echo "Невірний вибір"
