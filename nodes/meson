@@ -8,9 +8,9 @@ echo "     "
 echo -e "(\033[38;5;244m1\033[0m) Продовжити             (\033[38;5;244m2\033[0m) Повернутися"
 echo "     "
 
-  read :
+  read a
   
-  case $: in
+  case $a in
    1)
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/meson)
       ;;
