@@ -16,7 +16,7 @@ echo -e "(\033[38;5;244m9\033[0m) -                 (\033[38;5;244m10\033[0m) -"
 echo "     "
 echo "__________________________________"
 echo "     "
-
+while true; do
 read choice
 
 case $choice in
@@ -42,6 +42,7 @@ case $choice in
     echo "Невірний вибір"
     ;;
 esac
+done
 
 else
   bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/acho)
