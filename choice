@@ -27,7 +27,7 @@ while true; do
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstall)
       ;;
    4)
-      echo "в розробці")
+      echo "в розробці"
       ;;
     *)
       echo "Невірний вибір"
