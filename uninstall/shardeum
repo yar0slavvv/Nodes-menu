@@ -15,7 +15,7 @@ while true; do
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/unistall/launch/shardeum)
       ;;
    2)
-      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/unistaller)
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstaller)
       ;;
     *)
       echo "Невірний вибір"
