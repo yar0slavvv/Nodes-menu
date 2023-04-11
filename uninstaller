@@ -21,19 +21,19 @@ read choice
 
 case $choice in
  1)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/deletes/subspace)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstall/subspace)
     ;;
  2)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/deletes/shardeum)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstall/shardeum)
     ;;
  3)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/deletes/meson)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstall/meson)
     ;;
  4)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/deletes/muon)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstalls/muon)
     ;;
  5)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/deletes/nibiru)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstall/nibiru)
     ;;
  6)
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/choice)
