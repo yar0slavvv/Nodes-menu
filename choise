@@ -2,7 +2,7 @@
 
 clear
 
-if [ $? -eq 0 ]; then
+if [ $? -eq bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi) ]; then
 bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)
 
 echo "——————————Оберіть потрібне——————————"
