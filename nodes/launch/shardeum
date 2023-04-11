@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -e
 echo "   "
 З запускоп цього скрипта, ви дозволите команді "Shardeum" збирати ваші дані (y/n)?: " WARNING_AGREE
