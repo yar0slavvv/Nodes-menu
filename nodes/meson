@@ -11,12 +11,10 @@ read -p choice
 
 case $choice in
   1)
-    echo "Ви обрали Варіант 1"
-    # Виконання дій для Варіанту 1
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/meson)
     ;;
   2)
-    echo "Ви обрали Варіант 2"
-    # Виконання дій для Варіанту 2
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/installer)
     ;;
   *)
     echo "Невірний вибір. Будь ласка, введіть номер варіанту 1 або 2."
