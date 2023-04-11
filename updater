@@ -1,8 +1,10 @@
 #!/bin/bash
 
-clear
+logo="bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)"
 
-bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)
+if [ "$logo" == "bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)" ]; then
+  clear
+  bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)
 
 echo "————————Оновлення на вибір————————"
 echo "     "
@@ -40,3 +42,7 @@ case $choice in
     echo "Невірний вибір"
     ;;
 esac
+
+else
+  bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/acho)
+fi
