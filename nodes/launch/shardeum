@@ -302,3 +302,5 @@ cat <<EOF
 3. Запустіть "operator-cli --help" для команд
 
 EOF
+
+exit
