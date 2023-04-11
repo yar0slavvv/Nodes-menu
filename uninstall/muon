@@ -2,7 +2,7 @@
 
 clear
 
-bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos-uni/meson)
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos-uni/muon)
 
 echo "     "
 echo -e "(\033[38;5;244m1\033[0m) Продовжити             (\033[38;5;244m2\033[0m) Повернутися"
@@ -12,7 +12,7 @@ while true; do
   
   case $a in
    1)
-      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/unistall/launch/meson)
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/unistall/launch/muon)
       ;;
    2)
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/unistaller)
