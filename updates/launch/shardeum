@@ -1,1 +1,5 @@
+#!/bin/bash
 
+sudo apt-get install curl
+sudo apt update
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/)
