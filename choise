@@ -2,6 +2,7 @@
 
 clear
 
+if [ $? -eq 0 ]; then
 bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)
 
 echo "——————————Оберіть потрібне——————————"
@@ -24,3 +25,7 @@ case $choice in
     echo "Невірний вибір"
     ;;
 esac
+
+else
+  bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/acho)
+fi
