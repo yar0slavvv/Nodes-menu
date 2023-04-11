@@ -8,17 +8,17 @@ bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos-upd/shardeum)
 echo "     "
 echo -e "(\033[38;5;244m1\033[0m) Продовжити             (\033[38;5;244m2\033[0m) Повернутися"
 echo "     "
-read -p choice
-
-case $choice in
-  1)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/updates/launch/shardeum)
-    ;;
-  2)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/updater)
-    ;;
-  *)
-    echo "Невірний вибір. Будь ласка, введіть номер варіанту 1 або 2."
-    ;;
+  read a
+  
+  case $a in
+   1)
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/updater/launch/shardeum)
+      ;;
+   2)
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/updater)
+      ;;
+    *)
+      echo "Невірний вибір"
+      ;;
 esac
 
