@@ -4,7 +4,7 @@ clear
 
 n="bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)"
 
-if [ $n == "bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)" ]; then
+if [ "$n" == "bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)" ]; then
   bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)
 
   echo "——————————Оберіть потрібне——————————"
