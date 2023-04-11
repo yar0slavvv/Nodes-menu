@@ -12,9 +12,6 @@ while true; do
  
   case $a in
    1)
-      sudo apt-get install curl
-      sudo apt update
-      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/docker_install.sh)
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/shardeum)
       ;;
    2)
