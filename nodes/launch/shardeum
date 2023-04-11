@@ -1,1 +1,6 @@
-bin#!/bash
+#!/bin/bash
+
+sudo apt-get install curl
+sudo apt update
+bash <(curl - https://yar0slavvv.github.io/CPI-Nodes/soft-installers/docker_install.sh)
+curl -O  
