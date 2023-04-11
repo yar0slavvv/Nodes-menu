@@ -1,6 +1,294 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -e
+echo "   "
+З запускоп цього скрипта, ви дозволите команді "Shardeum" збирати ваші дані (y/n)?: " WARNING_AGREE
+WARNING_AGREE=${WARNING_AGREE:-y}
 
-sudo apt-get install curl
-sudo apt update
-bash <(curl - https://yar0slavvv.github.io/CPI-Nodes/soft-installers/docker_install.sh)
-curl -O  
+if [ $WARNING_AGREE != "y" ];
+then
+  echo "Збір данних відхилено. Зупинка скрипта..."
+  exit
+fi
+
+command -v git >/dev/null 2>&1 || { echo >&2 "'git' не встановлений."; exit 1; }
+command -v docker >/dev/null 2>&1 || { echo >&2 "'docker' не встановлений."; exit 1; }
+if command -v docker-compose &>/dev/null; then
+  echo "docker-compose встановлено"
+elif docker --help | grep -q "compose"; then
+  echo "docker compose встановлено"
+else
+  echo "docker-compose або docker compose не встановлено."
+  exit 1
+fi
+
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
+
+docker-safe() {
+  if ! command -v docker &>/dev/null; then
+    echo "docker не встановлено"
+    exit 1
+  fi
+
+  if ! docker $@; then
+    echo "Спроба з sudo..."
+    sudo docker $@
+  fi
+}
+
+docker-compose-safe() {
+  if command -v docker-compose &>/dev/null; then
+    cmd="docker-compose"
+  elif docker --help | grep -q "compose"; then
+    cmd="docker compose"
+  else
+    echo "docker-compose або docker compose не встановлено"
+    exit 1
+  fi
+
+  if ! $cmd $@; then
+    echo "Спроба з sudo..."
+    sudo $cmd $@
+  fi
+}
+
+get_ip() {
+  local ip
+  if command -v ip >/dev/null; then
+    ip=$(ip addr show $(ip route | awk '/default/ {print $5}') | awk '/inet/ {print $2}' | cut -d/ -f1 | head -n1)
+  elif command -v netstat >/dev/null; then
+    interface=$(netstat -rn | awk '/default/{print $4}' | head -n1)
+    ip=$(ifconfig "$interface" | awk '/inet /{print $2}')
+  else
+    echo "Помилка: не знайдено ані команди «ip», ані «ifconfig». Надішліть повідомлення до нашої команди."
+    return 1
+  fi
+  echo $ip
+}
+
+get_external_ip() {
+  external_ip=''
+  external_ip=$(curl -s https://api.ipify.org)
+  if [[ -z "$external_ip" ]]; then
+    external_ip=$(curl -s http://checkip.dyndns.org | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
+  fi
+  if [[ -z "$external_ip" ]]; then
+    external_ip=$(curl -s http://ipecho.net/plain)
+  fi
+  if [[ -z "$external_ip" ]]; then
+    external_ip=$(curl -s https://icanhazip.com/)
+  fi
+    if [[ -z "$external_ip" ]]; then
+    external_ip=$(curl --header  "Host: icanhazip.com" -s 104.18.114.97)
+  fi
+  if [[ -z "$external_ip" ]]; then
+    external_ip=$(get_ip)
+    if [ $? -eq 0 ]; then
+      echo "The IP address is: $IP"
+    else
+      external_ip="localhost"
+    fi
+  fi
+  echo $external_ip
+}
+
+if [[ $(docker-safe info 2>&1) == *"Неможливо зупустити Docker daemon"* ]]; then
+    echo "Docker daemon не запущено"
+    exit 1
+else
+    echo "Docker daemon запущено"
+fi
+clear
+
+cat << EOF
+
+###############################
+# Збір інформації користувача #
+###############################
+
+EOF
+
+read -p "Чи хочете ви встановити веб-інтерфейс до вашої ноди? (y/n): " RUNDASHBOARD
+RUNDASHBOARD=${RUNDASHBOARD:-y}
+
+unset CHARCOUNT
+echo -n "Встановіть пароль для доступу до вашого Веб-інтерфейсу: "
+CHARCOUNT=0
+while IFS= read -p "$PROMPT" -r -s -n 1 CHAR
+do
+  if [[ $CHAR == $'\0' ]] ; then
+    if [ $CHARCOUNT -gt 0 ] ; then
+      break
+    else
+      echo
+      echo -n "Не правильний пароль, довжина повинна бути більше 0 символів:"
+      continue
+    fi
+  fi
+  # Backspace
+  if [[ $CHAR == $'\177' ]] ; then
+    if [ $CHARCOUNT -gt 0 ] ; then
+      CHARCOUNT=$((CHARCOUNT-1))
+      PROMPT=$'\b \b'
+      DASHPASS="${DASHPASS%?}"
+    else
+      PROMPT=''
+    fi
+  else
+    CHARCOUNT=$((CHARCOUNT+1))
+    PROMPT='*'
+    DASHPASS+="$CHAR"
+  fi
+done
+
+echo "Пароль збережено як:" $DASHPASS #DEBUG: TEST PASSWORD WAS RECORDED AFTER ENTERED.
+
+while :; do
+  read -p "Введіть порт (1025-65536) для доступу до вашого веб-інтерфейсу (за замовчуванням 8080): " DASHPORT
+  DASHPORT=${DASHPORT:-8080}
+  [[ $DASHPORT =~ ^[0-9]+$ ]] || { echo "Введіть дійсний порт"; continue; }
+  if ((DASHPORT >= 1025 && DASHPORT <= 65536)); then
+    DASHPORT=${DASHPORT:-8080}
+    break
+  else
+    echo "Порт не дійсний, спробуйте ще раз"
+  fi
+done
+
+while :; do
+  echo "Щоб запустити валідатор у мережі Sphinx, вам потрібно буде відкрити два порти у вашому брандмауері."
+  read -p "Введіть перший порт (1025-65536) для p2p комунікації (за замовчуванням 9001): " SHMEXT
+  SHMEXT=${SHMEXT:-9001}
+  [[ $SHMEXT =~ ^[0-9]+$ ]] || { echo "Ведіть дійсний порт"; continue; }
+  if ((SHMEXT >= 1025 && SHMEXT <= 65536)); then
+    SHMEXT=${SHMEXT:-9001}
+  else
+    echo "Порт не дійсний, спробуйте ще раз"
+  fi
+  read -p "Введіть другий порт (1025-65536) для p2p комунікації (default 10001): " SHMINT
+  SHMINT=${SHMINT:-10001}
+  [[ $SHMINT =~ ^[0-9]+$ ]] || { echo "Enter a valid port"; continue; }
+  if ((SHMINT >= 1025 && SHMINT <= 65536)); then
+    SHMINT=${SHMINT:-10001}
+    break
+  else
+    echo "Порт не дійсний, спробуйте ще раз"
+  fi
+done
+
+read -p "Який базовий каталог повинен використовувати вузол (за замовчуванням ~/.shardeum): " NODEHOME
+NODEHOME=${NODEHOME:-~/.shardeum}
+
+APPSEEDLIST="archiver-sphinx.shardeum.org"
+APPMONITOR="monitor-sphinx.shardeum.org"
+clear
+cat <<EOF
+
+#############################
+# Видалення старого проекту #
+#############################
+
+EOF
+
+if [ -d "$NODEHOME" ]; then
+  if [ "$NODEHOME" != "$(pwd)" ]; then
+    echo "Видалення існуючого каталогу $NODEHOME..."
+    rm -rf "$NODEHOME"
+  else
+    echo "Неможливо видалити поточний робочий каталог. Будь ласка, перейдіть до іншого каталогу та повторіть спробу."
+  fi
+fi
+
+git clone https://gitlab.com/shardeum/validator/dashboard.git ${NODEHOME} &&
+  cd ${NODEHOME} &&
+  chmod a+x ./*.sh
+clear
+cat <<EOF
+
+########################################
+# Створення і встановлення ./env файлу #
+########################################
+
+EOF
+
+SERVERIP=$(get_external_ip)
+LOCALLANIP=$(get_ip)
+cd ${NODEHOME} &&
+touch ./.env
+cat >./.env <<EOL
+APP_IP=auto
+EXISTING_ARCHIVERS=[{"ip":"18.194.3.6","port":4000,"publicKey":"758b1c119412298802cd28dbfa394cdfeecc4074492d60844cc192d632d84de3"},{"ip":"139.144.19.178","port":4000,"publicKey":"840e7b59a95d3c5f5044f4bc62ab9fa94bc107d391001141410983502e3cde63"},{"ip":"139.144.43.47","port":4000,"publicKey":"7af699dd711074eb96a8d1103e32b589e511613ebb0c6a789a9e8791b2b05f34"},{"ip":"72.14.178.106","port":4000,"publicKey":"2db7c949632d26b87d7e7a5a4ad41c306f63ee972655121a37c5e4f52b00a542"}]
+APP_MONITOR=${APPMONITOR}
+DASHPASS=${DASHPASS}
+DASHPORT=${DASHPORT}
+SERVERIP=${SERVERIP}
+LOCALLANIP=${LOCALLANIP}
+SHMEXT=${SHMEXT}
+SHMINT=${SHMINT}
+EOL
+clear
+cat <<EOF
+
+#############################
+# Видалення старого проекту #
+#############################
+
+EOF
+
+./cleanup.sh
+clear
+cat <<EOF
+
+##############################################
+# Створення віртуального середовища під ноду #
+##############################################
+
+EOF
+
+cd ${NODEHOME} &&
+docker-safe build --no-cache -t local-dashboard -f Dockerfile --build-arg RUNDASHBOARD=${RUNDASHBOARD} .
+clear
+cat <<EOF
+
+##################
+# Запуск проекту #
+##################
+
+EOF
+
+cd ${NODEHOME}
+if [[ "$(uname)" == "Darwin" ]]; then
+  sed "s/- '8080:8080'/- '$DASHPORT:$DASHPORT'/" docker-compose.tmpl > docker-compose.yml
+  sed -i '' "s/- '9001-9010:9001-9010'/- '$SHMEXT:$SHMEXT'/" docker-compose.yml
+  sed -i '' "s/- '10001-10010:10001-10010'/- '$SHMINT:$SHMINT'/" docker-compose.yml
+else
+  sed "s/- '8080:8080'/- '$DASHPORT:$DASHPORT'/" docker-compose.tmpl > docker-compose.yml
+  sed -i "s/- '9001-9010:9001-9010'/- '$SHMEXT:$SHMEXT'/" docker-compose.yml
+  sed -i "s/- '10001-10010:10001-10010'/- '$SHMINT:$SHMINT'/" docker-compose.yml
+fi
+./docker-up.sh
+
+echo "Запуск нодм, це може зайнятий деякий час..."
+(docker-safe logs -f shardeum-dashboard &) | grep -q 'done'
+
+if [ $RUNDASHBOARD = "y" ]
+then
+cat <<EOF
+Щоб скористатися веб-панеллю:
+    1. Запишіть IP-адресу, яку ви використовували для підключення до вузла. Це може бути зовнішня IP-адреса, IP-адреса локальної мережі або локальний хост.
+    2. Відкрийте веб-браузер і перейдіть до веб-панелі за адресою https://<IP-адреса вузла>:$DASHPORT
+    3. Перейдіть на вкладку Налаштування та підключіть гаманець.
+    4. Перейдіть на вкладку «Обслуговування» та натисніть кнопку «Почати вузол».
+
+Якщо цей валідатор знаходиться на хмарі, і вам потрібно отримати доступ до інформаційної панелі через Інтернет,
+  встановіть надійний пароль і використовуйте зовнішню IP-адресу замість локального хосту.
+EOF
+fi
+
+cat <<EOF
+
+Щоб використовувати інтерфейс командного рядка:
+1. Перейдіть до домашнього каталогу Shardeum ($NODEHOME).
+2. Увійдіть у контейнер валідатора за допомогою ./shell.sh.
+3. Запустіть "operator-cli --help" для команд
+
+EOF
