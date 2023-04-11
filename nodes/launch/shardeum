@@ -9,14 +9,16 @@ sudo apt update
 bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/docker_install.sh)
 
 echo "   "
-З запускоп цього скрипта, ви дозволите команді "Shardeum" збирати ваші дані (y/n)?: " WARNING_AGREE
+
+read -p "Запускоп цього скрипта дозволить команді 'Shardeum' збирати ваші дані (y/n)?: " WARNING_AGREE
+
 WARNING_AGREE=${WARNING_AGREE:-y}
 
-if [ $WARNING_AGREE != "y" ];
-then
-  echo "Збір данних відхилено. Зупинка скрипта..."
+if [ "$WARNING_AGREE" != "y" ]; then
+  echo "Збір даних відхилено. Зупинка скрипта..."
   exit
 fi
+
 
 command -v git >/dev/null 2>&1 || { echo >&2 "'git' не встановлений."; exit 1; }
 command -v docker >/dev/null 2>&1 || { echo >&2 "'docker' не встановлений."; exit 1; }
