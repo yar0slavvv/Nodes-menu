@@ -27,7 +27,7 @@ while true; do
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/delete)
       ;;
    4)
-      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/tool)
+      echo "в розробці")
       ;;
     *)
       echo "Невірний вибір"
