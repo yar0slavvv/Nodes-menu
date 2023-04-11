@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 
 set -e
+
+sudo apt-get install curl
+
+sudo apt update
+
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/docker_install.sh)
+
 echo "   "
 З запускоп цього скрипта, ви дозволите команді "Shardeum" збирати ваші дані (y/n)?: " WARNING_AGREE
 WARNING_AGREE=${WARNING_AGREE:-y}
