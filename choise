@@ -1,8 +1,8 @@
 #!/bin/bash
 
-n="bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)"
+logo="bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)"
 
-if [ "$n" == "bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)" ]; then
+if [ "$logo" == "bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)" ]; then
   clear
   bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)
 
