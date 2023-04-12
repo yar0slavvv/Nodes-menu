@@ -12,7 +12,9 @@ while true; do
   
   case $a in
    1)
-      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/unistall/launch/shardeum)
+      rm -rf .shardeum
+      echo " "
+      echo "Shardeum успішно видалено"
       ;;
    2)
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstaller)
