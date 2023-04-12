@@ -30,7 +30,7 @@ case $choice in
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstall/meson)
     ;;
  4)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstalls/muon)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstall/muon)
     ;;
  5)
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstall/nibiru)
