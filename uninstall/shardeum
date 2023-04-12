@@ -13,33 +13,9 @@ while true; do
   case $a in
    1)
       rm -rf .shardeum
-      function draw_progressbar() {
-      local current=$1
-      local total=$2
-      local len=$3
-      local progress=$((current * len / total))
-      local rest=$((len - progress))
-
-      printf "\r["
-
-      for ((i=0; i<progress; i++)); do
-      printf "#"
-      done
-
-      for ((i=0; i<rest; i++)); do
-      printf " "
-      done
-  
-      printf "] %d%%" $((current * 100 / total))
-      }
-
-      max_value=10
-
-      for ((i=1; i<=$max_value; i++)); do
-      draw_progressbar $i $max_value 20
-      sleep 1
-      done
-
+      echo " "
+      echo "..."
+      sleep 2
       echo ""
       echo "Shardeum успішно видалено"
       exit
