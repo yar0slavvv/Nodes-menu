@@ -22,5 +22,6 @@ while true; do
     *)
       echo "Невірний вибір"
       ;;
-esac
+  esac
 done
+
