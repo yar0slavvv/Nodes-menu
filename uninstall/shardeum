@@ -42,6 +42,7 @@ done
 
 echo ""
       echo "Shardeum успішно видалено"
+      exit
       ;;
    2)
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstaller)
