@@ -13,7 +13,7 @@ while true; do
   
   case $a in
    1)
-      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/updater/launch/shardeum)
+      curl -O https://gitlab.com/shardeum/validator/dashboard/-/raw/main/installer.sh && chmod +x installer.sh && ./installer.sh
       ;;
    2)
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/updater)
