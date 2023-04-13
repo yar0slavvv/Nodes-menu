@@ -12,7 +12,14 @@ while true; do
   
   case $a in
    1)
-      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/unistall/launch/subspace)
+      sudo systemctl stop subspaced subspaced-farmer
+      sudo systemctl disable subspaced subspaced-farmer
+      rm -rf ~/.local/share/subspace*
+      rm -rf /etc/systemd/system/subspace*
+      rm -rf /usr/local/bin/subspace*
+      echo ""
+      echo "Subspace успішно видалено"
+      echo ""
       ;;
    2)
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstaller)
