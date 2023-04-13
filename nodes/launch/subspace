@@ -1,23 +1,5 @@
 #!/bin/bash
 
-if [ ! $NODE_NAME ]; then
-	read -p "Введіть назву вашої ноди : " NODE_NAME
-fi
-echo 'Назва вашої ноди: ' $NODE_NAME
-sleep 1
-echo 'export SUBSPACE_NODENAME='$NODE_NAME >> $HOME/.bash_profile
-echo "Готово"
-echo "—————————————————————————————————————————————————————————————————————————————"
-
-if [ ! $YOUR_WALLET ]; then
-	read -p "Адреса гаманця Subspace Gemini2: " YOUR_WALLET
-fi
-echo 'Ваша дреса гаманця: ' $YOUR_WALLET
-sleep 1
-echo 'export SUBSPACE_WALLET='$YOUR_WALLET >> $HOME/.bash_profile
-echo "Готово"
-echo "—————————————————————————————————————————————————————————————————————————————"
-
 exists()
 {
   command -v "$1" >/dev/null 2>&1
@@ -31,7 +13,7 @@ bash_profile=$HOME/.bash_profile
 if [ -f "$bash_profile" ]; then
     . $HOME/.bash_profile
 fi
-sleep 1 && curl -s https://raw.githubusercontent.com/sorkand1/nodes/main/welcome.sh | bash && sleep 1
+echo "—————————————————————————————————————————————————————————————————————————————"
 
 sudo apt update && sudo apt install ocl-icd-opencl-dev libopencl-clang-dev libgomp1 -y
 cd $HOME
