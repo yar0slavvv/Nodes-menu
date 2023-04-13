@@ -56,6 +56,6 @@ if [[ `service subspaced status | grep active` =~ "running" ]]; then
   echo -e "Ви миожете перевірити статус, цією командою \e[7mservice subspaced status\e[0m"
   echo -e "Натисніть \e[7mQ\e[0m щоб вийти з меню статусу"
 else
-  echo -e "Вашу нодо \e[31mНе встановлно\e[39m, спробуйте ще раз."
+  echo -e "Вашу ноду \e[31mне встановлно\e[39m, спробуйте ще раз."
 fi
 
