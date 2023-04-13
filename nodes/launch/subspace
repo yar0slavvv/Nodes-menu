@@ -41,20 +41,6 @@ LimitNOFILE=65535
 [Install]
 WantedBy=multi-user.target" > $HOME/subspaced.service
 
-
-echo "[Unit]
-Description=Subspaced Farm
-After=network.target
-[Service]
-User=$USER
-Type=simple
-ExecStart=/usr/local/bin/subspace-farmer farm --reward-address $SUBSPACE_WALLET --plot-size 100G
-Restart=on-failure
-LimitNOFILE=65535
-[Install]
-WantedBy=multi-user.target" > $HOME/subspaced-farmer.service
-
-
 mv $HOME/subspaced* /etc/systemd/system/
 sudo systemctl restart systemd-journald
 sudo systemctl daemon-reload
@@ -74,11 +60,4 @@ else
 fi
 sleep 2
 echo "—————————————————————————————————————————————————————————————————————————————"
-echo -e '\n\e[42mCheck farmer status\e[0m\n' && sleep 1
-if [[ `service subspaced-farmer status | grep active` =~ "running" ]]; then
-  echo -e "Ваш фермер Subspace \e[32Встановлено та працює успішно\e[39m!"
-  echo -e "Ви можете перевірити статус фермера командою \e[7mservice subspaced-farmer status\e[0m"
-  echo -e "Нажміть \e[7mQ\e[0m щоб вийти з меню"
-else
-  echo -e "Ваш фермер Subspace \e[31mwas не встановлено коректно\e[39m, будь-ласка спробуйте ще раз."
-fi
+
