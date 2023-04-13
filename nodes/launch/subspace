@@ -1,1 +1,102 @@
+#!/bin/bash
 
+if [ ! $NODE_NAME ]; then
+	read -p "Введіть назву вашої ноди : " NODE_NAME
+fi
+echo 'Назва вашої ноди: ' $NODE_NAME
+sleep 1
+echo 'export SUBSPACE_NODENAME='$NODE_NAME >> $HOME/.bash_profile
+echo "Готово"
+echo "—————————————————————————————————————————————————————————————————————————————"
+
+if [ ! $YOUR_WALLET ]; then
+	read -p "Адреса гаманця Subspace Gemini2: " YOUR_WALLET
+fi
+echo 'Ваша дреса гаманця: ' $YOUR_WALLET
+sleep 1
+echo 'export SUBSPACE_WALLET='$YOUR_WALLET >> $HOME/.bash_profile
+echo "Готово"
+echo "—————————————————————————————————————————————————————————————————————————————"
+
+exists()
+{
+  command -v "$1" >/dev/null 2>&1
+}
+if exists curl; then
+	echo ''
+else
+  sudo apt update && sudo apt install curl -y < "/dev/null"
+fi
+bash_profile=$HOME/.bash_profile
+if [ -f "$bash_profile" ]; then
+    . $HOME/.bash_profile
+fi
+sleep 1 && curl -s https://raw.githubusercontent.com/sorkand1/nodes/main/welcome.sh | bash && sleep 1
+
+sudo apt update && sudo apt install ocl-icd-opencl-dev libopencl-clang-dev libgomp1 -y
+cd $HOME
+rm -rf subspace*
+wget -O subspace-node https://github.com/subspace/subspace/releases/download/gemini-2a-2022-sep-06/subspace-node-ubuntu-x86_64-gemini-2a-2022-sep-06
+wget -O subspace-farmer https://github.com/subspace/subspace/releases/download/gemini-2a-2022-sep-06/subspace-farmer-ubuntu-x86_64-gemini-2a-2022-sep-06
+chmod +x subspace*
+mv subspace* /usr/local/bin/
+
+systemctl stop subspaced subspaced-farmer &>/dev/null
+rm -rf ~/.local/share/subspace*
+
+source ~/.bash_profile
+sleep 1
+
+echo "[Unit]
+Description=Subspace Node
+After=network.target
+[Service]
+User=$USER
+Type=simple
+ExecStart=/usr/local/bin/subspace-node --chain gemini-2a --execution wasm --state-pruning archive --validator --name $SUBSPACE_NODENAME
+Restart=on-failure
+LimitNOFILE=65535
+[Install]
+WantedBy=multi-user.target" > $HOME/subspaced.service
+
+
+echo "[Unit]
+Description=Subspaced Farm
+After=network.target
+[Service]
+User=$USER
+Type=simple
+ExecStart=/usr/local/bin/subspace-farmer farm --reward-address $SUBSPACE_WALLET --plot-size 100G
+Restart=on-failure
+LimitNOFILE=65535
+[Install]
+WantedBy=multi-user.target" > $HOME/subspaced-farmer.service
+
+
+mv $HOME/subspaced* /etc/systemd/system/
+sudo systemctl restart systemd-journald
+sudo systemctl daemon-reload
+sudo systemctl enable subspaced subspaced-farmer
+sudo systemctl restart subspaced
+sleep 10
+sudo systemctl restart subspaced-farmer
+
+echo "—————————————————————————————————————————————————————————————————————————————"
+echo -e '\n\e[42mCheck node status\e[0m\n' && sleep 1
+if [[ `service subspaced status | grep active` =~ "running" ]]; then
+  echo -e "Ваша нода Subspace \e[32mВстановлена та працює успішно\e[39m!"
+  echo -e "Ви можете перевірити статус ноди командою \e[7mservice subspaced status\e[0m"
+  echo -e "Нажміть \e[7mQ\e[0m щоб вийти з меню"
+else
+  echo -e "Ваша нода Subspace \e[31mwas Не встановлена коректно\e[39m, будь-ласка спробуйте ще раз."
+fi
+sleep 2
+echo "—————————————————————————————————————————————————————————————————————————————"
+echo -e '\n\e[42mCheck farmer status\e[0m\n' && sleep 1
+if [[ `service subspaced-farmer status | grep active` =~ "running" ]]; then
+  echo -e "Ваш фермер Subspace \e[32Встановлено та працює успішно\e[39m!"
+  echo -e "Ви можете перевірити статус фермера командою \e[7mservice subspaced-farmer status\e[0m"
+  echo -e "Нажміть \e[7mQ\e[0m щоб вийти з меню"
+else
+  echo -e "Ваш фермер Subspace \e[31mwas не встановлено коректно\e[39m, будь-ласка спробуйте ще раз."
+fi
