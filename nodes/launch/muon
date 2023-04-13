@@ -1,1 +1,9 @@
+#!/bin/bash
 
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/docker_install.sh)
+
+curl -o docker-compose.yml https://raw.githubusercontent.com/muon-protocol/muon-node-js/testnet/docker-compose-pull.yml
+
+docker compose up -d
+
+exit
