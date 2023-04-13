@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo " "
+
 exists()
 {
   command -v "$1" >/dev/null 2>&1
@@ -13,51 +15,47 @@ bash_profile=$HOME/.bash_profile
 if [ -f "$bash_profile" ]; then
     . $HOME/.bash_profile
 fi
-echo "—————————————————————————————————————————————————————————————————————————————"
 
 sudo apt update && sudo apt install ocl-icd-opencl-dev libopencl-clang-dev libgomp1 -y
 cd $HOME
-rm -rf subspace*
-wget -O subspace-node https://github.com/subspace/subspace/releases/download/gemini-2a-2022-sep-06/subspace-node-ubuntu-x86_64-gemini-2a-2022-sep-06
-wget -O subspace-farmer https://github.com/subspace/subspace/releases/download/gemini-2a-2022-sep-06/subspace-farmer-ubuntu-x86_64-gemini-2a-2022-sep-06
-chmod +x subspace*
-mv subspace* /usr/local/bin/
+wget -O subspace-cli https://github.com/subspace/subspace-cli/releases/download/v0.1.9-alpha/subspace-cli-Ubuntu-x86_64-v0.1.9-alpha
+sudo chmod +x subspace-cli
+sudo mv subspace-cli /usr/local/bin/
+sudo rm -rf $HOME/.config/subspace-cli
+/usr/local/bin/subspace-cli init
+#systemctl stop subspaced subspaced-farmer &>/dev/null
+#rm -rf ~/.local/share/subspace*
 
-systemctl stop subspaced subspaced-farmer &>/dev/null
-rm -rf ~/.local/share/subspace*
-
-source ~/.bash_profile
+#source ~/.bash_profile
 sleep 1
 
 echo "[Unit]
 Description=Subspace Node
 After=network.target
+
 [Service]
 User=$USER
 Type=simple
-ExecStart=/usr/local/bin/subspace-node --chain gemini-2a --execution wasm --state-pruning archive --validator --name $SUBSPACE_NODENAME
+ExecStart=/usr/local/bin/subspace-cli farm --verbose
 Restart=on-failure
-LimitNOFILE=65535
+LimitNOFILE=1024000
+
 [Install]
 WantedBy=multi-user.target" > $HOME/subspaced.service
 
-mv $HOME/subspaced* /etc/systemd/system/
+mv $HOME/subspaced.service /etc/systemd/system/
 sudo systemctl restart systemd-journald
 sudo systemctl daemon-reload
-sudo systemctl enable subspaced subspaced-farmer
+sudo systemctl enable subspaced
 sudo systemctl restart subspaced
-sleep 10
-sudo systemctl restart subspaced-farmer
 
-echo "—————————————————————————————————————————————————————————————————————————————"
-echo -e '\n\e[42mCheck node status\e[0m\n' && sleep 1
+echo "==================================================="
+echo -e '\n\e[42mПеревырка статусу ноди\e[0m\n' && sleep 5
 if [[ `service subspaced status | grep active` =~ "running" ]]; then
-  echo -e "Ваша нода Subspace \e[32mВстановлена та працює успішно\e[39m!"
-  echo -e "Ви можете перевірити статус ноди командою \e[7mservice subspaced status\e[0m"
-  echo -e "Нажміть \e[7mQ\e[0m щоб вийти з меню"
+  echo -e "Ваша нода \e[32mвстановлена та успышно працює\e[39m!"
+  echo -e "Ви миожете перевірити статус, цією командою \e[7mservice subspaced status\e[0m"
+  echo -e "Натисніть \e[7mQ\e[0m щоб вийти з меню статусу"
 else
-  echo -e "Ваша нода Subspace \e[31mwas Не встановлена коректно\e[39m, будь-ласка спробуйте ще раз."
+  echo -e "Вашу нодо \e[31mНе встановлно\e[39m, спробуйте ще раз."
 fi
-sleep 2
-echo "—————————————————————————————————————————————————————————————————————————————"
 
