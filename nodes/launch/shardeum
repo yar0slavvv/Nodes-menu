@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+echo " "
+echo "——————————————————————————————————————————————"
+echo " "
 set -e
 
 sudo apt-get install curl
