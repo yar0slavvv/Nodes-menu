@@ -90,31 +90,12 @@ function deleteMESON {
 	sudo systemctl stop meson_cdn
 }
 
-PS3='Please enter your choice (input your option number and press enter): '
-options=("Install" "Delete" "Quit")
-select opt in "${options[@]}"
-do
-    case $opt in
-        "Install")
-            echo -e '\n\e[42mYou choose install...\e[0m\n' && sleep 1
-			setupVars
-			setupSwap
-			installDeps
-			installSoftware
-			break
-            ;;
-		"Delete")
-            echo -e '\n\e[31mYou choose delete...\e[0m\n' && sleep 1
-			deleteMESON
-			echo -e '\n\e[42mMeson miner was deleted!\e[0m\n' && sleep 1
-			break
-            ;;
-        "Quit")
-            break
-            ;;
-        *) echo -e "\e[91minvalid option $REPLY\e[0m";;
-    esac
-done
+setupVars
+setupSwap
+installDeps
+installSoftware
+break
+
 echo " "
 echo "——————————————————————————————————————————————"
 echo " "
