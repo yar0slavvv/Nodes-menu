@@ -27,20 +27,20 @@ fi
 function setupVars {
 	if [ ! $MESON_TOKEN ]; then
 		read -p "Впишіть ваш токен Meson: " MESON_TOKEN
-		echo 'експорт MESON_TOKEN='${MESON_TOKEN} >> $HOME/.bash_profile
+		echo 'export MESON_TOKEN='${MESON_TOKEN} >> $HOME/.bash_profile
 	fi
 	echo -e '\n\e[42mВаш токен Meson:' $MESON_TOKEN '\e[0m\n'
 	if [ ! $MESON_PORT ]; then
 		read -p "Впишіть ваш порт Meson (19091 за замовлуванням, натисніть Enter): " MESON_PORT
 		MESON_PORT=${MESON_PORT:-19091}
-		echo 'експорт MESON_PORT='${MESON_PORT} >> $HOME/.bash_profile
+		echo 'export MESON_PORT='${MESON_PORT} >> $HOME/.bash_profile
 	fi
 	echo -e '\n\e[42mВаш порт Meson:' $MESON_PORT '\e[0m\n'
 	if [ ! $MESON_SPACELIMIT ]; then
 		echo -e '\e[42mНаазі ви маєте' $avail_space 'GB вільного місця\e[0m'
 		read -p "Впишіть ліміт місця для Meson (at least 20GB), ТІЛЬКИ ЧИСЛО (без GB): " MESON_SPACELIMIT
 		MESON_SPACELIMIT=${MESON_SPACELIMIT:-20}
-		echo "експорт MESON_SPACELIMIT='${MESON_SPACELIMIT}'" >> $HOME/.bash_profile
+		echo "export MESON_SPACELIMIT='${MESON_SPACELIMIT}'" >> $HOME/.bash_profile
 	fi
 	echo -e '\n\e[42mВаш ліміт для Meson:' $MESON_SPACELIMIT '\e[0m\n'
 	. $HOME/.bash_profile
