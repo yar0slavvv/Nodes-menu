@@ -64,38 +64,48 @@ function installSoftware {
 	ufw allow 80
 	ufw allow 443
 	ufw allow 19091
-	w
-get -O meson.tar.gz https://staticassets.meson.network/public/meson_cdn/v3.1.19/meson_cdn-linux-amd64.tar.gz 
+	wget -O meson.tar.gz https://staticassets.meson.network/public/meson_cdn/v3.1.19/meson_cdn-linux-amd64.tar.gz 
 	tar -zxf meson.tar.gz
 	cd ./meson_cdn-linux-amd64
-#token = $MESON_TOKEN
-#port = $MESON_PORT
 	sudo ./meson_cdn config set --token=$MESON_TOKEN --https_port=$MESON_PORT --cache.size=30
-	sudo $HOME/meson_cdn-linux-amd64/service install meson_cdn
-	sudo systemctl daemon-reload
-	sudo systemctl enable meson_cdn 
-	sudo systemctl restart meson_cdn 
-	echo -e '\n\e[42mCheck node status\e[0m\n' && sleep 3
-	if [[ `sudo systemctl status meson_cdn | grep "active"` =~ "running" ]]; then
-	  echo -e "Your Meson minrt \e[32minstalled and works\e[39m!"
-	  echo -e "You can check miner status by the command \e[7msudo systemctl status meson_cdn\e[0m"
-	  echo -e "Press \e[7mQ\e[0m for exit from status menu"
-	else
-	  echo -e "Your Meson miner \e[31mwas not installed correctly\e[39m, please reinstall."
-	fi
+	sudo $HOME/meson_cdn-linux-amd64/meson_cdn config set --token=$MESON_TOKEN --https_port=$MESON_PORT --cache.size=30
+	sudo $HOME/meson_cdn-linux-amd64/meson_cdn config set --spacelimit=$MESON_SPACELIMIT
+	sudo $HOME/meson_cdn-linux-amd64/meson_cdn start
+	sudo $HOME/meson_cdn-linux-amd64/meson_cdn enable
+	sudo $HOME/meson_cdn-linux-amd64/meson_cdn save
+	sudo systemctl enable meson_cdn
+	sudo systemctl start meson_cdn
+	echo -e '\n\e[42mMeson CDN has been installed and started successfully!\e[0m\n'
+	echo -e '\n\e[42mPlease make sure to open the following ports on your firewall: 80, 443, and' $MESON_PORT '\e[0m\n'
 }
 
-function deleteMESON {
-	sudo systemctl disable meson_cdn
-	sudo systemctl stop meson_cdn
+function cleanup {
+	rm $HOME/meson.tar.gz
+	rm -rf $HOME/meson_cdn-linux-amd64
 }
 
-setupVars
-setupSwap
-installDeps
-installSoftware
-break
+function main {
+	echo -e '\n\e[42mWelcome to Meson CDN installation script!\e[0m\n'
+	echo -e '\n\e[42mThis script will install and configure Meson CDN on your system.\e[0m\n'
+	echo -e '\n\e[42mPlease make sure you have your Meson token ready before proceeding.\e[0m\n'
+	read -p "Do you want to continue? (Y/N): " choice
+	case "$choice" in
+		y|Y )
+			setupVars
+			setupSwap
+			installDeps
+			installSoftware
+			cleanup
+			;;
+		n|N )
+			echo -e '\n\e[31mInstallation aborted. Exiting...\e[39m\n'
+			exit 0
+			;;
+		* )
+			echo -e '\n\e[31mInvalid input. Exiting...\e[39m\n'
+			exit 1
+			;;
+	esac
+}
 
-echo " "
-echo "——————————————————————————————————————————————"
-echo " "
+main
