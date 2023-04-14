@@ -17,28 +17,29 @@ bash_profile=$HOME/.bash_profile
 if [ -f "$bash_profile" ]; then
     . $HOME/.bash_profile
 fi
+sleep 1 && curl -s https://api.nodes.guru/logo.sh | bash && sleep 3
 
 avail_space=`df $PWD -h | awk '/[0-9]%/{print $(NF-2)}' | sed 's/.$//'`
 if [ $avail_space -lt 20 ]; then
-	echo -e '\e[31mYou have less than 20GB available space, please free some space and retry install.\e[39m'
+	echo -e '\e[31mУ вас менше 20 ГБ вільного місця, звільніть місце та повторіть спробу встановлення.\e[39m'
 	exit 1
 fi
 
 function setupVars {
 	if [ ! $MESON_TOKEN ]; then
-		read -p "Enter your meson token: " MESON_TOKEN
+		read -p "Введіть свій токен meson: " MESON_TOKEN
 		echo 'export MESON_TOKEN='${MESON_TOKEN} >> $HOME/.bash_profile
 	fi
-	echo -e '\n\e[42mYour meson token:' $MESON_TOKEN '\e[0m\n'
+	echo -e '\n\e[42mВаш токен meson:' $MESON_TOKEN '\e[0m\n'
 	if [ ! $MESON_PORT ]; then
-		read -p "Enter your meson port (19091 by default): " MESON_PORT
+		read -p "Введіть свій порт meson(за замовчуванням 19091): " MESON_PORT
 		MESON_PORT=${MESON_PORT:-19091}
 		echo 'export MESON_PORT='${MESON_PORT} >> $HOME/.bash_profile
 	fi
-	echo -e '\n\e[42mYour meson port:' $MESON_PORT '\e[0m\n'
+	echo -e '\n\e[42mВаш порт mesin:' $MESON_PORT '\e[0m\n'
 	if [ ! $MESON_SPACELIMIT ]; then
-		echo -e '\e[42mAt this moment you have' $avail_space 'GB available space\e[0m'
-		read -p "Enter your spacelimit for Meson (at least 20GB), ONLY NUMBER (without GB): " MESON_SPACELIMIT
+		echo -e '\e[42mНа даний момент у вас є' $avail_space 'GB вільного місця\e[0m'
+		read -p "Введіть ліміт місця для Meson (at least 20GB), (ТІЛЬКИ ЧИСЛА без GB): " MESON_SPACELIMIT
 		MESON_SPACELIMIT=${MESON_SPACELIMIT:-20}
 		echo 'export MESON_SPACELIMIT='${MESON_SPACELIMIT} >> $HOME/.bash_profile
 	fi
@@ -48,64 +49,49 @@ function setupVars {
 }
 
 function setupSwap {
-	echo -e '\n\e[42mSet up swapfile\e[0m\n'
-	curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/mesonswap | bash
+	echo -e '\n\e[42mНалаштувати файл підкачки\e[0m\n'
+	curl -s curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/meson-swap | bash
 }
 
 function installDeps {
-	echo -e '\n\e[42mPreparing to install\e[0m\n' && sleep 1
+	echo -e '\n\e[42mПідготовка до встановлення\e[0m\n' && sleep 1
 	cd $HOME
 	sudo apt update
 	sudo apt install make clang pkg-config libssl-dev build-essential git jq ufw -y < "/dev/null"
 }
 
 function installSoftware {
-	echo -e '\n\e[42mInstall software\e[0m\n' && sleep 1
+	echo -e '\n\e[42mВстановлення програмного забезпечення\e[0m\n' && sleep 1
 	ufw allow 80
 	ufw allow 443
 	ufw allow 19091
 	wget -O meson.tar.gz https://staticassets.meson.network/public/meson_cdn/v3.1.19/meson_cdn-linux-amd64.tar.gz 
 	tar -zxf meson.tar.gz
 	cd ./meson_cdn-linux-amd64
+#token = $MESON_TOKEN
+#port = $MESON_PORT
 	sudo ./meson_cdn config set --token=$MESON_TOKEN --https_port=$MESON_PORT --cache.size=30
-	sudo $HOME/meson_cdn-linux-amd64/meson_cdn config set --token=$MESON_TOKEN --https_port=$MESON_PORT --cache.size=30
-	sudo $HOME/meson_cdn-linux-amd64/meson_cdn config set --spacelimit=$MESON_SPACELIMIT
-	sudo $HOME/meson_cdn-linux-amd64/meson_cdn start
-	sudo $HOME/meson_cdn-linux-amd64/meson_cdn enable
-	sudo $HOME/meson_cdn-linux-amd64/meson_cdn save
-	sudo systemctl enable meson_cdn
-	sudo systemctl start meson_cdn
-	echo -e '\n\e[42mMeson CDN has been installed and started successfully!\e[0m\n'
-	echo -e '\n\e[42mPlease make sure to open the following ports on your firewall: 80, 443, and' $MESON_PORT '\e[0m\n'
+	sudo $HOME/meson_cdn-linux-amd64/service install meson_cdn
+	sudo systemctl daemon-reload
+	sudo systemctl enable meson_cdn 
+	sudo systemctl restart meson_cdn 
+	echo -e '\n\e[42mCheck node status\e[0m\n' && sleep 3
+	if [[ `sudo systemctl status meson_cdn | grep "active"` =~ "running" ]]; then
+	  echo -e "Майнер meson \e[32mвстановлено\e[39m!"
+	  echo -e "Ви можете перевірити його статус наступною командою \e[7msudo systemctl status meson_cdn\e[0m"
+	  echo -e "Натисніть \e[7mQ\e[0m щоб вийти зі статусу меню"
+	else
+	  echo -e "Майнер meson \e[31mwas не встановлено\e[39m, спробуйте ще раз."
+	fi
 }
 
-function cleanup {
-	rm $HOME/meson.tar.gz
-	rm -rf $HOME/meson_cdn-linux-amd64
-}
 
-function main {
-	echo -e '\n\e[42mWelcome to Meson CDN installation script!\e[0m\n'
-	echo -e '\n\e[42mThis script will install and configure Meson CDN on your system.\e[0m\n'
-	echo -e '\n\e[42mPlease make sure you have your Meson token ready before proceeding.\e[0m\n'
-	read -p "Do you want to continue? (Y/N): " choice
-	case "$choice" in
-		y|Y )
-			setupVars
-			setupSwap
-			installDeps
-			installSoftware
-			cleanup
-			;;
-		n|N )
-			echo -e '\n\e[31mInstallation aborted. Exiting...\e[39m\n'
-			exit 0
-			;;
-		* )
-			echo -e '\n\e[31mInvalid input. Exiting...\e[39m\n'
-			exit 1
-			;;
-	esac
-}
+setupVars
+setupSwap
+installDeps
+installSoftware
+break
 
-main
+echo " "
+echo "——————————————————————————————————————————————"
+echo " "
