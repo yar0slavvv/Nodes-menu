@@ -4,6 +4,7 @@ echo " "
 echo "——————————————————————————————————————————————"
 echo " "
 
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/sudo-tools)
 
 bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/docker_install.sh)
 
