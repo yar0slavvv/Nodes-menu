@@ -12,4 +12,6 @@ curl -o docker-compose.yml https://raw.githubusercontent.com/muon-protocol/muon-
 
 docker compose up -d
 
+echo "——————————————————————————————————————————————"
+
 exit
