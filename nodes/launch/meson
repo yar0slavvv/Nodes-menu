@@ -73,7 +73,7 @@ function installSoftware {
 	sudo systemctl daemon-reload
 	sudo systemctl enable meson_cdn 
 	sudo systemctl restart meson_cdn 
-	echo -e '\n\e[42mCheck node status\e[0m\n' && sleep 3
+	echo -e '\n\e[42mПеревірка статусу ноди\e[0m\n' && sleep 3
 	if [[ `sudo systemctl status meson_cdn | grep "active"` =~ "running" ]]; then
 	  echo -e "Майнер meson \e[32mвстановлено\e[39m!"
 	  echo -e "Ви можете перевірити його статус наступною командою \e[7msudo systemctl status meson_cdn\e[0m"
