@@ -3,11 +3,6 @@
 echo " "
 echo "——————————————————————————————————————————————"
 echo " "
-setupVars
-setupSwap
-installDeps
-installSoftware
-break
 
 exists()
 {
@@ -103,6 +98,12 @@ function installSoftware {
 	fi
 }
 
+setupVars
+setupSwap
+installDeps
+installSoftware
+
+break
 echo " "
 echo "——————————————————————————————————————————————"
 echo " "
