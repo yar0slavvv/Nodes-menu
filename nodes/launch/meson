@@ -92,3 +92,5 @@ installSoftware
 echo " "
 echo "——————————————————————————————————————————————"
 echo " "
+
+exit
