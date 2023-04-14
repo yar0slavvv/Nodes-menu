@@ -64,7 +64,8 @@ function installSoftware {
 	ufw allow 80
 	ufw allow 443
 	ufw allow 19091
-	wget -O meson.tar.gz https://staticassets.meson.network/public/meson_cdn/v3.1.19/meson_cdn-linux-amd64.tar.gz 
+	w
+get -O meson.tar.gz https://staticassets.meson.network/public/meson_cdn/v3.1.19/meson_cdn-linux-amd64.tar.gz 
 	tar -zxf meson.tar.gz
 	cd ./meson_cdn-linux-amd64
 #token = $MESON_TOKEN
