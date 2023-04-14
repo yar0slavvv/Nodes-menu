@@ -40,7 +40,7 @@ function setupVars {
 		echo -e '\e[42mНаазі ви маєте' $avail_space 'GB вільного місця\e[0m'
 		read -p "Впишіть ліміт місця для Meson (at least 20GB), ТІЛЬКИ ЧИСЛО (без GB): " MESON_SPACELIMIT
 		MESON_SPACELIMIT=${MESON_SPACELIMIT:-20}
-		echo "експорт MESON_SPACELIMIT='${MESON_SPACELIMIT} >> $HOME/.bash_profile
+		echo "експорт MESON_SPACELIMIT='${MESON_SPACELIMIT}'" >> $HOME/.bash_profile
 	fi
 	echo -e '\n\e[42mВаш ліміт для Meson:' $MESON_SPACELIMIT '\e[0m\n'
 	. $HOME/.bash_profile
