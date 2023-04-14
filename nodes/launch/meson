@@ -88,7 +88,6 @@ setupVars
 setupSwap
 installDeps
 installSoftware
-break
 
 echo " "
 echo "——————————————————————————————————————————————"
