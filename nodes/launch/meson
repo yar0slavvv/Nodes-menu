@@ -48,10 +48,9 @@ function setupVars {
 }
 
 function setupSwap {
-	echo -e '\n\e[42mНалаштувати файл підкачки\e[0m\n'
-	curl -s curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/meson-swap | bash
+	echo -e '\n\e[42mSet up swapfile\e[0m\n'
+	curl -s https://api.nodes.guru/swap4.sh | bash
 }
-
 function installDeps {
 	echo -e '\n\e[42mПідготовка до встановлення\e[0m\n' && sleep 1
 	cd $HOME
