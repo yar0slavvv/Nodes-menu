@@ -4,3 +4,130 @@ echo " "
 echo "——————————————————————————————————————————————"
 echo " "
 
+exists()
+{
+  command -v "$1" >/dev/null 2>&1
+}
+if exists curl; then
+	echo ''
+else
+  sudo apt install curl -y < "/dev/null"
+fi
+bash_profile=$HOME/.bash_profile
+if [ -f "$bash_profile" ]; then
+    . $HOME/.bash_profile
+fi
+
+avail_space=`df $PWD -h | awk '/[0-9]%/{print $(NF-2)}' | sed 's/.$//'`
+if [ $avail_space -lt 20 ]; then
+	echo -e '\e[31mВи не маєте вільних 20gb, звільніть трохи місця і спробуйте знову.\e[39m'
+	exit 1
+fi
+
+function setupVars {
+	if [ ! $MESON_TOKEN ]; then
+		read -p "Впишіть ваш токен Meson: " MESON_TOKEN
+		echo 'експорт MESON_TOKEN='${MESON_TOKEN} >> $HOME/.bash_profile
+	fi
+	echo -e '\n\e[42mВаш токен Meson:' $MESON_TOKEN '\e[0m\n'
+	if [ ! $MESON_PORT ]; then
+		read -p "Впишіть ваш порт Meson (19091 за замовлуванням, натисніть Enter): " MESON_PORT
+		MESON_PORT=${MESON_PORT:-19091}
+		echo 'експорт MESON_PORT='${MESON_PORT} >> $HOME/.bash_profile
+	fi
+	echo -e '\n\e[42mВаш порт Meson:' $MESON_PORT '\e[0m\n'
+	if [ ! $MESON_SPACELIMIT ]; then
+		echo -e '\e[42mНаазі ви маєте' $avail_space 'GB вільного місця\e[0m'
+		read -p "Впишіть ліміт місця для Meson (at least 20GB), ТІЛЬКИ ЧИСЛО (без GB): " MESON_SPACELIMIT
+		MESON_SPACELIMIT=${MESON_SPACELIMIT:-20}
+		echo "експорт MESON_SPACELIMIT='${MESON_SPACELIMIT} >> $HOME/.bash_profile
+	fi
+	echo -e '\n\e[42mВаш ліміт для Meson:' $MESON_SPACELIMIT '\e[0m\n'
+	. $HOME/.bash_profile
+	sleep 1
+}
+
+function setupSwap {
+	echo -e '\n\e[42mВстановлення параметрів для Файлу підкачки\e[0m\n'
+	echo -e '\n\e[42m[Swap] Запуск...\e[0m\n'
+grep -q "swapfile" /etc/fstab
+if [[ ! $? -ne 0 ]]; then
+    echo -e '\n\e[42m[Swap] Файл підкачки існує.\e[0m\n'
+else
+    cd $HOME
+    sudo fallocate -l 4G $HOME/swapfile
+    sudo dd if=/dev/zero of=swapfile bs=1K count=4M
+    sudo chmod 600 $HOME/swapfile
+    sudo mkswap $HOME/swapfile
+    sudo swapon $HOME/swapfile
+    sudo swapon --show
+    echo $HOME'/swapfile swap swap defaults 0 0' >> /etc/fstab
+    echo -e '\n\e[42m[Swap] Завершено\e[0m\n'
+fi
+}
+
+function installDeps {
+	echo -e '\n\e[42mПідготовка до встановлення\e[0m\n' && sleep 1
+	cd $HOME
+	sudo apt update
+	sudo apt install make clang pkg-config libssl-dev build-essential git jq ufw -y < "/dev/null"
+}
+
+function installSoftware {
+	echo -e '\n\e[42mВстановлення програмного забезпечення\e[0m\n' && sleep 1
+	ufw allow 80
+	ufw allow 443
+	ufw allow 19091
+	wget -O meson.tar.gz https://staticassets.meson.network/public/meson_cdn/v3.1.19/meson_cdn-linux-amd64.tar.gz 
+	tar -zxf meson.tar.gz
+	cd ./meson_cdn-linux-amd64
+#token = $MESON_TOKEN
+#port = $MESON_PORT
+	sudo ./meson_cdn config set --token=$MESON_TOKEN --https_port=$MESON_PORT --cache.size=30
+	sudo $HOME/meson_cdn-linux-amd64/service install meson_cdn
+	sudo systemctl daemon-reload
+	sudo systemctl enable meson_cdn 
+	sudo systemctl restart meson_cdn 
+	echo -e '\n\e[42mCheck node status\e[0m\n' && sleep 3
+	if [[ `sudo systemctl status meson_cdn | grep "active"` =~ "running" ]]; then
+	  echo -e "Ваш майнер Meson \e[32mвстановленно успішно\e[39m!"
+	  echo -e "Ви можете перевірити статус майнера командою \e[7msudo systemctl status meson_cdn\e[0m"
+	  echo -e "Натисніть \e[7mQ\e[0m Щоб вийти з меню статусу"
+	else
+	  echo -e "Ваш майнер Meson \e[31mне встановленно\e[39m, спробуйте ще раз."
+	fi
+}
+
+function deleteMESON {
+	sudo systemctl disable meson_cdn
+	sudo systemctl stop meson_cdn
+}
+
+PS3='Будь ласка, введіть свій вибір (введіть номер опції та натисніть enter) '
+options=("Install" "Delete" "Quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Install")
+            echo -e '\n\e[42mВи обираєте встановити.\e[0m\n' && sleep 1
+			setupVars
+			setupSwap
+			installDeps
+			installSoftware
+			break
+            ;;
+		"Delete")
+            echo -e '\n\e[31mВи обираєте видалити...\e[0m\n' && sleep 1
+			deleteMESON
+			echo -e '\n\e[42mМайнер Meson видалено!\e[0m\n' && sleep 1
+			break
+            ;;
+        "Quit")
+            break
+            ;;
+        *) echo -e "\e[91mНе вірний вибір $REPLY\e[0m";;
+    esac
+done
+echo " "
+echo "——————————————————————————————————————————————"
+
