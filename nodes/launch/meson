@@ -49,7 +49,7 @@ function setupVars {
 
 function setupSwap {
 	echo -e '\n\e[42mSet up swapfile\e[0m\n'
-	curl -s https://api.nodes.guru/swap4.sh | bash
+	curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/mesonswap | bash
 }
 
 function installDeps {
