@@ -12,7 +12,8 @@ while true; do
   
   case $a in
    1)
-      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/unistall/launch/muon)
+      echo " "
+      echo -e "\033[1;97;42mMuon успішно видалено\033[0m"
       ;;
    2)
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstaller)
