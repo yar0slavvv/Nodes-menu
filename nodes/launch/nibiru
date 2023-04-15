@@ -32,7 +32,7 @@ CHAIN_ID=nibiru-itn-1
 
 if [ ! $VALIDATOR ]; then
     read -p "Впишіть назву ноди: " VALIDATOR
-    echo 'exportt VALIDATOR='\"${VALIDATOR}\" >> $HOME/.bash_profile
+    echo 'export VALIDATOR='\"${VALIDATOR}\" >> $HOME/.bash_profile
 fi
 echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
 source $HOME/.bash_profile
