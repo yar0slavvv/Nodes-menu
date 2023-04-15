@@ -15,7 +15,7 @@ while true; do
       systemctl stop nibid
       systemctl disable nibid
       rm -rf $(which nibid) ~/.nibid ~/nibiru
-      echo -e '\n\e[42 Nibiru успішно видалено \e[0m\n'
+      echo -e "\033[1;97;42mNibiru успішно видалено\033[0m"
       echo " "
       ;;
    2)
