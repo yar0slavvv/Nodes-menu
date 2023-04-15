@@ -36,9 +36,12 @@ case $choice in
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstall/nibiru)
     ;;
  6)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstall/starknet)
+    ;;
+ 7)
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/choice)
     ;;
-  *)
+ *)
     echo "Невірний вибір"
     ;;
 esac
