@@ -18,7 +18,7 @@ while true; do
       rm -rf /etc/systemd/system/subspace*
       rm -rf /usr/local/bin/subspace*
       echo ""
-      echo -e '\n\e[42Subspace успішно видалено\e[0m\n'
+      echo -e "\033[1;97;42mSubspace успішно видалено\033[0m"
       exit
       ;;
    2)
