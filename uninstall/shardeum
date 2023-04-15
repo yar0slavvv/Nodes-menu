@@ -18,7 +18,7 @@ while true; do
       echo "..."
       sleep 2
       echo ""
-      echo "Shardeum успішно видалено"
+      echo -e '\n\e[42Shardeum успішно видалено\e[0m\n'
       exit
       ;;
    2)
