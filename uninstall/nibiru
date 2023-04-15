@@ -12,7 +12,11 @@ while true; do
   
   case $a in
    1)
-      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/unistall/launch/nibiru)
+      systemctl stop nibid
+      systemctl disable nibid
+      rm -rf $(which nibid) ~/.nibid ~/nibiru
+      echo -e '\n\e[42Nibiru успішно видалено \e[0m\n'
+      echo " "
       ;;
    2)
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstaller)
