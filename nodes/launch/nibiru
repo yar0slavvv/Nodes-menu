@@ -1,9 +1,5 @@
 #!/bin/bash
-
-echo " "
 echo "——————————————————————————————————————————————"
-echo " "
-
 exists()
 {
   command -v "$1" >/dev/null 2>&1
@@ -17,6 +13,7 @@ bash_profile=$HOME/.bash_profile
 if [ -f "$bash_profile" ]; then
     . $HOME/.bash_profile
 fi
+sleep 1 && curl -s https://api.nodes.guru/logo.sh | bash && sleep 1
 
 NODE=NIBIRU
 NODE_HOME=$HOME/.nibid
@@ -31,7 +28,7 @@ CHAIN_ID=nibiru-itn-1
 #echo 'export CHAIN_ID='\"${CHAIN_ID}\" >> $HOME/.bash_profile
 
 if [ ! $VALIDATOR ]; then
-    read -p "Впишіть назву ноди: " VALIDATOR
+    read -p "Enter validator name: " VALIDATOR
     echo 'export VALIDATOR='\"${VALIDATOR}\" >> $HOME/.bash_profile
 fi
 echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
@@ -41,7 +38,7 @@ cd $HOME
 sudo apt update
 sudo apt install make clang pkg-config libssl-dev build-essential git jq ncdu bsdmainutils htop -y < "/dev/null"
 
-echo -e '\n\e[42mВстановлення модулю GO\e[0m\n' && sleep 1
+echo -e '\n\e[42mInstall Go\e[0m\n' && sleep 1
 cd $HOME
 VERSION=1.19.6
 wget -O go.tar.gz https://go.dev/dl/go$VERSION.linux-amd64.tar.gz
@@ -52,7 +49,7 @@ echo 'export GO111MODULE=on' >> $HOME/.bash_profile
 echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> $HOME/.bash_profile && . $HOME/.bash_profile
 go version
 
-echo -e '\n\e[42mВстановлення програмного забезпечення\e[0m\n' && sleep 1
+echo -e '\n\e[42mInstall software\e[0m\n' && sleep 1
 rm -rf $HOME/$GIT_FOLDER
 git clone $GIT
 cd $GIT_FOLDER && git checkout $BRANCH
@@ -82,37 +79,39 @@ $BINARY tendermint unsafe-reset-all
 
 wget $ADDRBOOK -O $NODE_HOME/config/addrbook.json
 
-echo -e '\n\e[42mЗапуск\e[0m\n' 
-echo -e '\n\e[42mСтворення сервісу\e[0m\n' && sleep 1
+echo -e '\n\e[42mRunning\e[0m\n' && sleep 1
+echo -e '\n\e[42mCreating a service\e[0m\n' && sleep 1
 
+echo "[Unit]
 Description=$NODE Node
 After=network.target
 
+[Service]
 User=$USER
 Type=simple
 ExecStart=/usr/local/bin/$BINARY start
 Restart=on-failure
 LimitNOFILE=65535
 
+[Install]
 WantedBy=multi-user.target" > $HOME/$BINARY.service
 sudo mv $HOME/$BINARY.service /etc/systemd/system
 sudo tee <<EOF >/dev/null /etc/systemd/journald.conf
 Storage=persistent
 EOF
-echo -e '\n\e[42mЗапуст сервісу\e[0m\n' && sleep 1
+echo -e '\n\e[42mRunning a service\e[0m\n' && sleep 1
 sudo systemctl restart systemd-journald
 sudo systemctl daemon-reload
 sudo systemctl enable $BINARY
 sudo systemctl restart $BINARY
 
 echo -e '\n\e[42mCheck node status\e[0m\n' && sleep 1
-if [[ `service $BINARY status | grep active` =~ "запуск" ]]; then
-  echo -e "Ваша $NODE ноду \e[32m встановлено успішно\e[39m!"
-  echo -e "Ви можете перевірити статус командою \e[7mservice $BINARY status\e[0m"
-  echo -e "Натисніть \e[7mQ\e[0m щоб вийти з меню статусу"
+if [[ `service $BINARY status | grep active` =~ "running" ]]; then
+  echo -e "Your $NODE node \e[32minstalled and works\e[39m!"
+  echo -e "You can check node status by the command \e[7mservice $BINARY status\e[0m"
+  echo -e "Press \e[7mQ\e[0m for exit from status menu"
 else
-  echo -e "Вашу $NODE ноду \e[31mне встановлено\e[39m, спробуйте ще раз."
+  echo -e "Your $NODE node \e[31mwas not installed correctly\e[39m, please reinstall."
 fi
-
 
 echo "——————————————————————————————————————————————"
