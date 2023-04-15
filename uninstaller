@@ -6,7 +6,7 @@ if [ "$logo" == "bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi
   clear
   bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi)
 
-echo "——————Що ви хочете видалити?——————"
+echo "————— Що ви хочете видалити? —————"
 echo "     "
 echo -e "(\033[38;5;244m1\033[0m) SubSpace          (\033[38;5;244m2\033[0m) Shardeum"
 echo -e "(\033[38;5;244m3\033[0m) Meson             (\033[38;5;244m4\033[0m) Muon"
