@@ -13,7 +13,7 @@ while true; do
   case $a in
    1)
       sudo systemctl disable meson_cdn
-	    sudo systemctl stop meson_cdn
+      sudo systemctl stop meson_cdn
       echo ""
       echo "meson успішно видалено"
       ;;
