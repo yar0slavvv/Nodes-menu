@@ -12,7 +12,10 @@ while true; do
   
   case $a in
    1)
-      
+      docker stop muon-node redis mongo 
+      docker rm muon-node redis mongo 
+      docker image prune
+      rm muon-node-js -rf
       echo " "
       echo -e "\033[1;97;42mMuon успішно видалено\033[0m"
       exit
