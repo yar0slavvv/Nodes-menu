@@ -10,8 +10,8 @@ echo "———————— Інстурменти для: ——————
 echo "     "
 echo -e "(\033[38;5;244m1\033[0m) SubSpace          (\033[38;5;244m2\033[0m) Shardeum"
 echo -e "(\033[38;5;244m3\033[0m) Meson             (\033[38;5;244m4\033[0m) Muon"
-echo -e "(\033[38;5;244m5\033[0m) Nibiru            (\033[38;5;244m6\033[0m) Назад"
-echo -e "(\033[38;5;244m7\033[0m) -                 (\033[38;5;244m8\033[0m) -"
+echo -e "(\033[38;5;244m5\033[0m) Nibiru            (\033[38;5;244m6\033[0m) Starknet"
+echo -e "(\033[38;5;244m7\033[0m) Повернутися       (\033[38;5;244m8\033[0m) -"
 echo -e "(\033[38;5;244m9\033[0m) -                 (\033[38;5;244m10\033[0m) -"
 echo "     "
 echo "__________________________________"
@@ -36,9 +36,12 @@ case $choice in
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/nibiru)
     ;;
  6)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstall/starknet)
+    ;;
+ 7)
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/choice)
     ;;
-  *)
+ *)
     echo "Невірний вибір"
     ;;
 esac
