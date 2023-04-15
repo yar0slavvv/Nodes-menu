@@ -39,7 +39,7 @@ case $choice in
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstall/starknet)
     ;;
  7)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/choice)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/main-menu)
     ;;
  *)
     echo "Невірний вибір"
