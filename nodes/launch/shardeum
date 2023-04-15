@@ -13,7 +13,7 @@ bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/docker_ins
 
 echo "   "
 
-read -p "Запускоп цього скрипта дозволить команді 'Shardeum' збирати ваші дані (y/n)?: " WARNING_AGREE
+read -p "Із запуском цього скрипта ви дозволяєте команді 'Shardeum' збирати ваші дані (y/n)?: " WARNING_AGREE
 
 WARNING_AGREE=${WARNING_AGREE:-y}
 
