@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "——————————————————————————————————————————————"
+echo " "
 exists()
 {
   command -v "$1" >/dev/null 2>&1
@@ -113,5 +114,5 @@ if [[ `service $BINARY status | grep active` =~ "running" ]]; then
 else
   echo -e "Your $NODE node \e[31mwas not installed correctly\e[39m, please reinstall."
 fi
-
+echo " "
 echo "——————————————————————————————————————————————"
