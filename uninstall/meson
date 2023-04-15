@@ -15,7 +15,7 @@ while true; do
       sudo systemctl disable meson_cdn
       sudo systemctl stop meson_cdn
       echo ""
-      echo "meson успішно видалено"
+      echo -e '\n\e[42meson успішно видалено\e[0m\n'
       ;;
    2)
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstaller)
