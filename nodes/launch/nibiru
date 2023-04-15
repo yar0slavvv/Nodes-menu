@@ -79,9 +79,6 @@ $BINARY tendermint unsafe-reset-all
 
 wget $ADDRBOOK -O $NODE_HOME/config/addrbook.json
 
-echo -e '\n\e[42mRunning\e[0m\n' && sleep 1
-echo -e '\n\e[42mCreating a service\e[0m\n' && sleep 1
-
 echo "[Unit]
 Description=$NODE Node
 After=network.target
@@ -99,19 +96,18 @@ sudo mv $HOME/$BINARY.service /etc/systemd/system
 sudo tee <<EOF >/dev/null /etc/systemd/journald.conf
 Storage=persistent
 EOF
-echo -e '\n\e[42mRunning a service\e[0m\n' && sleep 1
 sudo systemctl restart systemd-journald
 sudo systemctl daemon-reload
 sudo systemctl enable $BINARY
 sudo systemctl restart $BINARY
 
-echo -e '\n\e[42mCheck node status\e[0m\n' && sleep 1
+echo -e '\n\e[42mПеревірка статусу ноди\e[0m\n' && sleep 1
 if [[ `service $BINARY status | grep active` =~ "running" ]]; then
-  echo -e "Your $NODE node \e[32minstalled and works\e[39m!"
-  echo -e "You can check node status by the command \e[7mservice $BINARY status\e[0m"
-  echo -e "Press \e[7mQ\e[0m for exit from status menu"
+  echo -e "Nibiry \e[32mвстановлено успішно\e[39m!"
+  echo -e "Ви можете перевірити статус ноди насвтупною командою \e[7mservice $BINARY status\e[0m"
+  echo -e "Натистінь \e[7mQ\e[0m щоб вийти з статусу меню"
 else
-  echo -e "Your $NODE node \e[31mwas not installed correctly\e[39m, please reinstall."
+  echo -e "Nibiru \e[31mне встановлено\e[39m, спробуйте ще раз."
 fi
 echo " "
 echo "——————————————————————————————————————————————"
