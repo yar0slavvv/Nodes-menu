@@ -18,8 +18,8 @@ while true; do
       rm -rf /etc/systemd/system/subspace*
       rm -rf /usr/local/bin/subspace*
       echo ""
-      echo "Subspace успішно видалено"
-      echo ""
+      echo -e '\n\e[42Subspace успішно видалено\e[0m\n'
+      exit
       ;;
    2)
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstaller)
