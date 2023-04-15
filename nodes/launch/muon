@@ -8,6 +8,10 @@ bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/sudo-tools
 
 bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/docker_install.sh)
 
+sudo ufw allow 8000/tcp
+echo -e "\033[1;97;42mПорт 8000 відкрито\033[0m"
+sudo ufw allow 4000/tcp
+echo -e "\033[1;97;42mПорт 4000 відкрито\033[0m"
 curl -o docker-compose.yml https://raw.githubusercontent.com/muon-protocol/muon-node-js/testnet/docker-compose-pull.yml
 
 docker compose up -d
