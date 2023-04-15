@@ -15,7 +15,8 @@ echo -e "\033[1;97;42mПорт 4000 відкрито\033[0m"
 curl -o docker-compose.yml https://raw.githubusercontent.com/muon-protocol/muon-node-js/testnet/docker-compose-pull.yml
 
 docker compose up -d
-
+echo " "
+echo -e "\033[1;97;42mMuon успішно встановлено\033[0m"
 echo "——————————————————————————————————————————————"
 
 exit
