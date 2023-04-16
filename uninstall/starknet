@@ -1,1 +1,30 @@
+#!/bin/bash
 
+clear
+
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/uni/nibiru)
+
+echo "     "
+echo -e "(\033[38;5;244m1\033[0m) Продовжити                               (\033[38;5;244m2\033[0m) Повернутися"
+echo "     "
+while true; do
+  read a
+  
+  case $a in
+   1)
+      systemctl stop starknetd
+      systemctl disable starknetd
+      rm -rf ~/pathfinder/
+      rm -rf /etc/systemd/system/starknetd.service
+      rm -rf /usr/local/bin/pathfinder
+      echo -e "\033[1;97;42mStarknet успішно видалено\033[0m"
+      echo " "
+      ;;
+   2)
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstaller)
+      ;;
+    *)
+      echo "Невірний вибір"
+      ;;
+esac
+done
