@@ -14,10 +14,6 @@ while true; do
       echo "—————————————————————————————————————————————————————————————"
       rm -rf .shardeum
       echo " "
-      sleep 1
-      echo "..."
-      sleep 2
-      echo ""
       echo -e "\033[1;97;42mShardeum успішно видалено\033[0m"
       exit
       ;;
