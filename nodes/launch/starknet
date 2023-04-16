@@ -15,6 +15,9 @@ if exists curl; then
 else
   sudo apt install curl -y < "/dev/null"
 fi
+echo " "
+echo -e "\033[1;97;42mВстановлення Python\033[0m"
+echo " "
 sudo apt update && sudo apt-get install software-properties-common -y
 sudo add-apt-repository ppa:deadsnakes/ppa -y
 sudo apt update && sudo apt install curl git tmux python3.10 python3.10-venv python3.10-dev build-essential libgmp-dev pkg-config libssl-dev -y
@@ -53,6 +56,9 @@ ExecStart=/bin/bash -c \"source $HOME/pathfinder/py/.venv/bin/activate && /usr/l
 Restart=on-failure
 LimitNOFILE=65535
 
+echo " "
+echo -e "\033[1;97;42mВстановлення ноди\033[0m"
+echo " "
 [Install]
 WantedBy=multi-user.target" > $HOME/starknetd.service
 mv $HOME/starknetd.service /etc/systemd/system/
