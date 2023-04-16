@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo " "
 read -p "Введіть ваш Alchemy address: " ALCHEMY
 echo 'export ALCHEMY='$ALCHEMY >> $HOME/.bash_profile
 
