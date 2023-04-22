@@ -1,1 +1,46 @@
 #!/bin/bash
+
+echo "—————————— Інструменти ——————————"
+echo "     "
+echo -e "(\033[38;5;244m1\033[0m) Запустити         (\033[38;5;244m2\033[0m) Зупинити"
+echo -e "(\033[38;5;244m3\033[0m) Статус            (\033[38;5;244m4\033[0m) Версія"
+echo -e "(\033[38;5;244m5\033[0m) Стейк             (\033[38;5;244m6\033[0m) Анстейк"
+echo -e "(\033[38;5;244m7\033[0m) Налаштування      (\033[38;5;244m6\033[0m) Повернутися"
+echo "     "
+echo "__________________________________"
+echo "     "
+while true; do
+read choice
+
+case $choice in
+ 1)
+    cd .shardeum && ./shell.sh
+    echo "Іди нахуй"
+    exit && cd
+    ;;
+ 2)
+    cd .shardeum && ./shell.sh
+    ;;
+ 3)
+    cd .shardeum && ./shell.sh
+    ;;
+ 4)
+    cd .shardeum && ./shell.sh
+    ;;
+ 5)
+    cd .shardeum && ./shell.sh
+    ;;
+ 6)
+    cd .shardeum && ./shell.sh
+    ;;
+ 7)
+    cd .shardeum && ./shell.sh
+    ;;
+ 8)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/tool)
+    ;;
+ *)
+    echo "Невірний вибір"
+    ;;
+esac
+done
