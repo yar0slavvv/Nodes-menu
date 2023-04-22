@@ -111,12 +111,7 @@ else
 fi
 clear
 
-cat << EOF
-
 echo -e '\n\e[42mЗбір інформації користувача\e[0m\n'
-
-
-EOF
 
 read -p "Чи хочете ви встановити веб-інтерфейс до вашої ноди? (y/n): " RUNDASHBOARD
 RUNDASHBOARD=${RUNDASHBOARD:-y}
