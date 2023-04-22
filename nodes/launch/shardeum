@@ -192,11 +192,9 @@ NODEHOME=${NODEHOME:-~/.shardeum}
 APPSEEDLIST="archiver-sphinx.shardeum.org"
 APPMONITOR="monitor-sphinx.shardeum.org"
 clear
-cat <<EOF
 
 echo -e '\n\e[42mВидалення старого проекту\e[0m\n'
 
-EOF
 
 if [ -d "$NODEHOME" ]; then
   if [ "$NODEHOME" != "$(pwd)" ]; then
@@ -211,11 +209,8 @@ git clone https://gitlab.com/shardeum/validator/dashboard.git ${NODEHOME} &&
   cd ${NODEHOME} &&
   chmod a+x ./*.sh
 clear
-cat <<EOF
 
 echo -e '\n\e[42mСтворення і встановлення ./env файлу\e[0m\n'
-
-EOF
 
 SERVERIP=$(get_external_ip)
 LOCALLANIP=$(get_ip)
@@ -233,28 +228,19 @@ SHMEXT=${SHMEXT}
 SHMINT=${SHMINT}
 EOL
 clear
-cat <<EOF
 
 echo -e '\n\e[42mВидалення старого проекту ./env файлу\e[0m\n'
 
-EOF
-
 ./cleanup.sh
 clear
-cat <<EOF
 
 echo -e '\n\e[42mСтворення віртуального середовища під ноду ./env файлу\e[0m\n'
-
-EOF
 
 cd ${NODEHOME} &&
 docker-safe build --no-cache -t local-dashboard -f Dockerfile --build-arg RUNDASHBOARD=${RUNDASHBOARD} .
 clear
-cat <<EOF
 
 echo -e '\n\e[42mЗапуск проекту ./env файлу\e[0m\n'
-
-EOF
 
 cd ${NODEHOME}
 if [[ "$(uname)" == "Darwin" ]]; then
