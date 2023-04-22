@@ -263,8 +263,6 @@ sleep 3
 EOF
 fi
 
-cat <<EOF
-
 echo "     "
 echo -e "(\033[38;5;244m1\033[0m) Повернутися на початок  (\033[38;5;244m2\033[0m) Керувати нодою"
 echo "     "
@@ -283,7 +281,5 @@ while true; do
       ;;
 esac
 done
-
-EOF
 
 exit
