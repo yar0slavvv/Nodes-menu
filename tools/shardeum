@@ -16,7 +16,8 @@ case $choice in
  1)
     cd .shardeum && ./shell.sh
     echo "Іди нахуй"
-    exit && cd
+    exit
+    cd ~
     ;;
  2)
     cd .shardeum && ./shell.sh
