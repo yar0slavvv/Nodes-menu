@@ -284,6 +284,24 @@ fi
 
 cat <<EOF
 
+echo "     "                                                                                     /
+echo -e "(\033[38;5;244m1\033[0m) Повернутися на початок  (\033[38;5;244m2\033[0m) Керувати нодою"
+echo "     "
+while true; do
+  read a
+ 
+  case $a in
+   1)
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/main-menu)
+      ;;
+   2)
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/updater/update/shardeum)
+      ;;
+    *)
+      echo "Невірний вибір"
+      ;;
+esac
+done
 
 EOF
 
