@@ -15,7 +15,6 @@ read choice
 case $choice in
  1)
     cd .shardeum && ./shell.sh
-    echo "Іди нахуй"
     exit
     cd ~
     ;;
