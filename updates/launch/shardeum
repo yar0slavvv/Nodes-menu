@@ -98,15 +98,14 @@ else
 fi
 clear
 
-echo -e '\n\e[42mЗбір інформації користувача\e[0m\n'
+echo -e "\n\e[42mЗбір інформації користувача\e[0m\n"
 
 unset CHARCOUNT
 echo -e "\e[43;30mВстановіть пароль для доступу до вашого Веб-інтерфейсу: \033[0m"
 CHARCOUNT=0
-while IFS= read -p "$PROMPT" -r -s -n 1 CHAR
-do
-  if [[ $CHAR == $'\0' ]] ; then
-    if [ $CHARCOUNT -gt 0 ] ; then
+while IFS= read -p "$PROMPT" -r -s -n 1 CHAR; do
+  if [[ $CHAR == $'\0' ]]; then
+    if [ $CHARCOUNT -gt 0 ]; then
       break
     else
       echo -e "\033[1;97;41mНе правильний пароль, довжина повинна бути більше 0 символів:\033[0m"
@@ -114,41 +113,43 @@ do
     fi
   fi
   # Backspace
-  if [[ $CHAR == $'\177' ]] ; then
-    if [ $CHARCOUNT -gt 0 ] ; then
-      CHARCOUNT=$((CHARCOUNT-1))
+  if [[ $CHAR == $'\177' ]]; then
+    if [ $CHARCOUNT -gt 0 ]; then
+      CHARCOUNT=$((CHARCOUNT - 1))
       PROMPT=$'\b \b'
       DASHPASS="${DASHPASS%?}"
     else
       PROMPT=''
     fi
   else
-    CHARCOUNT=$((CHARCOUNT+1))
+    CHARCOUNT=$((CHARCOUNT + 1))
     PROMPT='*'
     DASHPASS+="$CHAR"
   fi
 done
-echo " "
-echo -e "\033[1;97;42mПароль збережено як: \033[0m" $DASHPASS #DEBUG: TEST PASSWORD WAS RECORDED AFTER ENTERED.
+echo -e "\n\033[1;97;42mПароль збережено як:\033[0m" "$DASHPASS" #DEBUG: TEST PASSWORD WAS RECORDED AFTER ENTERED.
 
-while :; do
+while true; do
   echo -e "\e[43;30mВведіть порт (1025-65536) для доступу до вашого веб-інтерфейсу (за замовчуванням 8080, натисніть Enter):\e[0m"
-  read  DASHPORT
+  read -r DASHPORT
   DASHPORT=${DASHPORT:-8080}
-  [[ $DASHPORT =~ ^[0-9]+$ ]] || { echo "\033[1;97;41mВведіть дійсний порт"; continue; }
-  if ((DASHPORT >= 1025 && DASHPORT <= 65536)); then
-    break
-  else
+  if ! [[ $DASHPORT =~ ^[0-9]+$ ]]; then
+    echo -e "\033[1;97;41mВведіть дійсний порт\033[0m"
+    continue
+  fi
+  if ((DASHPORT < 1025 || DASHPORT > 65536)); then
     echo -e "\033[1;97;41mПорт не дійсний, спробуйте ще раз\033[0m"
+  else
+    break
   fi
 done
 
-while :; do
+while true; do
   echo -e "\e[43;30mЩоб запустити валідатор у мережі Sphinx, вам потрібно буде відкрити два порти у вашому брандмауері.\033[0m"
   echo -e "\e[43;30mВведіть перший порт (1025-65536) для p2p комунікації (за замовчуванням 9001 натисніть Enter): \033[0m"
-  read SHMEXT
+  read -r SHMEXT
   SHMEXT=${SHMEXT:-9001}
-  [[ $SHMEXT =~ ^[0-9]+$ ]] || { echo "\033[1;97;41mВедіть дійсний порт"; continue;\033[0m }
+  if ! [[ $SHMEXT =~ ^[0-9]+$ ]] || { echo "\033[1;97;41mВедіть дійсний порт"; continue;\033[0m }
   if ((SHMEXT >= 1025 && SHMEXT <= 65536)); then
     SHMEXT=${SHMEXT:-9001}
   else
