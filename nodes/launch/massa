@@ -1,33 +1,6 @@
 #!/bin/bash
 
-WantedBy=multi-user.target
-EOF
-		sudo systemctl enable massad
-		sudo systemctl daemon-reload
-		sudo cp $HOME/massa_backup/node_privkey.key $HOME/massa/massa-node/config/node_privkey.key
-		open_ports
-		sudo cp $HOME/massa_backup/wallet.dat $HOME/massa/massa-client/wallet.dat
-		. <(wget -qO- https://raw.githubusercontent.com/SecorD0/Massa/main/insert_variables.sh)
-		printf_n "
-The node was ${C_LGn}updated${RES}.
-
-\tv ${C_LGn}Useful commands${RES} v
-
-To run a client: ${C_LGn}massa_client${RES}
-To view the node status: ${C_LGn}sudo systemctl status massad${RES}
-To view the node log: ${C_LGn}massa_log${RES}
-To restart the node: ${C_LGn}sudo systemctl restart massad${RES}
-
-CLI client commands (use ${C_LGn}massa_cli_client -h${RES} to view the help page):
-${C_LGn}`compgen -a | grep massa_ | sed "/massa_log/d"`${RES}
-"
-	else
-		printf_n "${C_LR}Archive with binary downloaded unsuccessfully!${RES}\n"
-	fi
-	rm -rf $HOME/massa.tar.gz
-}
-install() {
-	if [ -d $HOME/massa/ ]; then
+if [ -d $HOME/massa/ ]; then
 		update
 	else
 		if [ ! -n "$massa_password" ]; then
@@ -90,7 +63,6 @@ EOF
 			fi
 			printf_n "${C_LGn}Done!${RES}"
 			cd
-			. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/logo.sh)
 			printf_n "
 The node was ${C_LGn}started${RES}.
 
