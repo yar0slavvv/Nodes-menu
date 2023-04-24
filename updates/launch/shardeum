@@ -128,6 +128,7 @@ do
     DASHPASS+="$CHAR"
   fi
 done
+
 echo " "
 echo -e "\033[1;97;42mПароль збережено як: \033[0m" $DASHPASS #DEBUG: TEST PASSWORD WAS RECORDED AFTER ENTERED.
 
