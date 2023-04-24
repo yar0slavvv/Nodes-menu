@@ -6,6 +6,8 @@ bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/upd/shardeum)
 
 
 echo "     "
+echo -e "\033[1;97;42mПеред тим як продовжити, запевніться що ваша нода зупинена та зроблений Unstake!\033[0m"
+echo "     "
 echo -e "(\033[38;5;244m1\033[0m) Продовжити             (\033[38;5;244m2\033[0m) Повернутися"
 echo "     "
 while true; do
@@ -13,7 +15,7 @@ while true; do
   
   case $a in
    1)
-      curl -O https://gitlab.com/shardeum/validator/dashboard/-/raw/main/installer.sh && chmod +x installer.sh && ./installer.sh
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/updates/launch/shardeum)
       ;;
    2)
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/updater)
