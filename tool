@@ -21,25 +21,13 @@ read choice
 
 case $choice in
  1)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/subspace)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/tools/nodes-tooles)
     ;;
  2)
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/shardeum)
     ;;
  3)
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/meson)
-    ;;
- 4)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/muon)
-    ;;
- 5)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/nibiru)
-    ;;
- 6)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstall/starknet)
-    ;;
- 7)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/main-menu)
     ;;
  *)
     echo "Невірний вибір"
