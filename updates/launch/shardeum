@@ -147,7 +147,7 @@ done
 while :; do
   echo "\033[1;97;43m\033[90mЩоб запустити валідатор у мережі Sphinx, вам потрібно буде відкрити два порти у вашому брандмауері.\033[0m"
   echo -e "\033[1;97;43m\033[90mВведіть перший порт (1025-65536) для p2p комунікації (за замовчуванням 9001 натисніть Enter): \033[0m"
-  read -p SHMEXT
+  read SHMEXT
   SHMEXT=${SHMEXT:-9001}
   [[ $SHMEXT =~ ^[0-9]+$ ]] || { echo "Ведіть дійсний порт"; continue; }
   if ((SHMEXT >= 1025 && SHMEXT <= 65536)); then
@@ -156,7 +156,7 @@ while :; do
     echo "\033[1;97;41mПорт не дійсний, спробуйте ще раз\033[0m"
   fi
   echo -e "\033[1;97;43m\033[90mВведіть другий порт (1025-65536) для p2p комунікації (за замовчуванням 10001 натисніть Enter): \033[0m"
-  read -p SHMINT
+  read SHMINT
   SHMINT=${SHMINT:-10001}
   [[ $SHMINT =~ ^[0-9]+$ ]] || { echo "Enter a valid port"; continue; }
   if ((SHMINT >= 1025 && SHMINT <= 65536)); then
@@ -168,7 +168,7 @@ while :; do
 done
 
 echo -e "\033[1;97;43m\033[90mЯкий базовий каталог повинен використовувати вузол (за замовчуванням ~/.shardeum натисніть Enter): \033[0m"
-read -p NODEHOME
+read NODEHOME
 NODEHOME=${NODEHOME:-~/.shardeum}
 
 APPSEEDLIST="archiver-sphinx.shardeum.org"
