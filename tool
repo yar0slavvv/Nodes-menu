@@ -24,10 +24,10 @@ case $choice in
     echo "в розробці)"
     ;;
  2)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/sudo-tools)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/docker-install.sh)
     ;;
  3)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/docker-install.sh)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/sudo-tools)
     ;;
  4)
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/main-menu)
