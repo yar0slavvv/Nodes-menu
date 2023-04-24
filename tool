@@ -21,12 +21,15 @@ read choice
 
 case $choice in
  1)
+    echo " "
     echo "в розробці)"
     ;;
  2)
+    echo " "
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/docker-install.sh)
     ;;
  3)
+    echo " "
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/sudo-tools)
     ;;
  4)
