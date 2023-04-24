@@ -128,15 +128,14 @@ do
     DASHPASS+="$CHAR"
   fi
 done
-
 echo " "
-echo -e "\033[1;97;42mПароль збережено як: \033[0m" $DASHPASS
+echo -e "\033[1;97;42mПароль збережено як: \033[0m" $DASHPASS #DEBUG: TEST PASSWORD WAS RECORDED AFTER ENTERED.
 
 while :; do
   echo -e "\e[43;30mВведіть порт (1025-65536) для доступу до вашого веб-інтерфейсу (за замовчуванням 8080, натисніть Enter):\e[0m"
   read  DASHPORT
   DASHPORT=${DASHPORT:-8080}
-  [[ $DASHPORT =~ ^[0-9]+$ ]] || { echo "\033[1;97;41mВведіть дійсний порт"; continue;\033[0m }
+  [[ $DASHPORT =~ ^[0-9]+$ ]] || { echo "\033[1;97;41mВведіть дійсний порт"; continue; }
   if ((DASHPORT >= 1025 && DASHPORT <= 65536)); then
     break
   else
@@ -145,7 +144,7 @@ while :; do
 done
 
 while :; do
-  echo "\e[43;30mЩоб запустити валідатор у мережі Sphinx, вам потрібно буде відкрити два порти у вашому брандмауері.\033[0m"
+  echo -e "\e[43;30mЩоб запустити валідатор у мережі Sphinx, вам потрібно буде відкрити два порти у вашому брандмауері.\033[0m"
   echo -e "\e[43;30mВведіть перший порт (1025-65536) для p2p комунікації (за замовчуванням 9001 натисніть Enter): \033[0m"
   read SHMEXT
   SHMEXT=${SHMEXT:-9001}
