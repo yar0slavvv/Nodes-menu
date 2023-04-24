@@ -21,10 +21,10 @@ read choice
 
 case $choice in
  1)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/tools/nodes-tooles)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/tools/nodes-tools)
     ;;
  2)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/shardeum)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installer/docker)
     ;;
  3)
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/meson)
