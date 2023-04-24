@@ -1,57 +1,175 @@
 #!/bin/bash
 
-echo "——————————————————————————————————————————————"
-echo " "
-echo -e "\033[1;97;42mОновлення пакетів...\033[0m"
-sudo apt update && sudo apt upgrade -y
-apt-get install libclang-dev
-echo " "
-echo -e "\033[1;97;42mВстановлення екрану...\033[0m"
-sudo apt install screen
-echo " "
-echo -e "\033[1;97;42mВстановлення RUST...\033[0m"
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-source $HOME/.cargo/env
-rustup toolchain install nightly
-echo " "
-echo -e "\033[1;97;42mВстановлення ноди...\033[0m"
-cd $HOME
-git clone --branch testnet https://github.com/massalabs/massa.git
-enable_ipv6
-echo " "
+WantedBy=multi-user.target
+EOF
+		sudo systemctl enable massad
+		sudo systemctl daemon-reload
+		sudo cp $HOME/massa_backup/node_privkey.key $HOME/massa/massa-node/config/node_privkey.key
+		open_ports
+		sudo cp $HOME/massa_backup/wallet.dat $HOME/massa/massa-client/wallet.dat
+		. <(wget -qO- https://raw.githubusercontent.com/SecorD0/Massa/main/insert_variables.sh)
+		. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/logo.sh)
+		printf_n "
+The node was ${C_LGn}updated${RES}.
 
-unset CHARCOUNT
-echo -e "\e[43;30mВстановіть пароль до вашої ноди\033[0m"
-CHARCOUNT=0
-while IFS= read -p "$PROMPT" -r -s -n 1 CHAR
-do
-  if [[ $CHAR == $'\0' ]] ; then
-    if [ $CHARCOUNT -gt 0 ] ; then
-      break
-    else
-      echo
-      echo -n "Не правильний пароль, довжина повинна бути більше 0 символів:"
-      continue
-    fi
-  fi
-  # Backspace
-  if [[ $CHAR == $'\177' ]] ; then
-    if [ $CHARCOUNT -gt 0 ] ; then
-      CHARCOUNT=$((CHARCOUNT-1))
-      PROMPT=$'\b \b'
-      DASHPASS="${DASHPASS%?}"
-    else
-      PROMPT=''
-    fi
-  else
-    CHARCOUNT=$((CHARCOUNT+1))
-    PROMPT='*'
-    PASS+="$CHAR"
-  fi
-done
-echo " "
-echo "Пароль збережено як:" $PASS
-echo " "
-cd massa/massa-node/
-screen -S massa_node
-RUST_BACKTRACE=full cargo run --release -- -p xxxxxxx|& tee logs.txt
+\tv ${C_LGn}Useful commands${RES} v
+
+To run a client: ${C_LGn}massa_client${RES}
+To view the node status: ${C_LGn}sudo systemctl status massad${RES}
+To view the node log: ${C_LGn}massa_log${RES}
+To restart the node: ${C_LGn}sudo systemctl restart massad${RES}
+
+CLI client commands (use ${C_LGn}massa_cli_client -h${RES} to view the help page):
+${C_LGn}`compgen -a | grep massa_ | sed "/massa_log/d"`${RES}
+"
+	else
+		printf_n "${C_LR}Archive with binary downloaded unsuccessfully!${RES}\n"
+	fi
+	rm -rf $HOME/massa.tar.gz
+}
+install() {
+	if [ -d $HOME/massa/ ]; then
+		update
+	else
+		if [ ! -n "$massa_password" ]; then
+			printf_n "\n${C_LGn}Come up with a password to encrypt the keys and enter it.${RES}"
+			. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/miscellaneous/insert_variable.sh) -n massa_password
+		fi
+		if [ ! -n "$massa_password" ]; then
+			printf_n "${C_R}There is no massa_password variable with the password!${RES}\n"
+			return 1 2>/dev/null; exit 1
+		fi
+		sudo apt update
+		sudo apt upgrade -y
+		sudo apt install jq curl pkg-config git build-essential libssl-dev -y
+		printf_n "${C_LGn}Node installation...${RES}"
+		local massa_version=`wget -qO- https://api.github.com/repos/massalabs/massa/releases/latest | jq -r ".tag_name"`
+		wget -qO $HOME/massa.tar.gz "https://github.com/massalabs/massa/releases/download/${massa_version}/massa_${massa_version}_release_linux.tar.gz"
+		if [ `wc -c < "$HOME/massa.tar.gz"` -ge 1000 ]; then
+			tar -xvf $HOME/massa.tar.gz
+			rm -rf $HOME/massa.tar.gz
+			chmod +x $HOME/massa/massa-node/massa-node $HOME/massa/massa-client/massa-client
+			. <(wget -qO- https://raw.githubusercontent.com/SecorD0/Massa/main/insert_variables.sh)
+			replace_bootstraps
+			sudo tee <<EOF >/dev/null /etc/systemd/system/massad.service
+[Unit]
+Description=Massa Node
+After=network-online.target
+
+[Service]
+User=$USER
+WorkingDirectory=$HOME/massa/massa-node
+ExecStart=$HOME/massa/massa-node/massa-node -p "$massa_password"
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
+EOF
+			sudo systemctl enable massad
+			sudo systemctl daemon-reload
+			open_ports
+			cd $HOME/massa/massa-client/
+			if [ ! -d $HOME/massa_backup ]; then
+				./massa-client -p "$massa_password" wallet_generate_secret_key &>/dev/null
+				mkdir -p $HOME/massa_backup
+				sudo cp $HOME/massa/massa-client/wallet.dat $HOME/massa_backup/wallet.dat
+				while true; do
+					if [ -f $HOME/massa/massa-node/config/node_privkey.key ]; then
+						sudo cp $HOME/massa/massa-node/config/node_privkey.key $HOME/massa_backup/node_privkey.key
+						break
+					else
+						sleep 5
+					fi
+				done
+				
+			else
+				sudo cp $HOME/massa_backup/node_privkey.key $HOME/massa/massa-node/config/node_privkey.key
+				sudo systemctl restart massad
+				sudo cp $HOME/massa_backup/wallet.dat $HOME/massa/massa-client/wallet.dat	
+			fi
+			printf_n "${C_LGn}Done!${RES}"
+			cd
+			. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/logo.sh)
+			printf_n "
+The node was ${C_LGn}started${RES}.
+
+Remember to save files in this directory: ${C_LR}$HOME/massa_backup/${RES}
+And password for decryption: ${C_LR}${massa_password}${RES}
+
+\tv ${C_LGn}Useful commands${RES} v
+
+To run a client: ${C_LGn}massa_client${RES}
+To view the node status: ${C_LGn}sudo systemctl status massad${RES}
+To view the node log: ${C_LGn}massa_log${RES}
+To restart the node: ${C_LGn}sudo systemctl restart massad${RES}
+
+CLI client commands (use ${C_LGn}massa_cli_client -h${RES} to view the help page):
+${C_LGn}`compgen -a | grep massa_ | sed "/massa_log/d"`${RES}
+"
+		else
+			rm -rf $HOME/massa.tar.gz
+			printf_n "${C_LR}Archive with binary downloaded unsuccessfully!${RES}\n"
+		fi
+	fi
+}
+install_source() {
+	if [ -d $HOME/massa/ ]; then
+		printf_n "${C_LR}Node already installed!${RES}"
+	else
+		sudo apt update
+		sudo apt upgrade -y
+		sudo apt install jq curl pkg-config git build-essential libssl-dev -y
+		printf_n "${C_LGn}Node installation...${RES}"
+		. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/installers/rust.sh) -n
+		if [ ! -d $HOME/massa/ ]; then
+			git clone --branch testnet https://gitlab.com/massalabs/massa.git
+		fi
+		cd $HOME/massa/massa-node/
+		RUST_BACKTRACE=full cargo build --release
+		printf "[Unit]
+Description=Massa Node
+After=network-online.target
+
+[Service]
+User=$USER
+WorkingDirectory=$HOME/massa/massa-node
+ExecStart=$HOME/massa/target/release/massa-node
+Restart=on-failure
+RestartSec=3
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target" > /etc/systemd/system/massad.service
+		sudo systemctl enable massad
+		sudo systemctl daemon-reload
+		open_ports
+		printf_n "
+${C_LGn}Done!${RES}
+${C_LGn}Client installation...${RES}
+"
+		cd $HOME/massa/massa-client/
+		cargo run --release wallet_new_privkey
+		. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/miscellaneous/insert_variable.sh) -n massa_log -v "sudo journalctl -f -n 100 -u massad" -a
+	fi
+	printf_n "${C_LGn}Done!${RES}"
+	cd
+	. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/logo.sh)
+	printf_n "
+The node was ${C_LGn}started${RES}.
+
+Remember to save files in this directory:
+${C_LR}$HOME/massa_backup/${RES}
+
+\tv ${C_LGn}Useful commands${RES} v
+
+To run a client: ${C_LGn}massa_client${RES}
+To view the node status: ${C_LGn}sudo systemctl status massad${RES}
+To view the node log: ${C_LGn}massa_log${RES}
+To restart the node: ${C_LGn}sudo systemctl restart massad${RES}
+
+CLI client commands (use ${C_LGn}massa_cli_client -h${RES} to view the help page):
+${C_LGn}`compgen -a | grep massa_ | sed "/massa_log/d"`${RES}
+"
+}
