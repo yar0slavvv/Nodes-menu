@@ -8,7 +8,6 @@ EOF
 		open_ports
 		sudo cp $HOME/massa_backup/wallet.dat $HOME/massa/massa-client/wallet.dat
 		. <(wget -qO- https://raw.githubusercontent.com/SecorD0/Massa/main/insert_variables.sh)
-		. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/logo.sh)
 		printf_n "
 The node was ${C_LGn}updated${RES}.
 
