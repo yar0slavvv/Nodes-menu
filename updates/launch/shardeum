@@ -4,7 +4,7 @@ echo " "
 echo "——————————————————————————————————————————"
 echo " "
 set -e
-
+echo -e "\033[1;97;42mОновлення пакетів серверу...\033[0m"
 sudo apt-get install curl
 
 sudo apt update
