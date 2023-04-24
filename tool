@@ -22,6 +22,7 @@ read choice
 case $choice in
  1)
     echo "в розробці)"
+    ;;
  2)
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/sudo-tools)
     ;;
