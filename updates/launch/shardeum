@@ -262,7 +262,7 @@ while true; do
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/main-menu)
       ;;
    2)
-      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/tools/shardeum)
+      echo "В розробці)"
       ;;
     *)
       echo "Невірний вибір"
