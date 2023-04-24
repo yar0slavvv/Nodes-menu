@@ -161,7 +161,7 @@ while :; do
   SHMINT=${SHMINT:-10001}
   [[ $SHMINT =~ ^[0-9]+$ ]] || { echo -e "\033[1;97;41mВведіть дійсний порт\033[0m"; continue; }
   if ((SHMINT >= 1025 && SHMINT <= 65536)); then
-    break
+    SHMINT=${SHMINT:-10001}
   else
     echo -e "\033[1;97;41mПорт не дійсний, спробуйте ще раз\033[0m"
   fi
