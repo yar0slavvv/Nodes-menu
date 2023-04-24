@@ -2,4 +2,25 @@
 
 echo "——————————————————————————————————————————————"
 echo " "
-
+echo -e "\033[1;97;42mОновлення пакетів...\033[0m"
+sudo apt update && sudo apt upgrade -y
+apt-get install libclang-dev
+echo " "
+echo -e "\033[1;97;42mВстановлення екрану...\033[0m"
+sudo apt install screen
+echo " "
+echo -e "\033[1;97;42mВстановлення RUST...\033[0m"
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+source $HOME/.cargo/env
+rustup toolchain install nightly
+echo " "
+echo -e "\033[1;97;42mВстановлення ноди...\033[0m"
+cd $HOME
+git clone --branch testnet https://github.com/massalabs/massa.git
+enable_ipv6
+echo " "
+echo -e "\e[43;30mПридуймайте пароль до ноди\033[0m"
+echo " "
+cd massa/massa-node/
+screen -S massa_node
+RUST_BACKTRACE=full cargo run --release -- -p xxxxxxx|& tee logs.txt
