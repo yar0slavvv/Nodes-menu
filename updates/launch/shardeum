@@ -132,15 +132,14 @@ echo " "
 echo -e "\033[1;97;42mПароль збережено як: \033[0m" $DASHPASS #DEBUG: TEST PASSWORD WAS RECORDED AFTER ENTERED.
 
 while :; do
-  echo -e "\e[43;30mВведіть порт (1025-65536) для доступу до вашого веб-інтерфейсу (за замовчуванням 8080 натисніть Enter): :\e[0m"
+  echo -e "\e[43;30mВведіть порт (1025-65536) для доступу до вашого веб-інтерфейсу (за замовчуванням 8080, натисніть Enter):\e[0m"
   read  DASHPORT
   DASHPORT=${DASHPORT:-8080}
-  [[ $DASHPORT =~ ^[0-9]+$ ]] || { echo "Введіть дійсний порт"; continue; }
+  [[ $DASHPORT =~ ^[0-9]+$ ]] || { echo "\033[1;97;41mВведіть дійсний порт"; continue;\033[0m }
   if ((DASHPORT >= 1025 && DASHPORT <= 65536)); then
-    DASHPORT=${DASHPORT:-8080}
     break
   else
-    echo -e "\033[1;97;41mПорт не дійсний, спробуйте ще раз\033[0m" - червоний
+    echo -e "\033[1;97;41mПорт не дійсний, спробуйте ще раз\033[0m"
   fi
 done
 
