@@ -84,8 +84,8 @@ ${C_LGn}`compgen -a | grep massa_ | sed "/massa_log/d"`${RES}
 			printf_n "${C_LR}Archive with binary downloaded unsuccessfully!${RES}\n"
 		fi
 	fi
-}
-install_source() {
+
+install_source() 
 	if [ -d $HOME/massa/ ]; then
 		printf_n "${C_LR}Node already installed!${RES}"
 	else
@@ -143,4 +143,3 @@ To restart the node: ${C_LGn}sudo systemctl restart massad${RES}
 CLI client commands (use ${C_LGn}massa_cli_client -h${RES} to view the help page):
 ${C_LGn}`compgen -a | grep massa_ | sed "/massa_log/d"`${RES}
 "
-}
