@@ -23,6 +23,7 @@ case $choice in
  1)
     echo " "
     echo "в розробці)"
+    echo " "
     ;;
  2)
     echo " "
