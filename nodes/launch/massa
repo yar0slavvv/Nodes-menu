@@ -19,7 +19,38 @@ cd $HOME
 git clone --branch testnet https://github.com/massalabs/massa.git
 enable_ipv6
 echo " "
-echo -e "\e[43;30mПридуймайте пароль до ноди\033[0m"
+
+unset CHARCOUNT
+echo -e "\e[43;30mВстановіть пароль до вашої ноди\033[0m"
+CHARCOUNT=0
+while IFS= read -p "$PROMPT" -r -s -n 1 CHAR
+do
+  if [[ $CHAR == $'\0' ]] ; then
+    if [ $CHARCOUNT -gt 0 ] ; then
+      break
+    else
+      echo
+      echo -n "Не правильний пароль, довжина повинна бути більше 0 символів:"
+      continue
+    fi
+  fi
+  # Backspace
+  if [[ $CHAR == $'\177' ]] ; then
+    if [ $CHARCOUNT -gt 0 ] ; then
+      CHARCOUNT=$((CHARCOUNT-1))
+      PROMPT=$'\b \b'
+      DASHPASS="${DASHPASS%?}"
+    else
+      PROMPT=''
+    fi
+  else
+    CHARCOUNT=$((CHARCOUNT+1))
+    PROMPT='*'
+    PASS+="$CHAR"
+  fi
+done
+echo " "
+echo "Пароль збережено як:" $PASS
 echo " "
 cd massa/massa-node/
 screen -S massa_node
