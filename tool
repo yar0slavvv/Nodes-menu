@@ -24,10 +24,10 @@ case $choice in
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/tools/nodes-tools)
     ;;
  2)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installer/docker)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/docker-install.sh)
     ;;
  3)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/meson)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/sudo-tools)
     ;;
  *)
     echo "Невірний вибір"
