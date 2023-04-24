@@ -129,11 +129,11 @@ do
   fi
 done
 
-echo "Пароль збережено як:" $DASHPASS #DEBUG: TEST PASSWORD WAS RECORDED AFTER ENTERED.
+echo -e "\033[1;97;42mПароль збережено як: \033[0m" $DASHPASS #DEBUG: TEST PASSWORD WAS RECORDED AFTER ENTERED.
 
 while :; do
   echo -e "\e[43;30mВведіть порт (1025-65536) для доступу до вашого веб-інтерфейсу (за замовчуванням 8080 натисніть Enter): :\e[0m"
-  read -p DASHPORT
+  read  DASHPORT
   DASHPORT=${DASHPORT:-8080}
   [[ $DASHPORT =~ ^[0-9]+$ ]] || { echo "Введіть дійсний порт"; continue; }
   if ((DASHPORT >= 1025 && DASHPORT <= 65536)); then
