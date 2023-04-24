@@ -11,24 +11,13 @@ sudo apt update
 
 echo "   "
 echo -e "\033[1;97;43m\033[90mІз запуском цього скрипта ви дозволяєте команді 'Shardeum' збирати ваші дані (y/n)?: \033[0m"
-read -p WARNING_AGREE
+read WARNING_AGREE
 
 WARNING_AGREE=${WARNING_AGREE:-y}
 
 if [ "$WARNING_AGREE" != "y" ]; then
   echo "Збір даних відхилено. Зупинка скрипта..."
   exit
-fi
-
-command -v git >/dev/null 2>&1 || { echo >&2 "'git' не встановлений."; exit 1; }
-command -v docker >/dev/null 2>&1 || { echo >&2 "'docker' не встановлений."; exit 1; }
-if command -v docker-compose &>/dev/null; then
-  echo "docker-compose встановлено"
-elif docker --help | grep -q "compose"; then
-  echo "docker compose встановлено"
-else
-  echo "docker-compose або docker compose не встановлено."
-  exit 1
 fi
 
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
