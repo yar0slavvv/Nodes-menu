@@ -11,8 +11,8 @@ if [ "$logo" == "bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi
   echo -e "(\033[38;5;244m1\033[0m) Керувати нодами"
   echo -e "(\033[38;5;244m2\033[0m) Встановити/оновити Docker+compose
   echo -e "(\033[38;5;244m3\033[0m) Оновити пакети + бібліотеку"
-  echo -e "(\033[38;5;244m7\033[0m) -
-  echo -e "(\033[38;5;244m9\033[0m) -
+  echo -e "(\033[38;5;244m4\033[0m) Повернутися
+  echo -e "(\033[38;5;244m5\033[0m) -
   echo ""
   echo "__________________________________"
   echo ""
@@ -22,12 +22,14 @@ read choice
 case $choice in
  1)
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/tools/nodes-tools)
+ 2)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/sudo-tools)
     ;;
  3)
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/docker-install.sh)
     ;;
- 2)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/sudo-tools)
+ 4)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/main-menu)
     ;;
  *)
     echo "Невірний вибір"
