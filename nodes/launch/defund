@@ -5,12 +5,12 @@ echo "————————————————————————�
 echo " "
 
 #!/bin/bash
-echo -e "\033[1;97;42mОновлення пакетів\033[0m"
+echo -e "\033[1;97;42mОновлення пакетів...\033[0m"
 echo " "
 sudo apt update
 sudo apt install -y curl git jq lz4 build-essential unzip
 echo " "
-echo -e "\033[1;97;42mЗавантаження ноди\033[0m"
+echo -e "\033[1;97;42mЗавантаження ноди...\033[0m"
 echo " "
 bash <(curl -s https://raw.githubusercontent.com/cpiteam/DeFund/main/dock include)
 source .bash_profile
@@ -28,7 +28,7 @@ defundd config chain-id orbit-alpha-1
 defundd init "<Your moniker>" --chain-id orbit-alpha-1
 
 echo " "
-echo -e "\033[1;97;42mВстановлення genesis та addrbook\033[0m"
+echo -e "\033[1;97;42mВстановлення genesis та addrbook...\033[0m"
 echo " "
 curl -Ls https://raw.githubusercontent.com/defund-labs/testnet/main/orbit-alpha-1/genesis.json > $HOME/.defund/config/genesis.json
 curl -Ls https://raw.githubusercontent.com/cpiteam/DeFund/main/addrbook.json > $HOME/.defund/config/addrbook.json
