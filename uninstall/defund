@@ -1,0 +1,28 @@
+#!/bin/bash
+
+clear
+
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/uni/defund)
+
+echo "     "
+echo -e "(\033[38;5;244m1\033[0m) Продовжити                               (\033[38;5;244m2\033[0m) Повернутися"
+echo "     "
+while true; do
+  read a
+  case $a in
+   1)
+      echo "—————————————————————————————————————————————————————————————"
+      rm -rf .defund
+      echo " "
+      sleep 1
+      echo -e "\033[1;97;42mDefund успішно видалено\033[0m"
+      exit
+      ;;
+   2)
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstaller)
+      ;;
+    *)
+      echo "Невірний вибір"
+      ;;
+  esac
+done
