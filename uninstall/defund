@@ -12,7 +12,13 @@ while true; do
   case $a in
    1)
       echo "—————————————————————————————————————————————————————————————"
-      rm -rf .defund
+      sudo systemctl stop defund
+      sudo systemctl disable defund
+      cd $HOME
+      rm /etc/systemd/system/defund.service
+      rm /usr/local/bin/defundd
+      rm -r defund/
+      rm -r .defund/
       echo " "
       sleep 1
       echo -e "\033[1;97;42mDefund успішно видалено\033[0m"
