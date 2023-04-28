@@ -21,6 +21,7 @@ if [ ! $DEFUND_NODENAME ]; then
 sleep 1
 echo -e "\033[38;5;15;48;5;202mВпишіть ім'я ноди\033[0m"
 read DEFUND_NODENAME
+echo " "
 fi
 echo 'export DEFUND_NODENAME='\"${DEFUND_NODENAME}\" >> $HOME/.bash_profile
 echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
