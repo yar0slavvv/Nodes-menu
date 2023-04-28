@@ -112,7 +112,7 @@ defundd tx staking create-validator \
  
  sudo systemctl start defundd.service
 echo " "
-echo -e "\033[1;97;42mПеревірка статусу ноди\033[0m"
+echo -e "\033[1;97;42mПеревірка статусу ноди...\033[0m"
 echo " " 
 if [[ `service defund status | grep active` =~ "running" ]]; then
   echo -e "\033[1;97;42mDefund успішно встановлено\033[0m""
