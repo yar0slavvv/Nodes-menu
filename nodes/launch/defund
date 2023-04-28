@@ -2,7 +2,6 @@
 
 echo " "
 echo "——————————————————————————————————————————————"
-echo " "
 exists()
 {
   command -v "$1" >/dev/null 2>&1
@@ -21,7 +20,6 @@ if [ ! $DEFUND_NODENAME ]; then
 sleep 1
 echo -e "\033[38;5;15;48;5;202mВпишіть ім'я ноди\033[0m"
 read DEFUND_NODENAME
-echo " "
 fi
 echo 'export DEFUND_NODENAME='\"${DEFUND_NODENAME}\" >> $HOME/.bash_profile
 echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
@@ -33,8 +31,9 @@ sleep 1
 cd $HOME
 sudo apt update
 sudo apt install make clang pkg-config libssl-dev build-essential git jq ncdu bsdmainutils htop -y < "/dev/null"
-
+echo " "
 echo -e "\033[1;97;42mВстановлення GO...\033[0m"
+echo " "
 cd $HOME
 wget -O go1.19.1.linux-amd64.tar.gz https://golang.org/dl/go1.19.1.linux-amd64.tar.gz
 rm -rf /usr/local/go && tar -C /usr/local -xzf go1.19.1.linux-amd64.tar.gz && rm go1.19.1.linux-amd64.tar.gz
@@ -43,8 +42,9 @@ echo 'export GOPATH=$HOME/go' >> $HOME/.bash_profile
 echo 'export GO111MODULE=on' >> $HOME/.bash_profile
 echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> $HOME/.bash_profile && . $HOME/.bash_profile
 go version
-
+echo " "
 echo -e "\033[1;97;42mВстановлення ноди...\033[0m"
+echo " "
 rm -rf $HOME/defund
 git clone https://github.com/defund-labs/defund
 cd defund
@@ -88,16 +88,28 @@ sudo mv $HOME/defund.service /etc/systemd/system
 sudo tee <<EOF >/dev/null /etc/systemd/journald.conf
 Storage=persistent
 EOF
+echo " "
 echo -e "\033[1;97;42mЗапуск ноди\033[0m"
+echo " "
 sudo systemctl restart systemd-journald
 sudo systemctl daemon-reload
 sudo systemctl enable defund
 sudo systemctl restart defund
-
+echo " "
+echo -e "\033[1;97;42mСтворення гаманця\033[0m"
+echo " "
+source $HOME/.bash_profile
+defundd keys add wallet
+echo " "
+echo -e "\033[1;97;42mРекомендую записати адресу гаманця та пароль\033[0m"
+sleep 2
+echo " "
 echo -e "\033[1;97;42mПеревірка статусу ноди\033[0m"
 if [[ `service defund status | grep active` =~ "running" ]]; then
+  echo " "
   echo -e "\033[1;97;42mDefund успішно встановлено\033[0m"
 else
+  echo " "
   echo -e "\033[30;97;41mDefund не встановлено, спробуйте ще раз та зверніться до менторів\033[0m"
 fi
 echo "——————————————————————————————————————————————"
