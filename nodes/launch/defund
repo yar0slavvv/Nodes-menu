@@ -5,12 +5,13 @@ echo "————————————————————————�
 echo " "
 
 #!/bin/bash
-
-bash <(curl -s https://raw.githubusercontent.com/cpiteam/logo/main/logo) && sleep 3
-
+echo -e "\033[1;97;42mОновлення пакетів\033[0m"
+echo " "
 sudo apt update
 sudo apt install -y curl git jq lz4 build-essential unzip
-
+echo " "
+echo -e "\033[1;97;42mЗавантаження ноди\033[0m"
+echo " "
 bash <(curl -s https://raw.githubusercontent.com/cpiteam/DeFund/main/dock include)
 source .bash_profile
 
@@ -26,7 +27,9 @@ defundd config keyring-backend os
 defundd config chain-id orbit-alpha-1
 defundd init "<Your moniker>" --chain-id orbit-alpha-1
 
-# Download genesis and addrbook
+echo " "
+echo -e "\033[1;97;42mВстановлення genesis та addrbook\033[0m"
+echo " "
 curl -Ls https://raw.githubusercontent.com/defund-labs/testnet/main/orbit-alpha-1/genesis.json > $HOME/.defund/config/genesis.json
 curl -Ls https://raw.githubusercontent.com/cpiteam/DeFund/main/addrbook.json > $HOME/.defund/config/addrbook.json
 
@@ -61,8 +64,9 @@ LimitNOFILE=10000
 [Install]
 WantedBy=multi-user.target
 EOF
-
-# Snapshots
+echo " "
+echo -e "\033[1;97;42mSnapshot...\033[0m"
+echo " "
 URL="https://raw.githubusercontent.com/cpiteam/DeFund/main/Snapshot"
 curl -L $URL | tar -Ilz4 -xf - -C $HOME/.defund
 
@@ -86,8 +90,9 @@ snapshot_interval=0
 sed -i.bak -e "s/^snapshot-interval *=.*/snapshot-interval = \"$snapshot_interval\"/" ~/.defund/config/app.toml
 sed -i 's|^enable *=.*|enable = false|' $HOME/.defund/config/config.toml
 sudo systemctl restart defundd && sudo journalctl -u defundd -f -o cat
-
-read -p "Ім'я вашого гаманця: " YOUR_WALLET_NAME
+echo " "
+echo -e "\033[38;5;15;48;5;202mВведіть ім'я вашого гаманця\033[0m"
+read YOUR_WALLET_NAME
 echo "defundd keys add ${YOUR_WALLET_NAME}" >> $HOME/.bash_profile
 
 defundd tx staking create-validator \
@@ -106,16 +111,13 @@ defundd tx staking create-validator \
 -y
  
  sudo systemctl start defundd.service
-sleep 5
- 
- echo -e '\n\e[42mПеревірка статусу ноди\e[0m\n' && sleep 1
+echo " "
+echo -e "\033[1;97;42mПеревірка статусу ноди\033[0m"
+echo " " 
 if [[ `service defund status | grep active` =~ "running" ]]; then
-  echo -e "Ваша нода \e[32mзавантажена та працює\e[39m!"
-  echo -e "Ви можете глянути статус ноди командою: \e[7mservice defund status\e[0m"
-   bash <(curl -s https://raw.githubusercontent.com/cpiteam/logo/main/Logo%20last)
-   printGreen "CPI.TM are the best"
+  echo -e "\033[1;97;42mDefund успішно встановлено\033[0m""
 else
-  echo -e "Your Defund node \e[31mwas not installed correctly\e[39m, please reinstall."
+  echo -e "\033[30;97;41mDefund не встановлено, спробуйте ще раз та повідомте менторів\033[0m"
 fi
 echo "——————————————————————————————————————————————"
 
