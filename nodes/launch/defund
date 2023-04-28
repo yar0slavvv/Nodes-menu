@@ -3,9 +3,25 @@
 echo " "
 echo "——————————————————————————————————————————————"
 echo " "
+exists()
+{
+  command -v "$1" >/dev/null 2>&1
+}
+if exists curl; then
+echo ''
+else
+  sudo apt update && sudo apt install curl -y < "/dev/null"
+fi
+bash_profile=$HOME/.bash_profile
+if [ -f "$bash_profile" ]; then
+    . $HOME/.bash_profile
+fi
+
+if [ ! $DEFUND_NODENAME ]; then
 sleep 1
 echo -e "\033[38;5;15;48;5;202mВпишіть ім'я ноди\033[0m"
 read DEFUND_NODENAME
+fi
 echo 'export DEFUND_NODENAME='\"${DEFUND_NODENAME}\" >> $HOME/.bash_profile
 echo 'source $HOME/.bashrc' >> $HOME/.bash_profile
 . $HOME/.bash_profile
