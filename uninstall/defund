@@ -24,8 +24,8 @@ while true; do
       echo -e "\033[1;97;42mDefund успішно видалено\033[0m"
       echo " "
       echo -e "\033[1;97;42mПовернення до головного меню...\033[0m"
+      sleep 3
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/main-menu)
-      exit
       ;;
    2)
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstaller)
