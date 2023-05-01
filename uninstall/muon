@@ -18,7 +18,9 @@ while true; do
       rm muon-node-js -rf
       echo " "
       echo -e "\033[1;97;42mMuon успішно видалено\033[0m"
-      exit
+      echo " "
+      echo -e "\033[1;97;42mПовернення до головного меню...\033[0m"
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/main-menu)
       ;;
    2)
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstaller)
