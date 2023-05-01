@@ -42,6 +42,9 @@ case $choice in
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/defund)
     ;;
  8)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/lamina1)
+    ;;
+ 9)
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/main-menu)
     ;;
  *)
