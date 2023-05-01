@@ -17,6 +17,9 @@ while true; do
       rm -rf $(which nibid) ~/.nibid ~/nibiru
       echo -e "\033[1;97;42mNibiru успішно видалено\033[0m"
       echo " "
+      echo -e "\033[1;97;42mПовернення до головного меню...\033[0m"
+      sleep 3
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/main-menu)
       ;;
    2)
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstaller)
