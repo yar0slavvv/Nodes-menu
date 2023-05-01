@@ -1,0 +1,29 @@
+#!/bin/bash
+
+clear
+
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/inst/lamina1)
+
+echo "     "
+avail_space=`df $PWD -h | awk '/[0-9]%/{print $(NF-2)}' | sed 's/.$//'`
+echo "Наразі ви маєте $avail_space гб вільного місця, в той"
+echo "час як Lamina1 потребує 200 гб та \033[30;97;41mUbuntu 22.04\033[0m чи хочете ви"
+echo "продовжити встановлення?"
+echo "     "
+echo -e "(\033[38;5;244m1\033[0m) Продовжити                 (\033[38;5;244m2\033[0m) Повернутися"
+echo "     "
+while true; do
+  read a
+
+  case $a in
+   1)
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/lamina1)
+      ;;
+   2)
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/installer)
+      ;;
+    *)
+      echo "Невірний вибір"
+      ;;
+esac
+done
