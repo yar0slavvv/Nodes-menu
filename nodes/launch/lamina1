@@ -1,1 +1,60 @@
+#!/bin/bash
 
+echo " "
+echo "——————————————————————————————————————————————"
+exists()
+{
+	  command -v "$1" >/dev/null 2>&1
+  }
+if exists curl; then
+	echo ''
+else
+    echo " "
+    echo -e "\033[1;97;42mОновлення пакетів серверу...\033[0m"
+	  echo " "
+    sudo apt update && sudo apt install curl -y < "/dev/null"
+fi
+bash_profile=$HOME/.bash_profile
+if [ -f "$bash_profile" ]; then
+	    . $HOME/.bash_profile
+fi
+if [ ! -f "/usr/local/go/bin/go" ]; then
+    VERSION=1.19.6
+    wget -O go.tar.gz https://go.dev/dl/go$VERSION.linux-amd64.tar.gz
+    sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go.tar.gz && rm go.tar.gz
+    echo 'export GOROOT=/usr/local/go' >> $HOME/.bash_profile
+    echo 'export GOPATH=$HOME/go' >> $HOME/.bash_profile
+    echo 'export GO111MODULE=on' >> $HOME/.bash_profile
+    echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> $HOME/.bash_profile && . $HOME/.bash_profile
+    go version
+fi
+cd $HOME && rm -rf lamina1
+wget -O lamina1.latest.ubuntu-latest.tar.gz https://lamina1.github.io/lamina1/lamina1.latest.ubuntu-latest.tar.gz
+tar xvf lamina1.latest.ubuntu-latest.tar.gz
+
+echo "[Unit]
+Description=Lamina Node
+After=network.target
+
+[Service]
+User=$USER
+WorkingDirectory=$HOME/lamina1
+Type=simple
+ExecStart=$HOME/lamina1/lamina1-node
+Restart=on-failure
+LimitNOFILE=65535
+echo" "
+echo -e "\033[1;97;42mВстановлення ноди...\033[0m"
+echo " "
+[Install]
+WantedBy=multi-user.target" >lamina1.service
+mv lamina1.service /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl restart lamina1 #&& sudo journalctl -u lamina1 -f
+echo -e '\n\e[42mCheck node status\e[0m\n' && sleep 1
+if [[ `service lamina1 status | grep active` =~ "running" ]]; then
+  echo -e "\e[32mНода була успішно встановлена\e[39m!"
+ 
+else
+  echo -e "\e[31Ноду не встановлено\e[39m"
+fi
