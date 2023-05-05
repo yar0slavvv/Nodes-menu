@@ -66,7 +66,6 @@ function selectPortSet {
     7) exportPorts 7 ;;
     8) exportPorts 8 ;;
     9) exportPorts 9 ;;
-    {1,2}[0-9] ) exportPorts ${flag} ;;
     *) echo -e "\033[30;97;41mНевірний вибір\033[0m && exit 1 ;;
   echo ""
   esac
