@@ -38,3 +38,4 @@ done
 else
   bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/acho)
 fi
+exit
