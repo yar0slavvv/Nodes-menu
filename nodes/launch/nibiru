@@ -21,7 +21,7 @@ echo -e "Chain demon:        $CHAIN_DENOM"
 echo -e "Binary version tag: $BINARY_VERSION_TAG"
 printDelimiter && sleep 1
 
-source <(curl -s https://raw.githubusercontent.com/R1M-NODES/cosmos/master/utils/dependencies.sh)
+source <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes//dependencies.sh)
 
 echo "" && printGreen "Building binaries..." && sleep 1
 
