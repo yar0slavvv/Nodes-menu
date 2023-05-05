@@ -55,7 +55,7 @@ function selectPortSet {
   echo "9  - 9890, 9891, 34658, 34657, 34656, 6860, 34660, 2117"
   echo ""
 
-  read -r -p "${1:-Choose port set you would like to use: } " flag
+  read flag
   case "${flag}" in
     1) exportPorts 1 ;;
     2) exportPorts 2 ;;
