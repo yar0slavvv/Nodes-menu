@@ -23,7 +23,7 @@ function persistPorts {
   echo "export ${PREFIX}_PORT_PROMETHEUS=$(expr $PORT_PROMETHEUS \+ 1000 \* $ARG)" >>$HOME/.bash_profile
   echo "export ${PREFIX}_PORT_API=$(expr $PORT_API \+ 100 \* $ARG)" >>$HOME/.bash_profile
 
-  echo -e "\033[1;97;42mТакі порти будуть використані: $PORT_GRPC $PORT_GRPC_WEB $PORT_PROXY_APP $PORT_RPC $PORT_PPROF_LADDR $PORT_P2P $PORT_PROMETHEUS $PORT_API\033[0m"
+  echo -e "Такі порти будуть використані: \033[1;97;42m$PORT_GRPC $PORT_GRPC_WEB $PORT_PROXY_APP $PORT_RPC $PORT_PPROF_LADDR $PORT_P2P $PORT_PROMETHEUS $PORT_API\033[0m"
 }
 
 function exportPorts {
@@ -38,7 +38,7 @@ function exportPorts {
   export "PORT_PROMETHEUS=$(expr $PORT_PROMETHEUS \+ 1000 \* $ARG)"
   export "PORT_API=$(expr $PORT_API \+ 100 \* $ARG)"
 
-  echo -e "\033[1;97;42mБудуть використані такі порти: $PORT_GRPC $PORT_GRPC_WEB $PORT_PROXY_APP $PORT_RPC $PORT_PPROF_LADDR $PORT_P2P $PORT_PROMETHEUS $PORT_API\033[0m"
+  echo -e "Такі порти будуть використані: \033[1;97;42m$PORT_GRPC $PORT_GRPC_WEB $PORT_PROXY_APP $PORT_RPC $PORT_PPROF_LADDR $PORT_P2P $PORT_PROMETHEUS $PORT_API\033[0m"
 }
 
 function selectPortSet {
