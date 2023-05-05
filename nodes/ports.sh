@@ -69,4 +69,3 @@ function selectPortSet {
     *) echo -e "\033[30;97;41mНевірний вибір\033[0m" && exit 1 ;;
   esac
 }
-fi
