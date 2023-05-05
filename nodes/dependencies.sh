@@ -1,6 +1,5 @@
 #!/bin/bash
 
-echo ""
 echo -e "\033[1;97;42mОновлення пакетів...\033[0m"
 echo ""
 sudo apt-get update &&
