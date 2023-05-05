@@ -2,18 +2,11 @@
 echo "——————————————————————————————————————————————"
 echo " "
 
-function printDelimiter {
-  echo "==========================================="
-}
-
-function printGreen {
-  echo -e "\e[1m\e[32m${1}\e[0m"
-}
-
-source <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/ports.sh) && sleep 1
+source <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/ports.sh)
 export -f selectPortSet && selectPortSet
-
-read -r -p "Enter node moniker: " NODE_MONIKER
+echo ""
+echo -e "\033[38;5;15;48;5;202mВпишіть назву ноди\033[0m"
+read NODE_MONIKER
 
 CHAIN_ID="nibiru-itn-1"
 CHAIN_DENOM="unibi"
@@ -21,7 +14,7 @@ BINARY_NAME="nibid"
 BINARY_VERSION_TAG="v0.19.2"
 CHEAT_SHEET="https://nodes.r1m-team.com/nibiru"
 
-printDelimiter
+echo ""
 echo -e "Node moniker:       $NODE_MONIKER"
 echo -e "Chain id:           $CHAIN_ID"
 echo -e "Chain demon:        $CHAIN_DENOM"
@@ -29,8 +22,6 @@ echo -e "Binary version tag: $BINARY_VERSION_TAG"
 printDelimiter && sleep 1
 
 source <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes//dependencies.sh)
-
-echo "" && printGreen "Building binaries..." && sleep 1
 
 cd $HOME || return
 rm -rf nibiru
@@ -69,9 +60,9 @@ sed -i.bak -e "s/^external_address *=.*/external_address = \"$(wget -qO- eth0.me
 sed -i.bak -e "s%^proxy_app = \"tcp://127.0.0.1:26658\"%proxy_app = \"tcp://127.0.0.1:$PORT_PROXY_APP\"%; s%^laddr = \"tcp://127.0.0.1:26657\"%laddr = \"tcp://127.0.0.1:$PORT_RPC\"%; s%^pprof_laddr = \"localhost:6060\"%pprof_laddr = \"localhost:$PORT_P2P\"%; s%^laddr = \"tcp://0.0.0.0:26656\"%laddr = \"tcp://0.0.0.0:$PORT_PPROF_LADDR\"%; s%^prometheus_listen_addr = \":26660\"%prometheus_listen_addr = \":$PORT_PROMETHEUS\"%" $CONFIG_TOML && \
 sed -i.bak -e "s%^address = \"0.0.0.0:9090\"%address = \"0.0.0.0:$PORT_GRPC\"%; s%^address = \"0.0.0.0:9091\"%address = \"0.0.0.0:$PORT_GRPC_WEB\"%; s%^address = \"tcp://0.0.0.0:1317\"%address = \"tcp://0.0.0.0:$PORT_API\"%" $APP_TOML && \
 sed -i.bak -e "s%^node = \"tcp://localhost:26657\"%node = \"tcp://localhost:$PORT_RPC\"%" $CLIENT_TOML
-
-printGreen "Starting service and synchronization..." && sleep 1
-
+echo ""
+echo -e "\033[1;97;42mЗапуск та синхронізація ноди...\033[0m"
+echo ""
 sudo tee /etc/systemd/system/nibid.service > /dev/null << EOF
 [Unit]
 Description=Nibiru Node
@@ -96,11 +87,5 @@ sudo systemctl daemon-reload
 sudo systemctl enable nibid
 sudo systemctl start nibid
 
-printDelimiter
-printGreen "Check logs:            sudo journalctl -u $BINARY_NAME -f -o cat"
-printGreen "Check synchronization: $BINARY_NAME status 2>&1 | jq .SyncInfo.catching_up"
-printGreen "Check our cheat sheet: $CHEAT_SHEET"
-printDelimiter
-fi
 echo " "
 echo "——————————————————————————————————————————————"
