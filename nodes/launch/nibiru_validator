@@ -7,6 +7,7 @@ read mon
 echo -e "\033[38;5;15;48;5;202mНапишіть короткий опис ноди(eng)\033[0m"
 read desc
 echo -e "\033[38;5;15;48;5;202mВставте адресу гаманця\033[0m"
+read wall
 nibid tx staking create-validator \
 --amount=1000000unibi \
 --pubkey=$(nibid tendermint show-validator) \
