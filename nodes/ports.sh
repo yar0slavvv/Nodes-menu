@@ -23,7 +23,7 @@ function persistPorts {
   echo "export ${PREFIX}_PORT_PROMETHEUS=$(expr $PORT_PROMETHEUS \+ 1000 \* $ARG)" >>$HOME/.bash_profile
   echo "export ${PREFIX}_PORT_API=$(expr $PORT_API \+ 100 \* $ARG)" >>$HOME/.bash_profile
 
-  printGreen "The following ports will be used: $PORT_GRPC $PORT_GRPC_WEB $PORT_PROXY_APP $PORT_RPC $PORT_PPROF_LADDR $PORT_P2P $PORT_PROMETHEUS $PORT_API"
+  printGreen "Будуть використані такі порти: $PORT_GRPC $PORT_GRPC_WEB $PORT_PROXY_APP $PORT_RPC $PORT_PPROF_LADDR $PORT_P2P $PORT_PROMETHEUS $PORT_API"
 }
 
 function exportPorts {
@@ -38,14 +38,12 @@ function exportPorts {
   export "PORT_PROMETHEUS=$(expr $PORT_PROMETHEUS \+ 1000 \* $ARG)"
   export "PORT_API=$(expr $PORT_API \+ 100 \* $ARG)"
 
-  printGreen "The following ports will be used: $PORT_GRPC $PORT_GRPC_WEB $PORT_PROXY_APP $PORT_RPC $PORT_PPROF_LADDR $PORT_P2P $PORT_PROMETHEUS $PORT_API"
+  printGreen "Будуть використані такі порти: $PORT_GRPC $PORT_GRPC_WEB $PORT_PROXY_APP $PORT_RPC $PORT_PPROF_LADDR $PORT_P2P $PORT_PROMETHEUS $PORT_API"
 }
 
 function selectPortSet {
+  echo -e "\033[38;5;15;48;5;202mОберіть порти\033[0m"
   echo ""
-  printDelimiter
-  printGreen "Here available port sets to use:"
-  printDelimiter
   echo "1 (default) - 9090, 9091, 26658, 26657, 26656, 6060, 26660, 1317"
   echo "2           - 9190, 9191, 27658, 27657, 27656, 6160, 27660, 1417"
   echo "3           - 9290, 9291, 28658, 28657, 28656, 6260, 28660, 1517"
@@ -55,8 +53,6 @@ function selectPortSet {
   echo "7           - 9690, 9691, 32658, 32657, 32656, 6660, 32660, 1917"
   echo "8           - 9790, 9791, 33658, 33657, 33656, 6760, 33660, 2017"
   echo "9           - 9890, 9891, 34658, 34657, 34656, 6860, 34660, 2117"
-  echo ".........."
-  printDelimiter
   echo ""
 
   read -r -p "${1:-Choose port set you would like to use: } " flag
