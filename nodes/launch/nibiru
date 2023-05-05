@@ -15,12 +15,12 @@ BINARY_VERSION_TAG="v0.19.2"
 CHEAT_SHEET="https://nodes.r1m-team.com/nibiru"
 
 echo ""
-echo -e "Node moniker:       $NODE_MONIKER"
-echo -e "Chain id:           $CHAIN_ID"
-echo -e "Chain demon:        $CHAIN_DENOM"
-echo -e "Binary version tag: $BINARY_VERSION_TAG"
-printDelimiter && sleep 1
-
+echo -e "Moniker ноди:       \033[1;97;42m$NODE_MONIKER\033[0m"
+echo -e "Chain id:           \033[1;97;42m$CHAIN_ID\033[0m"
+echo -e "Chain demon:        \033[1;97;42m$CHAIN_DENOM\033[0m"
+echo -e "Binary version tag: \033[1;97;42m$BINARY_VERSION_TAG\033[0m"
+echo "——————————————————————————————————————————————"
+echo ""
 source <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes//dependencies.sh)
 
 cd $HOME || return
