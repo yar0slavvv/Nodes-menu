@@ -9,20 +9,20 @@ read desc
 echo -e "\033[38;5;15;48;5;202mВставте адресу гаманця\033[0m"
 read wall
 source $HOME/.bash_profile
-nibid tx staking create-validator \
---amount=1000000unibi \
---pubkey=$(nibid tendermint show-validator) \
---moniker=$mon \
---details=$desc \
---chain-id=nibiru-itn-1 \
---commission-rate=0.10 \
---commission-max-rate=0.20 \
---commission-max-change-rate=0.01 \
---min-self-delegation=1 \
---from=$wall \
---gas-prices=0.1unibi \
---gas-adjustment=1.5 \
---gas=auto \
+nibid tx staking create-validator 
+--amount=1000000unibi 
+--pubkey=$(nibid tendermint show-validator) 
+--moniker=$mon 
+--details=$desc 
+--chain-id=nibiru-itn-1 
+--commission-rate=0.10 
+--commission-max-rate=0.20 
+--commission-max-change-rate=0.01 
+--min-self-delegation=1 
+--from=$wall 
+--gas-prices=0.1unibi 
+--gas-adjustment=1.5 
+--gas=auto 
 -y
 echo " "
 echo -e "\033[1;97;42mВалідатор запущено\033[0m"
