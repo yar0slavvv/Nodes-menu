@@ -255,12 +255,12 @@ echo -e '\n\e[42mЗапуск ноди, це займе якийсь час...\e
 #Do not indent
 if [ $RUNDASHBOARD = "y" ]
 then
-cat <<EOF
+
 echo -e '\n\e[42mНоду успішно встановлено\e[0m\n'
 echo " "
 echo "Далі продовжуйте слідкувати гайду в Notion"
 sleep 3
-EOF
+
 fi
 
 echo "     "
