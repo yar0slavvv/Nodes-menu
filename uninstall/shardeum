@@ -15,7 +15,7 @@ while true; do
       rm -rf .shardeum
       echo " "
       sleep 1
-      echo -e "\033[1;97;42mShardeum успішно видалено\033[0m
+      echo -e "\033[1;97;42mShardeum успішно видалено\033[0m"
       echo " "
       echo -e "\033[1;97;42mПовернення до головного меню...\033[0m"
       sleep 3
