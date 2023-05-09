@@ -1,8 +1,11 @@
 #!/bin/bash
 
 echo -e "\033[1;97;42mВидалення старої ноди...\033[0m"
-rm -rf .local/share/subspace-cli
-rm -rf .config/subspace-cli
+      sudo systemctl stop subspaced subspaced-farmer
+      sudo systemctl disable subspaced subspaced-farmer
+      rm -rf ~/.local/share/subspace*
+      rm -rf /etc/systemd/system/subspace*
+      rm -rf /usr/local/bin/subspace*
 sleep 1
 echo ""
 echo -e "\033[1;97;42mОновлення пакетів...\033[0m"
