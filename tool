@@ -34,11 +34,11 @@ case $choice in
     bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/soft-installers/sudo-tools)
     ;;
  4)
-    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/main-menu)
-    ;;
- 5)
     avail_space=`df $PWD -h | awk '/[0-9]%/{print $(NF-2)}' | sed 's/.$//'`
     echo "Наразі ви маєте $avail_space гб вільного місця"
+    ;;
+ 5)
+    bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/main-menu)
     ;;
  *)
     echo "Невірний вибір"
