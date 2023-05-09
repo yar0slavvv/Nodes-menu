@@ -1,24 +1,10 @@
 #!/bin/bash
-
 echo " "
 echo "——————————————————————————————————————————————"
 echo " "
 read -p "Введіть ваш Alchemy address: " ALCHEMY
 echo 'export ALCHEMY='$ALCHEMY >> $HOME/.bash_profile
-
-exists()
-{
-  command -v "$1" >/dev/null 2>&1
-}
-if exists curl; then
-	echo ''
-else
-  sudo apt install curl -y < "/dev/null"
-fi
-echo " "
-echo -e "\033[1;97;42mОновлення пакетів та Python\033[0m"
-echo " "
-udo apt update && sudo apt-get install software-properties-common -y
+sudo apt update && sudo apt-get install software-properties-common -y
 sudo add-apt-repository ppa:deadsnakes/ppa -y
 sudo apt update && sudo apt install curl git tmux python3.10 python3.10-venv python3.10-dev build-essential libgmp-dev pkg-config libssl-dev -y
 sudo curl https://sh.rustup.rs -sSf | sh -s -- -y
@@ -39,10 +25,8 @@ PIP_REQUIRE_VIRTUALENV=true pip install -e .[dev]
 pytest
 cd $HOME/pathfinder/
 cargo +stable build --release --bin pathfinder
-
-sleep 1
 source $HOME/.bash_profile
-mv ~/pathfinder/target/release/pathfinder /usr/local/bin/ || exit
+sudo mv ~/pathfinder/target/release/pathfinder /usr/local/bin/ || exit
 
 echo "[Unit]
 Description=StarkNet
@@ -56,9 +40,6 @@ ExecStart=/bin/bash -c \"source $HOME/pathfinder/py/.venv/bin/activate && /usr/l
 Restart=on-failure
 LimitNOFILE=65535
 
-echo " "
-echo -e "\033[1;97;42mВстановлення ноди\033[0m"
-echo " "
 [Install]
 WantedBy=multi-user.target" > $HOME/starknetd.service
 sudo mv $HOME/starknetd.service /etc/systemd/system/
@@ -66,12 +47,12 @@ sudo systemctl restart systemd-journald
 sudo systemctl daemon-reload
 sudo systemctl enable starknetd
 sudo systemctl restart starknetd
-echo "==================================================="
-echo -e '\n\e[42mПеревірка статусу ноди\e[0m\n' && sleep 1
+echo "——————————————————————————————————————————————"
+echo -e '\n\e[42mCheck node status\e[0m\n' && sleep 1
 if [[ `service starknetd status | grep active` =~ "running" ]]; then
-  echo -e "StarkNet \e[32mвстановлено успішно\e[39m!"
-  echo -e "Ви можете перевірити статус ноди за допоиогою наступної команди \e[7mservice starknetd status\e[0m"
-  echo -e "Натисніть \e[7mCtrl + C\e[0m щоб вийти з меню"
+  echo -e "Your StarkNet node \e[32minstalled and works\e[39m!"
+  echo -e "You can check node status by the command \e[7mservice starknetd status\e[0m"
+  echo -e "Press \e[7mQ\e[0m for exit from status menu"
 else
-  echo -e "StarkNet \e[31mне встановлено\e[39m, спробуйте ще раз."
+  echo -e "Your StarkNet node \e[31mwas not installed correctly\e[39m, please reinstall."
 fi
