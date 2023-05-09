@@ -1,1 +1,55 @@
+#!/bin/bash
 
+echo -e "\033[1;97;42mВидалення старої ноди...\033[0m"
+rm -rf .local/share/subspace-cli
+rm -rf .config/subspace-cli
+sleep 1
+echo ""
+echo -e "\033[1;97;42mОновлення пакетів...\033[0m"
+sudo apt update && sudo apt install ocl-icd-opencl-dev libopencl-clang-dev libgomp1 -y
+cd $HOME
+sleep 1
+echo ""
+echo -e "\033[1;97;42mВстановлення нової ноди...\033[0m"
+echo ""
+sleep 1
+wget -O subspace-cli https://github.com/subspace/subspace-cli/releases/download/v0.4.1-alpha/subspace-cli-ubuntu-x86_64-v3-v0.4.1-alpha
+sudo chmod +x subspace-cli
+sudo mv subspace-cli /usr/local/bin/
+sudo rm -rf $HOME/.config/subspace-cli
+/usr/local/bin/subspace-cli init
+#systemctl stop subspaced subspaced-farmer &>/dev/null
+#rm -rf ~/.local/share/subspace*
+
+#source ~/.bash_profile
+sleep 1
+
+echo "[Unit]
+Description=Subspace Node
+After=network.target
+
+[Service]
+User=$USER
+Type=simple
+ExecStart=/usr/local/bin/subspace-cli farm --verbose
+Restart=on-failure
+LimitNOFILE=1024000
+
+[Install]
+WantedBy=multi-user.target" > $HOME/subspaced.service
+
+mv $HOME/subspaced.service /etc/systemd/system/
+sudo systemctl restart systemd-journald
+sudo systemctl daemon-reload
+sudo systemctl enable subspaced
+sudo systemctl restart subspaced
+
+echo "————————————————————————————————————————————————"
+echo -e '\n\e[42mПеревірка статусу ноди\e[0m\n' && sleep 5
+if [[ `service subspaced status | grep active` =~ "running" ]]; then
+  echo -e "Ваша нода \e[32mвстановлена та успышно працює\e[39m!"
+  echo -e "Ви миожете перевірити статус, цією командою \e[7mservice subspaced status\e[0m"
+  echo -e "Натисніть \e[7mQ\e[0m щоб вийти з меню статусу"
+else
+  echo -e "Вашу ноду \e[31mне встановлно\e[39m, спробуйте ще раз."
+fi
