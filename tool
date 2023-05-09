@@ -39,6 +39,7 @@ case $choice in
  5)
     avail_space=`df $PWD -h | awk '/[0-9]%/{print $(NF-2)}' | sed 's/.$//'`
     echo "Наразі ви маєте $avail_space гб вільного місця"
+    ;;
  *)
     echo "Невірний вибір"
     ;;
