@@ -71,7 +71,7 @@ echo -e '\n\e[42mПеревірка статусу ноди\e[0m\n' && sleep 1
 if [[ `service starknetd status | grep active` =~ "running" ]]; then
   echo -e "StarkNet \e[32mвстановлено успішно\e[39m!"
   echo -e "Ви можете перевірити статус ноди за допоиогою наступної команди \e[7mservice starknetd status\e[0m"
-  echo -e "Натисніть \e[7mQ\e[0m щоб вийти з меню статусу"
+  echo -e "Натисніть \e[7mCtrl + C\e[0m щоб вийти з меню"
 else
   echo -e "StarkNet \e[31mне встановлено\e[39m, спробуйте ще раз."
 fi
