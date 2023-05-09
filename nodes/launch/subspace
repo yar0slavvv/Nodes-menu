@@ -54,7 +54,7 @@ sudo systemctl restart subspaced
 echo "————————————————————————————————————————————————"
 echo -e '\n\e[42mПеревірка статусу ноди\e[0m\n' && sleep 5
 if [[ `service subspaced status | grep active` =~ "running" ]]; then
-  echo -e "Ваша нода \e[32mвстановлена та успышно працює\e[39m!"
+  echo -e "Ваша нода \e[32mвстановлена та успішно працює\e[39m!"
   echo -e "Ви миожете перевірити статус, цією командою \e[7mservice subspaced status\e[0m"
   echo -e "Натисніть \e[7mQ\e[0m щоб вийти з меню статусу"
 else
