@@ -138,6 +138,7 @@ EOF
       read -p "Впишіть ім'я гаманця" WALLET
       echo "   "
       nibid keys add $WALLET --recover
+      ;;
    4)
       nibid tx staking create-validator \
       --amount=10000000unibi \
@@ -151,7 +152,7 @@ EOF
       --fees=2000unibi \
       --from=wallet \
       -y
-;;
+      ;;
    5)
       exit
       ;;
