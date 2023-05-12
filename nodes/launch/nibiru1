@@ -115,8 +115,6 @@ EOF
       sudo systemctl enable nibid
       sudo systemctl restart nibid
       echo ""
-      echo -e "\033[38;5;15;48;5;202mОбов'язково збережіть всю інформацію про гаманець!\033[0m" && sleep 1
-      echo ""
       echo -e "\033[1;97;42mНоду успішно встановлено, продовжуйте слідувати ноушену\033[0m"
       echo " "
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/nibiru)
