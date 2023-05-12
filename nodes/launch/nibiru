@@ -150,6 +150,7 @@ EOF
       FAUCET_URL="https://faucet.itn-1.nibiru.fi/"
       ADDR="$WALLET_ADDR"
       curl -X POST -d '{"address": "'"$ADDR"'", "coins": ["11000000unibi","100000000unusd","100000000uusdt"]}' $FAUCET_URL
+      ;;
    5)
       nibid tx staking create-validator \
       --amount=10000000unibi \
