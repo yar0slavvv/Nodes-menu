@@ -138,7 +138,7 @@ while true; do
    6)
       exit
       ;;
-    *)
+   *)
       echo "Невірний вибір"
       ;;
   esac
