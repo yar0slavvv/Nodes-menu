@@ -90,16 +90,18 @@ while true; do
       sed -i -e "s/prometheus = false/prometheus = true/" $HOME/.nibid/config/config.toml
 
       # create service
-      sudo tee /etc/systemd/system/nibid.service > /dev/null << EOF
+      sudo tee /etc/systemd/system/nibid.service > /dev/null <<'EOF'
       [Unit]
       Description=Nibiru Node
       After=network-online.target
+
       [Service]
       User=$USER
       ExecStart=$(which nibid) start
       Restart=on-failure
       RestartSec=10
       LimitNOFILE=10000
+
       [Install]
       WantedBy=multi-user.target
       EOF
