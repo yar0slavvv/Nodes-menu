@@ -124,9 +124,9 @@ EOF
       echo "     "
       echo -e "(\033[38;5;244m1\033[0m) Створити новий гаманець    (\033[38;5;244m2\033[0m) Відновити гаманець"
       while true; do
-      read choice
+      read choice2
 
-      case $choice in
+      case $choice2 in
       1)
         echo ""
         read -p "Впишіть назву гаманця: " WALLET
