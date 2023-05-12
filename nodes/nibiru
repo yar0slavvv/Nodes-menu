@@ -17,6 +17,7 @@ while true; do
 
   case $a in
    1)
+      clear
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/nibiru)
       exit
       ;;
