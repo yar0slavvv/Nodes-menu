@@ -143,7 +143,7 @@ EOF
         ;;
       esac
       done
-   3)
+3)
 nibid tx staking create-validator \
 --amount=10000000unibi \
 --pubkey=$(nibid tendermint show-validator) \
