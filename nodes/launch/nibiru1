@@ -144,19 +144,19 @@ EOF
       esac
       done
    3)
-      nibid tx staking create-validator \
-      --amount=10000000unibi \
-      --pubkey=$(nibid tendermint show-validator) \
-      --moniker="$NODENAME" \
-      --chain-id=nibiru-itn-1 \
-      --commission-rate=0.1 \
-      --commission-max-rate=0.2 \
-      --commission-max-change-rate=0.05 \
-      --min-self-delegation=1 \
-      --fees=2000unibi \
-      --from=wallet \
-      -y
-      ;;
+nibid tx staking create-validator \
+--amount=10000000unibi \
+--pubkey=$(nibid tendermint show-validator) \
+--moniker="$NODENAME" \
+--chain-id=nibiru-itn-1 \
+--commission-rate=0.1 \
+--commission-max-rate=0.2 \
+--commission-max-change-rate=0.05 \
+--min-self-delegation=1 \
+--fees=2000unibi \
+--from=wallet \
+-y
+;;
    4)
       exit
       ;;
