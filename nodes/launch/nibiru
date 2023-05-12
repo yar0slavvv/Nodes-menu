@@ -117,7 +117,13 @@ EOF
       echo ""
       echo -e "\033[1;97;42mНоду успішно встановлено, продовжуйте слідувати ноушену\033[0m"
       echo " "
-      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/nibiru)
+      source $HOME/.bash_profile
+      while true; do
+      nibid status 2>&1 | jq .SyncInfo
+
+      sleep 20
+      done
+
       ;;
    2)
       echo "     "
