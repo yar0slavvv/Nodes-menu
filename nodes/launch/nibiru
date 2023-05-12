@@ -129,7 +129,7 @@ EOF
       echo "     "
       echo "Обов'язково збережіть фрази для відновлення"
       echo "     "
-      read -p "Впишіть ім'я гаманця" WALLET
+      read -p "Впишіть ім'я гаманця: " WALLET
       nibid keys add $WALLET
       NIBIRU_WALLET_ADDRESS=$(nibid keys show $WALLET -a)
       NIBIRU_VALOPER_ADDRESS=$(nibid keys show $WALLET --bech val -a)
@@ -140,7 +140,7 @@ EOF
       ;;
    3)
       echo "   "
-      read -p "Впишіть ім'я гаманця" WALLET
+      read -p "Впишіть ім'я гаманця: " WALLET
       echo "   "
       nibid keys add $WALLET --recover
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/nibiru)
