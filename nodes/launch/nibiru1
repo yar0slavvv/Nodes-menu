@@ -122,28 +122,16 @@ EOF
       ;;
    2)
       echo "     "
-      echo -e "(\033[38;5;244m1\033[0m) Створити новий гаманець    (\033[38;5;244m2\033[0m) Відновити гаманець"
-      while true; do
-      read choice2
-
-      case $choice2 in
-      1)
-        echo ""
-        read -p "Впишіть назву гаманця: " WALLET
-        nibid keys add $WALLET
-        bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/nibiru)
-        ;;
-      2)
-        read -p "Впишіть назву гаманця: " WALLET
-        nibid keys add $WALLET --recover
-        bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/nibiru1)
-        ;;
-      *)
-        echo "Невірний вибір"
-        ;;
-      esac
-      done
-3)
+      echo "Обов'язково збережіть фрази для відновлення"
+      echo "     "
+      nibid keys add $WALLET
+      NIBIRU_WALLET_ADDRESS=$(nibid keys show $WALLET -a)
+      NIBIRU_VALOPER_ADDRESS=$(nibid keys show $WALLET --bech val -a)
+      echo 'export NIBIRU_WALLET_ADDRESS='${NIBIRU_WALLET_ADDRESS} >> $HOME/.bash_profile
+      echo 'export NIBIRU_VALOPER_ADDRESS='${NIBIRU_VALOPER_ADDRESS} >> $HOME/.bash_profile
+      source $HOME/.bash_profile
+      ;;
+   3)
 nibid tx staking create-validator \
 --amount=10000000unibi \
 --pubkey=$(nibid tendermint show-validator) \
