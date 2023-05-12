@@ -114,7 +114,6 @@ while true; do
       sudo systemctl restart nibid
 
       break
-      ;;
       echo ""
       echo -e "\033[38;5;15;48;5;202mОбов'язково збережіть всю інформацію про гаманець!\033[0m" && sleep 1
       echo ""
