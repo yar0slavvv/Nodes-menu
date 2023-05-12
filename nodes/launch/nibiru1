@@ -118,14 +118,42 @@ EOF
       echo ""
       echo -e "\033[1;97;42mНоду успішно встановлено, продовжуйте слідувати ноушену\033[0m"
       echo " "
-      echo "——————————————————————————————————————————————"
-      exit
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/nibiru)
       ;;
    2)
-      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/updater)
-      ;;
+      echo "     "
+      echo -e "(\033[38;5;244m1\033[0m) Створити новий гаманець    (\033[38;5;244m2\033[0m) Відновити гаманець"
+      while true; do
+      read choice
+
+      case $choice in
+      1)
+        echo ""
+        read -p "Впишіть назву гаманця: " WALLET
+        nibid keys add $WALLET
+        bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/nibiru)
+        ;;
+      2)
+        read -p "Впишіть назву гаманця: " WALLET
+        nibid keys add $WALLET --recover
+        bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/nibiru1)
+        ;;
+      *)
+        echo "Невірний вибір"
+        ;;
    3)
-      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/uninstaller)
+      nibid tx staking create-validator \
+      --amount=10000000unibi \
+      --pubkey=$(nibid tendermint show-validator) \
+      --moniker="$NODENAME" \
+      --chain-id=nibiru-itn-1 \
+      --commission-rate=0.1 \
+      --commission-max-rate=0.2 \
+      --commission-max-change-rate=0.05 \
+      --min-self-delegation=1 \
+      --fees=2000unibi \
+      --from=wallet \
+      -y
       ;;
    4)
       exit
