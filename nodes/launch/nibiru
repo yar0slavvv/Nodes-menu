@@ -4,9 +4,9 @@ cd $HOME
   echo "————————————— Оберіть потрібне: —————————————"
   echo "     "
   echo -e "(\033[38;5;244m1\033[0m) Встановити ноду      Створити гаманець(\033[38;5;244m2\033[0m)"
-  echo -e "(\033[38;5;244m3\033[0m) Відновити гаманець  Створити валідатор(\033[38;5;244m4\033[0m)"
-  echo -e "(\033[38;5;244m5\033[0m) Керувати нодою           Видалити ноду(\033[38;5;244m6\033[0m)"
-  echo -e "(\033[38;5;244m7\033[0m) ВиЙти                                -(\033[38;5;244m8\033[0m)"
+  echo -e "(\033[38;5;244m3\033[0m) Відновити гаманець        Кран токенів(\033[38;5;244m4\033[0m)"
+  echo -e "(\033[38;5;244m5\033[0m) Створити валідатор     Керування нодою(\033[38;5;244m6\033[0m)"
+  echo -e "(\033[38;5;244m7\033[0m) Видалити ноду                   ВиЙти (\033[38;5;244m8\033[0m)"
   echo "     "
   echo "_____________________________________________"
   echo "     "
@@ -146,6 +146,11 @@ EOF
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/nibiru)
       ;;
    4)
+      read -p "Впишіть адресу гаманця: " WALLET_ADDR
+      FAUCET_URL="https://faucet.itn-1.nibiru.fi/"
+      ADDR="$WALLET_ADDR"
+      curl -X POST -d '{"address": "'"$ADDR"'", "coins": ["11000000unibi","100000000unusd","100000000uusdt"]}' $FAUCET_URL
+   5)
       nibid tx staking create-validator \
       --amount=10000000unibi \
       --pubkey=$(nibid tendermint show-validator) \
@@ -160,10 +165,10 @@ EOF
       -y
       bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/nibiru)
       ;;
-   5)
+   6)
       exit
       ;;
-   6)
+   7)
       systemctl stop nibid
       systemctl disable nibid
       rm -rf $(which nibid) ~/.nibid ~/nibiru
@@ -171,7 +176,7 @@ EOF
       echo "Nibiru видалено"
       exit
       ;;
-   7)
+   8)
       exit
       ;;
    *)
