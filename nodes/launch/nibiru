@@ -130,12 +130,14 @@ EOF
       echo 'export NIBIRU_WALLET_ADDRESS='${NIBIRU_WALLET_ADDRESS} >> $HOME/.bash_profile
       echo 'export NIBIRU_VALOPER_ADDRESS='${NIBIRU_VALOPER_ADDRESS} >> $HOME/.bash_profile
       source $HOME/.bash_profile
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/nibiru)
       ;;
    3)
       echo "   "
       read -p "Впишіть ім'я гаманця" WALLET
       echo "   "
       nibid keys add $WALLET --recover
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/nibiru)
       ;;
    4)
       nibid tx staking create-validator \
@@ -150,6 +152,7 @@ EOF
       --fees=2000unibi \
       --from=wallet \
       -y
+      bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/nodes/launch/nibiru)
       ;;
    5)
       exit
@@ -158,6 +161,9 @@ EOF
       systemctl stop nibid
       systemctl disable nibid
       rm -rf $(which nibid) ~/.nibid ~/nibiru
+      echo " "
+      echo "Nibiru видалено"
+      exit
       ;;
    7)
       exit
