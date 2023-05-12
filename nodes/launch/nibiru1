@@ -1,7 +1,8 @@
 #!/bin/bash
 clear
-bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/nibiru) && sleep 0.5 $$ clear
-bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi) && sleep 0.5
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/nibiru) && sleep 1
+clear
+bash <(curl -s https://yar0slavvv.github.io/CPI-Nodes/logos/cpi) && sleep 1
 cd $HOME
   echo "————————— Оберіть потрібне —————————"
   echo "     "
