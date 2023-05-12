@@ -130,7 +130,9 @@ while true; do
       exit
       ;;
    5)
-      exit
+      systemctl stop nibid
+      systemctl disable nibid
+      rm -rf $(which nibid) ~/.nibid ~/nibiru
       ;;
    6)
       exit
