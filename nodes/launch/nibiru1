@@ -4,8 +4,9 @@ cd $HOME
   echo "————————————— Оберіть потрібне —————————————"
   echo "     "
   echo -e "(\033[38;5;244m1\033[0m) Встановити ноду    (\033[38;5;244m2\033[0m) Створити гаманець"
-  echo -e "(\033[38;5;244m3\033[0m) Створити валідатор (\033[38;5;244m4\033[0m) Керувати нодою"
-  echo -e "(\033[38;5;244m5\033[0m) Видалити ноду      (\033[38;5;244m6\033[0m) Вийти"
+  echo -e "(\033[38;5;244m3\033[0m) Відновити гаманець (\033[38;5;244m4\033[0m) Створити валідатор"
+  echo -e "(\033[38;5;244m5\033[0m) Керувати нодою     (\033[38;5;244m6\033[0m) Видалити ноду"
+  echo -e "(\033[38;5;244m7\033[0m) ВиЙти              (\033[38;5;244m8\033[0m) -"
   echo "     "
   echo "____________________________________________"
   echo "     "
@@ -124,6 +125,7 @@ EOF
       echo "     "
       echo "Обов'язково збережіть фрази для відновлення"
       echo "     "
+      read -p "Впишіть ім'я гаманця" WALLET
       nibid keys add $WALLET
       NIBIRU_WALLET_ADDRESS=$(nibid keys show $WALLET -a)
       NIBIRU_VALOPER_ADDRESS=$(nibid keys show $WALLET --bech val -a)
@@ -132,6 +134,11 @@ EOF
       source $HOME/.bash_profile
       ;;
    3)
+      echo "   "
+      read -p "Впишіть ім'я гаманця" WALLET
+      echo "   "
+      nibid keys add $WALLET --recover
+   4)
 nibid tx staking create-validator \
 --amount=10000000unibi \
 --pubkey=$(nibid tendermint show-validator) \
@@ -145,15 +152,15 @@ nibid tx staking create-validator \
 --from=wallet \
 -y
 ;;
-   4)
+   5)
       exit
       ;;
-   5)
+   6)
       systemctl stop nibid
       systemctl disable nibid
       rm -rf $(which nibid) ~/.nibid ~/nibiru
       ;;
-   6)
+   7)
       exit
       ;;
    *)
